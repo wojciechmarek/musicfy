@@ -2,7 +2,9 @@
   "name": "@musicfy/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "web": "nx serve web"
+  },
   "private": true,
   "dependencies": {
     "@swc/helpers": "~0.5.0",
@@ -42,6 +44,7 @@
     "prettier": "^2.6.2",
     "typescript": "~5.0.2",
     "vite": "^4.3.4",
+    "vite-plugin-dts": "~1.7.1",
     "vite-plugin-eslint": "^1.8.1",
     "vite-tsconfig-paths": "^4.0.2",
     "vitest": "^0.31.0"
