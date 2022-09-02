@@ -1,10 +1,10 @@
 import { render } from '@testing-library/react';
 
-import WebViews from './web-views';
+import Layout from './layout';
 
-describe('WebViews', () => {
+describe('Layout', () => {
   it('should render successfully', () => {
-    const { baseElement } = render(<WebViews />);
+    const { baseElement } = render(<Layout />);
     expect(baseElement).toBeTruthy();
   });
 });

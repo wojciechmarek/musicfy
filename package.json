@@ -3,15 +3,19 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "web": "nx serve web"
+    "dev": "nx serve web"
   },
   "private": true,
   "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "11.10.6",
     "@swc/helpers": "~0.5.0",
+    "lucide-react": "^0.252.0",
     "react": "18.2.0",
     "react-dom": "18.2.0"
   },
   "devDependencies": {
+    "@emotion/babel-plugin": "11.10.6",
     "@nx/cypress": "16.3.2",
     "@nx/eslint-plugin": "16.3.2",
     "@nx/js": "16.3.2",
