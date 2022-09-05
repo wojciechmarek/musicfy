@@ -38,7 +38,7 @@ const NavigationButton = styled.button`
   transition: background-color 0.1s ease-in-out;
 
   &:hover {
-    background-color: #ffffff40;
+    background-color: #2a2b32;
   }
 `;
 
@@ -62,7 +62,7 @@ const PlayerVolumeButton = styled.button`
   transition: background-color 0.1s ease-in-out;
 
 &:hover {
-  background-color: #ffffff40;
+  background-color: #2a2b32;
 }
 `;
 
