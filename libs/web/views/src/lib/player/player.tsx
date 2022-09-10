@@ -24,7 +24,7 @@ const PlayerNavigationButtons = styled.div`
   justify-content: space-between;
   align-items: center;
   margin: 0 1em;
-  gap: 0.5em;
+  gap: 0.25em;
 `;
 
 const NavigationButton = styled.button`
@@ -36,6 +36,7 @@ const NavigationButton = styled.button`
   gap: 0.5em;
   cursor: pointer;
   transition: background-color 0.1s ease-in-out;
+  border-radius: 0.5em;
 
   &:hover {
     background-color: #2a2b32;
@@ -58,6 +59,7 @@ const PlayerVolumeButton = styled.button`
   cursor: pointer;
   height: fit-content;
   margin: auto 0;
+  border-radius: 0.5em;
 
   transition: background-color 0.1s ease-in-out;
 
@@ -129,7 +131,7 @@ const MusicProgress = styled.div`
 const MusicProgressCurrent = styled.div`
   height: 100%;
   background-color: #2b31df;
-  width: 50%;
+  width: 23%;
   border-radius: 1em;
   box-shadow: 0 0 10px #2b31df;
 `;
@@ -168,11 +170,11 @@ export function Player(props: PlayerProps) {
             </MusicTitleAuthor>
           </PlayerMusicInfo>
           <PlayerMusicProgress>
-            <MusicCurrentTime>00:00</MusicCurrentTime>
+            <MusicCurrentTime>01:20</MusicCurrentTime>
             <MusicProgress>
               <MusicProgressCurrent />
             </MusicProgress>
-            <MusicTotalTime>00:00</MusicTotalTime>
+            <MusicTotalTime>04:01</MusicTotalTime>
           </PlayerMusicProgress>
         </PlayerMusicInfoAndProgress>
       </PlayerContent>

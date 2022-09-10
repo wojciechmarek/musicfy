@@ -28,7 +28,8 @@ const SidebarLogo = styled.p`
   width: 100%;
   font-weight: bold;
   font-size: 2rem;
-`;
+  margin: 0.5em 0.75em;
+`
 
 const SidebarNavigationLinks = styled.ul`
   display: flex;
