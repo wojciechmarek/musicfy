@@ -1,8 +1,7 @@
 import styled from '@emotion/styled';
-import Player from '../player/player';
 
 export const LayoutContainer = styled.div`
-  color: pink;
+  color: #fff;
   width: 100%;
   height: 100vh;
 
@@ -10,13 +9,13 @@ export const LayoutContainer = styled.div`
   flex-direction: column;
 `;
 
-export const MainContainer = styled.div`
+export const LayoutContent = styled.div`
   flex: 1;
   display: flex;
+  height: calc(100vh - 5em);
 
 `;
 
 export const ContentContainer = styled.div`
   flex: 1;
 `;
-

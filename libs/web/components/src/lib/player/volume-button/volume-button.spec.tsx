@@ -1,10 +1,10 @@
 import { render } from '@testing-library/react';
 
-import WebComponents from './web-components';
+import VolumeButton from './volume-button';
 
-describe('WebComponents', () => {
+describe('VolumeButton', () => {
   it('should render successfully', () => {
-    const { baseElement } = render(<WebComponents />);
+    const { baseElement } = render(<VolumeButton />);
     expect(baseElement).toBeTruthy();
   });
 });

@@ -1,1 +1,3 @@
-export * from './lib/web-components';
+export * from './lib/home/index';
+export * from './lib/player/index';
+export * from './lib/sidebar/index';
