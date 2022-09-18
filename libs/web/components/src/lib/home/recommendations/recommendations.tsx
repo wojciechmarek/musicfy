@@ -60,13 +60,13 @@ export function Recommendations(props: RecommendationsProps) {
       <RecommendationContent>
         <RecommendationList>
           {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((item) => (
-            <RecommendationElement>
+            <RecommendationElement key={item}>
               <TileImage
-                src="https://picsum.photos/300/300"
+                src={`https://picsum.photos/30${item}/300/`}
                 alt="Album cover"
               />
-              <TileTitle>Album</TileTitle>
-              <TileSubtitle>Artist</TileSubtitle>
+              <TileTitle>Title no. {item}</TileTitle>
+              <TileSubtitle>Artist #{item}</TileSubtitle>
             </RecommendationElement>
           ))}
         </RecommendationList>

@@ -1,7 +1,11 @@
 import styled from '@emotion/styled';
+import { useEffect, useState } from 'react';
 
 /* eslint-disable-next-line */
-export interface ProgressBarProps {}
+export interface ProgressBarProps {
+  currentTime: number;
+  totalTime: number;
+}
 
 const PlayerMusicProgress = styled.div`
   display: flex;
@@ -24,10 +28,12 @@ const MusicProgress = styled.div`
   border-radius: 1em;
 `;
 
-const MusicProgressCurrent = styled.div`
+const MusicProgressCurrent = styled.div<{
+  progress: number;
+}>`
   height: 100%;
   background-color: #2b31df;
-  width: 23%;
+  width: ${(props) => props.progress}%;
   border-radius: 1em;
   box-shadow: 0 0 10px #2b31df;
 `;
@@ -38,13 +44,33 @@ const MusicTotalTime = styled.p`
 `;
 
 export function ProgressBar(props: ProgressBarProps) {
+  const { currentTime, totalTime } = props;
+  const [timeForm, setTimeForm] = useState("");
+  const [progress, setProgress] = useState(0);
+
+  const totalTimeForm = new Date(totalTime * 1000);
+  const totalTimeFormated = `${totalTimeForm.getMinutes() < 10 ? "0" + totalTimeForm.getMinutes() : totalTimeForm.getMinutes()}:${
+    totalTimeForm.getSeconds() < 10 ? "0" + totalTimeForm.getSeconds() : totalTimeForm.getSeconds()
+  }`
+  
+  useEffect(() => {
+    const time = new Date(currentTime * 1000);
+    const timeForm = `${time.getMinutes() < 10 ? "0" + time.getMinutes() : time.getMinutes()}:${
+      time.getSeconds() < 10 ? "0" + time.getSeconds() : time.getSeconds()
+    }`
+    setTimeForm(timeForm);
+
+    const progress = (currentTime / totalTime) * 100;
+    setProgress(progress);
+  }, [currentTime, totalTime]);
+
   return (
     <PlayerMusicProgress>
-      <MusicCurrentTime>01:20</MusicCurrentTime>
+      <MusicCurrentTime>{timeForm}</MusicCurrentTime>
       <MusicProgress>
-        <MusicProgressCurrent />
+        <MusicProgressCurrent progress={progress}></MusicProgressCurrent>
       </MusicProgress>
-      <MusicTotalTime>04:01</MusicTotalTime>
+      <MusicTotalTime>{totalTimeFormated}</MusicTotalTime>
     </PlayerMusicProgress>
   );
 }

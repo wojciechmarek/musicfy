@@ -36,10 +36,16 @@ const MoodElement = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 0.25em;
+  border-radius: 0.5em;
   height: auto;
   height: 9em;
   background-color: #2a2b32;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+
+  &:hover {
+    background-color: #3a3b42;
+  }
 
 
 
@@ -58,9 +64,9 @@ export function Mood(props: MoodProps) {
       <MoodHeader>Mood</MoodHeader>
       <MoodContent>
         <MoodGrid>
-          {[1, 2, 3, 4].map((item, key) => (
-            <MoodElement>
-              <MoodName>Sad</MoodName>
+          {["Sad", "Happy", "Angry", "Chill"].map((mood) => (
+            <MoodElement key={mood}>
+              <MoodName>{mood}</MoodName>
             </MoodElement>
           ))}
         </MoodGrid>

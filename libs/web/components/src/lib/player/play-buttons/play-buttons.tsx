@@ -1,8 +1,19 @@
 import styled from '@emotion/styled';
-import { FastForward, Play, Rewind } from 'lucide-react';
+import { FastForward, Pause, Play, Rewind } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 /* eslint-disable-next-line */
-export interface PlayButtonsProps {}
+
+export enum PlayerNavigationButtonAction {
+  Rewind,
+  Play,
+  Pause,
+  FastForward,
+}
+export interface PlayButtonsProps {
+  isPlaying: boolean;
+  onClick: (actp: PlayerNavigationButtonAction) => void;
+}
 
 const PlayerNavigationButtons = styled.div`
   display: flex;
@@ -29,15 +40,39 @@ const NavigationButton = styled.button`
 `;
 
 export function PlayButtons(props: PlayButtonsProps) {
+  const { isPlaying, onClick } = props;
+
+  const [isAudioPlaying, setIsAudioPlaying] = useState(isPlaying);
+
+  const onPlayPauseClick = () => {
+    if (!isAudioPlaying) {
+      setIsAudioPlaying(true);
+      onClick(PlayerNavigationButtonAction.Play);
+    } else {
+       setIsAudioPlaying(false);
+        onClick(PlayerNavigationButtonAction.Pause);
+    }
+  };
+
+  useEffect(() => {
+    setIsAudioPlaying(isPlaying);
+  }, [isPlaying]);
+
   return (
     <PlayerNavigationButtons>
-      <NavigationButton>
+      <NavigationButton
+        onClick={() => onClick(PlayerNavigationButtonAction.Rewind)}
+      >
         <Rewind />
       </NavigationButton>
-      <NavigationButton>
-        <Play />
+      <NavigationButton
+        onClick={onPlayPauseClick}
+      >
+        {isAudioPlaying ? <Pause /> : <Play />}
       </NavigationButton>
-      <NavigationButton>
+      <NavigationButton
+        onClick={() => onClick(PlayerNavigationButtonAction.FastForward)}
+      >
         <FastForward />
       </NavigationButton>
     </PlayerNavigationButtons>

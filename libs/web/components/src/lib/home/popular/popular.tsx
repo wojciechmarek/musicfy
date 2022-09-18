@@ -34,11 +34,18 @@ const PopularElement = styled.li`
   box-sizing: border-box;
   display: flex;
   align-items: center;
+  justify-items: center;
   border-radius: 0.5em;
   cursor: pointer;
   background-color: #2a2b32;
   padding: 0.25em 1em;
   width: 100%;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+
+  &:hover {
+    background-color: #3a3b42;
+  }
 `;
 
 const RowImage = styled.div`
@@ -67,11 +74,14 @@ const RowTitle = styled.p`
 const RowLenght = styled.p`
   font-size: 0.75rem;
   text-align: start;
+  margin: auto 2em;
 `;
 
 const RowDots = styled.p`
   font-size: 0.75rem;
   text-align: start;
+  flex: 1;
+  text-align: end;
 `;
 
 export function Popular(props: PopularProps) {
@@ -86,14 +96,14 @@ export function Popular(props: PopularProps) {
       <PopularContent>
         <PopularList>
           {[1, 2, 3, 4, 5].map((item, key) => (
-            <PopularElement>
+            <PopularElement key={item}>
               <RowImage>
-                <img src="https://picsum.photos/300/300" alt="Album cover" />
+                <img src={`https://picsum.photos/300/30${item}/`} alt="Album cover" />
               </RowImage>
               <RowNumber>{key + 1}</RowNumber>
-              <RowTitle>Album</RowTitle>
-              <RowLenght>Artist</RowLenght>
-              <RowDots>Artist</RowDots>
+              <RowTitle>Title no. {item}</RowTitle>
+              <RowLenght>Artist #{item}</RowLenght>
+              <RowDots>▶️</RowDots>
             </PopularElement>
           ))}
         </PopularList>

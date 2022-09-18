@@ -53,8 +53,8 @@ export function SongDetails(props: SongDetailsProps) {
         />
       </MusicThumbnail>
       <MusicTitleAuthor>
-        <MusicTitle>Make me up</MusicTitle>
-        <MusicAuthor>Avicii</MusicAuthor>
+        <MusicTitle>Clap Clap</MusicTitle>
+        <MusicAuthor>Gran Error x Elvana Gjata x ANTONIA</MusicAuthor>
       </MusicTitleAuthor>
     </PlayerMusicInfo>
   );
