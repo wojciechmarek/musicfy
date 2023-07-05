@@ -7,8 +7,8 @@ const PlayerMusicInfo = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0 1.5em;
   gap: 1em;
+  margin-left: 1em;
 `;
 
 export const MusicThumbnail = styled.div`

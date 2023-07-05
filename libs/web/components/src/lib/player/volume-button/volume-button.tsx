@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { Volume1 } from 'lucide-react';
+import { Volume1, Volume2 } from 'lucide-react';
 
 /* eslint-disable-next-line */
 export interface VolumeButtonProps {}
@@ -12,11 +12,8 @@ const PlayerVolumeButton = styled.button`
   padding: 0.5em;
   gap: 0.5em;
   cursor: pointer;
-  height: fit-content;
-  margin: auto 0;
+  transition: background-color 0.2s ease-in-out;
   border-radius: 0.5em;
-
-  transition: background-color 0.1s ease-in-out;
 
   &:hover {
     background-color: #2a2b32;
@@ -26,7 +23,7 @@ const PlayerVolumeButton = styled.button`
 export function VolumeButton(props: VolumeButtonProps) {
   return (
     <PlayerVolumeButton>
-      <Volume1 />
+      <Volume2 />
     </PlayerVolumeButton>
   );
 }

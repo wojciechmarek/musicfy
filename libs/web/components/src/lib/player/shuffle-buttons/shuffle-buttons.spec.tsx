@@ -1,10 +1,10 @@
 import { render } from '@testing-library/react';
 
-import ProgressBar from './progress-bar';
+import S from './shuffle-buttons';
 
-describe('ProgressBar', () => {
+describe('PlayButtons', () => {
   it('should render successfully', () => {
-    // const { baseElement } = render(<ProgressBar />);
+    // const { baseElement } = render(<PlayButtons />);
     // expect(baseElement).toBeTruthy();
   });
 });

@@ -12,7 +12,7 @@ const PlayerMusicProgress = styled.div`
   justify-content: center;
   align-items: center;
   flex: 1;
-  padding: 0 1em;
+  margin-left: 1em;
 `;
 
 const MusicCurrentTime = styled.p`
@@ -39,7 +39,6 @@ const MusicProgressCurrent = styled.div<{
 `;
 
 const MusicTotalTime = styled.p`
-  margin: 0 1em;
   color: white;
 `;
 

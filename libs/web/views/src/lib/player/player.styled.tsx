@@ -17,6 +17,32 @@ export const PlayerContent = styled.div`
 
 export const PlayerMusicInfoAndProgressContainer = styled.div`
   display: flex;
-  margin: 0 1em;
   flex: 1;
+  margin: 0 1.5em;
+`;
+
+export const PlayerVolumeContainer = styled.div`
+  display: flex;
+  align-items: center;
+  margin-right: 1em;
+`;
+
+export const VolumeBar = styled.div`
+  height: 0.25em;
+  background-color: #292a34;
+  width: 100%;
+  flex: 1;
+  margin: 0 1em;
+  border-radius: 1em;
+  width: 5em;
+`;
+
+export const VolumeBarCurrent = styled.div<{
+  progress: number;
+}>`
+  height: 100%;
+  background-color: #2b31df;
+  width: ${(props) => props.progress}%;
+  border-radius: 1em;
+  box-shadow: 0 0 10px #2b31df;
 `;

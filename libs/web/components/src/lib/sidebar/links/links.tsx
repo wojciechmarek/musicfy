@@ -25,6 +25,7 @@ const NavigationLink = styled.li`
   padding: 1em 1.5em;
   cursor: pointer;
   gap: 1em;
+  transition: background-color 0.2s ease-in-out;
 
   svg {
     min-width: 0;

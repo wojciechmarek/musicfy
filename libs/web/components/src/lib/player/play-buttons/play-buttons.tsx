@@ -19,7 +19,6 @@ const PlayerNavigationButtons = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 0 1em;
   gap: 0.25em;
 `;
 
@@ -31,11 +30,17 @@ const NavigationButton = styled.button`
   padding: 0.5em;
   gap: 0.5em;
   cursor: pointer;
-  transition: background-color 0.1s ease-in-out;
+  transition: background-color 0.2s ease-in-out;
   border-radius: 0.5em;
 
   &:hover {
     background-color: #2a2b32;
+  }
+
+  &.play-pause__button {
+    background-color: #2b31df;
+    box-shadow: 0 0 10px #2b31df;
+    border-radius: 50%;
   }
 `;
 
@@ -66,6 +71,7 @@ export function PlayButtons(props: PlayButtonsProps) {
         <Rewind />
       </NavigationButton>
       <NavigationButton
+        className='play-pause__button'
         onClick={onPlayPauseClick}
       >
         {isAudioPlaying ? <Pause /> : <Play />}

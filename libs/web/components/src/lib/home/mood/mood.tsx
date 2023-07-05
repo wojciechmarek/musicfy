@@ -16,13 +16,13 @@ const MoodHeader = styled.h1`
   margin: 1em 0 0.5em;
 `;
 
-const MoodContent = styled.div` 
+const MoodContent = styled.div`
   display: flex;
   overflow-y: auto;
   width: 100%;
 `;
 
-const MoodGrid = styled.div`  
+const MoodGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(2, 1fr);
@@ -43,12 +43,21 @@ const MoodElement = styled.div`
   cursor: pointer;
   transition: background-color 0.2s ease-in-out;
 
-  &:hover {
-    background-color: #3a3b42;
+  &:hover:nth-of-type(1) {
+    background-color: #2736a8;
   }
 
+  &:hover:nth-of-type(2) {
+    background-color: #92920a;
+  }
 
+  &:hover:nth-of-type(3) {
+    background-color: #9e1f1f;
+  }
 
+  &:hover:nth-of-type(4) {
+    background-color: #167028;
+  }
 `;
 
 const MoodName = styled.p`
@@ -56,15 +65,13 @@ const MoodName = styled.p`
   text-transform: uppercase;
 `;
 
-
-
 export function Mood(props: MoodProps) {
   return (
     <MoodContainer>
       <MoodHeader>Mood</MoodHeader>
       <MoodContent>
         <MoodGrid>
-          {["Sad", "Happy", "Angry", "Chill"].map((mood) => (
+          {['Sad', 'Happy', 'Angry', 'Chill'].map((mood) => (
             <MoodElement key={mood}>
               <MoodName>{mood}</MoodName>
             </MoodElement>
