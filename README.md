@@ -6,8 +6,9 @@ Name explanation: Musicfy = Music + Spotify.
 
 This is a simple music player that uses the Spotify API to search for songs and play them. Their purpose is to learn how to use the ~~Spotify API,~~ WebAudio API ~~and canvas to generate a visualizer~~.
 
+## Demo
 
-## Screenshot
+A demo is available at [https://musicfy-omega.vercel.app/](https://musicfy-omega.vercel.app/) or look at the screenshot below.
 
 ![Screenshot](./screenshots/musicfy.png)
 
