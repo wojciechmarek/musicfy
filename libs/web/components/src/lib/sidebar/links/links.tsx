@@ -8,6 +8,41 @@ import {
   Tv2,
 } from 'lucide-react';
 
+import { Link, NavLink } from 'react-router-dom';
+
+const links = [
+  {
+    icon: <Home />,
+    text: 'Home',
+    path: '/',
+  },
+  // {
+  //   icon: <TrendingUp />,
+  //   text: 'Trending',
+  //   path: '/trending',
+  // },
+  // {
+  //   icon: <ListMusic />,
+  //   text: 'Playlists',
+  //   path: '/playlists',
+  // },
+  {
+    icon: <Tv2 />,
+    text: 'Visualizer',
+    path: '/visualizer',
+  },
+  {
+    icon: <Sliders />,
+    text: 'Equalizer',
+    path: '/equalizer',
+  },
+  // {
+  //   icon: <Settings />,
+  //   text: 'Settings',
+  //   path: '/settings',
+  // },
+];
+
 /* eslint-disable-next-line */
 export interface LinksProps {}
 
@@ -33,6 +68,7 @@ const NavigationLink = styled.li`
 
   p {
     font-weight: bold;
+    margin-left: 1em;
   }
 
   &:hover {
@@ -43,35 +79,26 @@ const NavigationLink = styled.li`
     background-color: #2b31df;
     box-shadow: 0 0 10px #2b31df;
   }
+
+  a {
+    display: flex;
+    color: white;
+    text-decoration: none;
+    height: 100%;
+  }
 `;
 
 export function Links(props: LinksProps) {
   return (
     <SidebarNavigationLinks>
-      <NavigationLink>
-        <Home />
-        <p>Home</p>
-      </NavigationLink>
-      <NavigationLink>
-        <TrendingUp />
-        <p>Trending</p>
-      </NavigationLink>
-      <NavigationLink>
-        <ListMusic />
-        <p>Playlists</p>
-      </NavigationLink>
-      <NavigationLink>
-        <Sliders />
-        <p>Equalizer</p>
-      </NavigationLink>
-      <NavigationLink>
-        <Tv2 />
-        <p>Visualizer</p>
-      </NavigationLink>
-      <NavigationLink>
-        <Settings />
-        <p>Settings</p>
-      </NavigationLink>
+      {links.map((link) => (
+        <NavigationLink key={link.path}>
+          <a href={link.path}>
+            {link.icon}
+            <p>{link.text}</p>
+          </a>
+        </NavigationLink>
+      ))}
     </SidebarNavigationLinks>
   );
 }
