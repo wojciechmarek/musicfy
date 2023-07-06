@@ -1,11 +1,15 @@
 import styled from '@emotion/styled';
-import { Volume1, Volume2 } from 'lucide-react';
+import { Volume2, VolumeX } from 'lucide-react';
 
-/* eslint-disable-next-line */
-export interface VolumeButtonProps {}
+export interface VolumeButtonProps {
+  onClick: () => void;
+  isMuted: boolean;
+}
 
-const PlayerVolumeButton = styled.button`
-  background-color: transparent;
+const PlayerVolumeButton = styled.button<{
+  isEnabled?: boolean;
+}>`
+  background-color: ${(props) => (props.isEnabled ? '#2b31df' : 'transparent')};
   border: none;
   color: white;
   font-size: 1.5em;
@@ -14,16 +18,19 @@ const PlayerVolumeButton = styled.button`
   cursor: pointer;
   transition: background-color 0.2s ease-in-out;
   border-radius: 0.5em;
+  box-shadow: ${(props) =>
+    props.isEnabled ? '0 0 10px #2b31df' : '0 0 10px transparent'};
 
   &:hover {
-    background-color: #2a2b32;
+    background-color: ${(props) => (props.isEnabled ? '#4a4feb' : '#2a2b32;')};
   }
 `;
 
 export function VolumeButton(props: VolumeButtonProps) {
+  const { onClick, isMuted } = props;
   return (
-    <PlayerVolumeButton>
-      <Volume2 />
+    <PlayerVolumeButton onClick={onClick} isEnabled={isMuted}>
+      {isMuted ? <VolumeX /> : <Volume2 />}
     </PlayerVolumeButton>
   );
 }

@@ -1,6 +1,8 @@
 import styled from '@emotion/styled';
+import { setIsPlaying } from '@musicfy/web/store';
 import { FastForward, Pause, Play, Rewind } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 
 /* eslint-disable-next-line */
 
@@ -49,11 +51,15 @@ export function PlayButtons(props: PlayButtonsProps) {
 
   const [isAudioPlaying, setIsAudioPlaying] = useState(isPlaying);
 
+  const dispatch = useDispatch()
+
   const onPlayPauseClick = () => {
     if (!isAudioPlaying) {
+      dispatch(setIsPlaying(true));
       setIsAudioPlaying(true);
       onClick(PlayerNavigationButtonAction.Play);
     } else {
+      dispatch(setIsPlaying(false));
        setIsAudioPlaying(false);
         onClick(PlayerNavigationButtonAction.Pause);
     }

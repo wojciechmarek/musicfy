@@ -9,7 +9,9 @@ export enum PlayerShuffleButtonAction {
 }
 
 export interface ShuffleButtonsProps {
-  onClick?: (action: PlayerShuffleButtonAction) => void;
+  onClick: (action: PlayerShuffleButtonAction) => void;
+  isRepeatActive: boolean;
+  isShuffleActive: boolean;
 }
 
 const PlayerNavigationButtons = styled.div`
@@ -20,8 +22,10 @@ const PlayerNavigationButtons = styled.div`
   margin-left: 1em;
 `;
 
-const NavigationButton = styled.button`
-  background-color: transparent;
+const NavigationButton = styled.button<{
+  isEnabled?: boolean;
+}>`
+  background-color: ${(props) => (props.isEnabled ? '#2b31df' : 'transparent')};
   border: none;
   color: white;
   font-size: 1.5em;
@@ -30,24 +34,28 @@ const NavigationButton = styled.button`
   cursor: pointer;
   transition: background-color 0.2s ease-in-out;
   border-radius: 0.5em;
+  box-shadow: ${(props) =>
+    props.isEnabled ? '0 0 10px #2b31df' : '0 0 10px transparent'};
 
   &:hover {
-    background-color: #2a2b32;
+    background-color: ${(props) => (props.isEnabled ? '#4a4feb' : '#2a2b32;')};
   }
 `;
 
 export function ShuffleButtons(props: ShuffleButtonsProps) {
-  const { onClick } = props;
+  const { isRepeatActive, isShuffleActive, onClick } = props;
 
   return (
     <PlayerNavigationButtons>
       <NavigationButton
+        isEnabled={isRepeatActive}
         onClick={() => onClick(PlayerShuffleButtonAction.Repeat)}
       >
         <Repeat />
       </NavigationButton>
       
       <NavigationButton
+        isEnabled={isShuffleActive}
         onClick={() => onClick(PlayerShuffleButtonAction.Shuffle)}
       >
         <Shuffle />

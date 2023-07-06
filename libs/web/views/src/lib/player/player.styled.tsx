@@ -27,14 +27,20 @@ export const PlayerVolumeContainer = styled.div`
   margin-right: 1em;
 `;
 
-export const VolumeBar = styled.div`
+export const VolumeBar = styled.input<{
+  isDisabled: boolean;
+}>`
   height: 0.25em;
-  background-color: #292a34;
+  box-shadow: 0 0 10px #2b31df;
   width: 100%;
-  flex: 1;
   margin: 0 1em;
   border-radius: 1em;
   width: 5em;
+  cursor: ${(props) => (props.isDisabled ? 'default' : 'pointer')};
+  opacity: ${(props) => (props.isDisabled ? 0.3 : 1)};
+  pointer-events: ${(props) => (props.isDisabled ? 'none' : 'all')};
+
+  
 `;
 
 export const VolumeBarCurrent = styled.div<{
@@ -45,4 +51,5 @@ export const VolumeBarCurrent = styled.div<{
   width: ${(props) => props.progress}%;
   border-radius: 1em;
   box-shadow: 0 0 10px #2b31df;
+  cursor: pointer;
 `;

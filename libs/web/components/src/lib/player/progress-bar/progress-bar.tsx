@@ -19,22 +19,11 @@ const MusicCurrentTime = styled.p`
   color: white;
 `;
 
-const MusicProgress = styled.div`
+const MusicProgress = styled.input`
   height: 0.25em;
-  background-color: #292a34;
   width: 100%;
   flex: 1;
   margin: 0 1em;
-  border-radius: 1em;
-`;
-
-const MusicProgressCurrent = styled.div<{
-  progress: number;
-}>`
-  height: 100%;
-  background-color: #2b31df;
-  width: ${(props) => props.progress}%;
-  border-radius: 1em;
   box-shadow: 0 0 10px #2b31df;
 `;
 
@@ -66,9 +55,12 @@ export function ProgressBar(props: ProgressBarProps) {
   return (
     <PlayerMusicProgress>
       <MusicCurrentTime>{timeForm}</MusicCurrentTime>
-      <MusicProgress>
-        <MusicProgressCurrent progress={progress}></MusicProgressCurrent>
-      </MusicProgress>
+      <MusicProgress
+        type="range"
+        min={0}
+        max={100}
+        value={progress}
+      />
       <MusicTotalTime>{totalTimeFormated}</MusicTotalTime>
     </PlayerMusicProgress>
   );

@@ -18,6 +18,7 @@
       "@musicfy/common/data-access": ["libs/common/data-access/src/index.ts"],
       "@musicfy/common/models": ["libs/common/models/src/index.ts"],
       "@musicfy/web/components": ["libs/web/components/src/index.ts"],
+      "@musicfy/web/store": ["libs/web/store/src/index.ts"],
       "@musicfy/web/views": ["libs/web/views/src/index.ts"]
     }
   },

@@ -14,7 +14,7 @@ export interface SidebarProps {}
 
 const SidebarLayout = styled.div`
   width: 20em;
-  background-color: #18191e;
+  background-color: #19181e;
 `;
 
 const SidebarContainer = styled.div`
