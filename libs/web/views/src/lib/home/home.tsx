@@ -1,5 +1,12 @@
 import styled from '@emotion/styled';
-import { Mood, Recommendations, SearchBar, Trending } from '@musicfy/web/components';
+import {
+  Mood,
+  Recommendations,
+  SearchBar,
+  Trending,
+} from '@musicfy/web/components';
+import { RootState, setIsSearchActive, setSearchPhrase } from '@musicfy/web/store';
+import { useDispatch, useSelector } from 'react-redux';
 
 /* eslint-disable-next-line */
 export interface HomeProps {}
@@ -25,20 +32,52 @@ const PopularAndMoodContainer = styled.div`
   }
 `;
 
+const HomeSearchResultsView = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  width: 100%;
+`;
+
+const HomeRegularView = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  width: 100%;
+`;
 
 export function Home(props: HomeProps) {
+  const { isSearchActive } = useSelector(
+    (state: RootState) => state.search
+  );
+
+  const dispatch = useDispatch();
+
+  const handleSearchInputChange = (phrase: string) => {
+    dispatch(setSearchPhrase(phrase));
+  };
+  
   return (
     <HomeContainer>
       <HomeContent>
-        <SearchBar />
-        <Recommendations />
-        <PopularAndMoodContainer>
-          <Trending />
-          <Mood />
-        </PopularAndMoodContainer>
+        <SearchBar
+          handleSearchInputChange={(e) => handleSearchInputChange(e)}
+        />
+
+        {isSearchActive ? (
+          <HomeSearchResultsView>search</HomeSearchResultsView>
+        ) : (
+          <HomeRegularView>
+            <Recommendations />
+            <PopularAndMoodContainer>
+              <Trending />
+              <Mood />
+            </PopularAndMoodContainer>
+          </HomeRegularView>
+        )}
       </HomeContent>
     </HomeContainer>
   );
 }
 
-export default Home;
+

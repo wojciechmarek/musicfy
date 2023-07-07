@@ -1,8 +1,11 @@
 import styled from '@emotion/styled';
-import { ChevronLeft, ChevronRight, Search } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Search, X } from 'lucide-react';
+import { useState } from 'react';
 
 /* eslint-disable-next-line */
-export interface SearchBarProps {}
+export interface SearchBarProps {
+  handleSearchInputChange: (phrase: string) => void;
+}
 
 const HomeBar = styled.div`
   display: flex;
@@ -39,12 +42,16 @@ const NavigationSearch = styled.div`
   border-radius: 0.5em;
 `;
 
-const SearchIcon = styled.div`
+const SearchBarIcon = styled.div`
   display: flex;
   align-items: center;
   color: #fff;
   font-size: 1.5em;
   padding: 0.5em 0.75em;
+
+  &:nth-of-type(2) {
+    cursor: pointer;
+  }
 `;
 
 const SearchInput = styled.input`
@@ -57,6 +64,7 @@ const SearchInput = styled.input`
   width: 100%;
   border: none;
   height: 100%;
+  padding-left: 0.5em;
 
   &:hover {
     background-color: #2a2b32;
@@ -88,6 +96,20 @@ const LogoutButton = styled.button`
 `;
 
 export function SearchBar(props: SearchBarProps) {
+  const { handleSearchInputChange } = props;
+
+  const [searchPhrase, setSearchPhrase] = useState('');
+
+  const onInputChange = (phrase: string) => {
+    setSearchPhrase(phrase);
+    handleSearchInputChange(phrase);
+  };
+
+  const onInputClear = () => {
+    handleSearchInputChange('');
+    setSearchPhrase('');
+  };
+
   return (
     <HomeBar>
       <NavigationButtons>
@@ -99,10 +121,20 @@ export function SearchBar(props: SearchBarProps) {
         </NavigationButton>
       </NavigationButtons>
       <NavigationSearch>
-        <SearchIcon>
+        <SearchBarIcon>
           <Search />
-        </SearchIcon>
-        <SearchInput type="text" placeholder="Search music" />
+        </SearchBarIcon>
+        <SearchInput
+          type="text"
+          placeholder="Search music"
+          value={searchPhrase}
+          onChange={(e) => onInputChange(e.target.value)}
+        />
+        {searchPhrase.length > 0 && (
+          <SearchBarIcon onClick={() => onInputClear()}>
+            <X />
+          </SearchBarIcon>
+        )}
       </NavigationSearch>
       <NavigationLogout>
         <LogoutButton>Logout</LogoutButton>
