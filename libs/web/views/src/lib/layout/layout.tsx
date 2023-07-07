@@ -8,26 +8,14 @@ import {
   LayoutContent,
 } from './layout.styled';
 
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
 import Visualizer from '../visualizer/visualizer';
-
-const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <Home />,
-  },
-  {
-    path: '/equalizer',
-    element: <Equalizer />,
-  },
-  {
-    path: '/visualizer',
-    element: <Visualizer />,
-  },
-]);
+import { ReactNode } from 'react';
 
 /* eslint-disable-next-line */
-export interface LayoutProps {}
+export interface LayoutProps {
+
+}
 
 export function Layout(props: LayoutProps) {
   return (
@@ -35,7 +23,7 @@ export function Layout(props: LayoutProps) {
       <LayoutContent>
         <Sidebar />
         <ContentContainer>
-          <RouterProvider router={router} />
+          <Outlet />
         </ContentContainer>
       </LayoutContent>
       <Player />

@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { Mood, Popular, Recommendations, SearchBar } from '@musicfy/web/components';
+import { Mood, Recommendations, SearchBar, Trending } from '@musicfy/web/components';
 
 /* eslint-disable-next-line */
 export interface HomeProps {}
@@ -33,7 +33,7 @@ export function Home(props: HomeProps) {
         <SearchBar />
         <Recommendations />
         <PopularAndMoodContainer>
-          <Popular />
+          <Trending />
           <Mood />
         </PopularAndMoodContainer>
       </HomeContent>

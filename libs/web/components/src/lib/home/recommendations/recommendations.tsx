@@ -1,4 +1,7 @@
 import styled from '@emotion/styled';
+import { RootState } from '@musicfy/web/store';
+import { Play } from 'lucide-react';
+import { useSelector } from 'react-redux';
 
 /* eslint-disable-next-line */
 export interface RecommendationsProps {}
@@ -35,11 +38,31 @@ const RecommendationElement = styled.li`
   border-radius: 0.5em;
   cursor: pointer;
   width: 10em;
+
+  transition: opacity 0.2s ease-in-out;
+
+  &:hover {
+    opacity: 0.5;
+  }
+`;
+
+const TileImageContainer = styled.div`
+  position: relative;
+  height: 10em;
+  width: 10em;
 `;
 
 const TileImage = styled.img`
   width: 100%;
   border-radius: 0.5em;
+`;
+
+const TilePlayIcon = styled.div`
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 `;
 
 const TileTitle = styled.p`
@@ -54,19 +77,26 @@ const TileSubtitle = styled.p`
 `;
 
 export function Recommendations(props: RecommendationsProps) {
+  const { recommendations } = useSelector(
+    (state: RootState) => state.suggestions
+  );
+
   return (
     <RecommendationsContainer>
-      <RecommendationsHeader>Recommendations</RecommendationsHeader>
+      <RecommendationsHeader>Today's recommendations</RecommendationsHeader>
       <RecommendationContent>
         <RecommendationList>
-          {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((item) => (
-            <RecommendationElement key={item}>
-              <TileImage
-                src={`https://picsum.photos/30${item}/300/`}
-                alt="Album cover"
-              />
-              <TileTitle>Title no. {item}</TileTitle>
-              <TileSubtitle>Artist #{item}</TileSubtitle>
+          {recommendations.map((item) => (
+            <RecommendationElement key={item.id}>
+              <TileImageContainer>
+                <TileImage src={item.image} alt="Album cover" />
+                <TilePlayIcon>
+                  <Play size={24} />
+                </TilePlayIcon>
+
+              </TileImageContainer>
+              <TileTitle>{item.title}</TileTitle>
+              <TileSubtitle>{item.artist}</TileSubtitle>
             </RecommendationElement>
           ))}
         </RecommendationList>

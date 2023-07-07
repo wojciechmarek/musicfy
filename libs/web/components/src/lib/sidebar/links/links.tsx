@@ -56,11 +56,7 @@ const SidebarNavigationLinks = styled.ul`
 const NavigationLink = styled.li`
   display: flex;
   align-items: center;
-  border-radius: 0.5em;
-  padding: 1em 1.5em;
-  cursor: pointer;
   gap: 1em;
-  transition: background-color 0.2s ease-in-out;
 
   svg {
     min-width: 0;
@@ -71,15 +67,6 @@ const NavigationLink = styled.li`
     margin-left: 1em;
   }
 
-  &:hover {
-    background-color: #2a2b32;
-  }
-
-  &:nth-of-type(1) {
-    background-color: #2b31df;
-    box-shadow: 0 0 10px #2b31df;
-  }
-
   a {
     display: flex;
     color: white;
@@ -88,15 +75,44 @@ const NavigationLink = styled.li`
   }
 `;
 
+const NavLinkStyle = styled(NavLink)`
+  display: flex;
+  color: white;
+  text-decoration: none;
+  height: 100%;
+  width: 100%;
+  padding: 1em 1.5em;
+  cursor: pointer;
+  border-radius: 0.5em;
+  transition: background-color 0.2s ease-in-out;
+
+  p {
+    cursor: pointer;
+  }
+
+  &:hover {
+    background-color: #2a2b32;
+  }
+
+  &.active {
+    background-color: #2b31df;
+    box-shadow: 0 0 10px #2b31df;
+
+    &:hover {
+      background-color: #4a4feb;
+    }
+  }
+`;
+
 export function Links(props: LinksProps) {
   return (
     <SidebarNavigationLinks>
       {links.map((link) => (
         <NavigationLink key={link.path}>
-          <a href={link.path}>
+          <NavLinkStyle to={link.path} className={({ isActive }) => isActive ? 'active' : ''}>
             {link.icon}
             <p>{link.text}</p>
-          </a>
+          </NavLinkStyle>
         </NavigationLink>
       ))}
     </SidebarNavigationLinks>

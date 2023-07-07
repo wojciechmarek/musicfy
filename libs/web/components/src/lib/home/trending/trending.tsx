@@ -1,4 +1,7 @@
 import styled from '@emotion/styled';
+import { RootState } from '@musicfy/web/store';
+import { Play, PlayCircle } from 'lucide-react';
+import { useSelector } from 'react-redux';
 
 /* eslint-disable-next-line */
 export interface PopularProps {}
@@ -36,11 +39,10 @@ const PopularElement = styled.li`
   align-items: center;
   justify-items: center;
   border-radius: 0.5em;
-  cursor: pointer;
   background-color: #2a2b32;
   padding: 0.25em 1em;
   width: 100%;
-  cursor: pointer;
+
   transition: background-color 0.2s ease-in-out;
 
   &:hover {
@@ -62,48 +64,62 @@ const RowImage = styled.div`
 const RowNumber = styled.p`
   font-weight: bold;
   text-align: start;
-  margin-left: 2em;
+  margin-left: 1.25em;
+  width: 1.5em;
 `;
 
 const RowTitle = styled.p`
   font-weight: bold;
   text-align: start;
-  margin-left: 2em;
+  margin-left: 1.25em;
+  width: 7.5em;
+  flex: 1;
 `;
 
 const RowLenght = styled.p`
   font-size: 0.75rem;
   text-align: start;
-  margin: auto 2em;
+  margin-left: 1.25em;
+  width: 2.5em;
 `;
 
-const RowDots = styled.p`
+const RowPlayButton = styled.button`
   font-size: 0.75rem;
   text-align: start;
-  flex: 1;
-  text-align: end;
+  margin-left: 1.25em;
+  background-color: transparent;
+  border: none;
+  color: #fff;
+  cursor: pointer;
 `;
 
-export function Popular(props: PopularProps) {
+export function Trending(props: PopularProps) {
+  const { trending } = useSelector((state: RootState) => state.suggestions);
+
   return (
     <PopularContainer>
       <PopularHeader>
-        Popular in Poland{' '}
+        Trending in Poland{' '}
         <span role="img" aria-label="Poland">
           🇵🇱
         </span>
       </PopularHeader>
       <PopularContent>
         <PopularList>
-          {[1, 2, 3, 4, 5].map((item, key) => (
-            <PopularElement key={item}>
+          {trending.map((item) => (
+            <PopularElement key={item.id}>
               <RowImage>
-                <img src={`https://picsum.photos/300/30${item}/`} alt="Album cover" />
+                <img
+                  src={item.image}
+                  alt="Album cover"
+                />
               </RowImage>
-              <RowNumber>{key + 1}</RowNumber>
-              <RowTitle>Title no. {item}</RowTitle>
-              <RowLenght>Artist #{item}</RowLenght>
-              <RowDots>▶️</RowDots>
+              <RowNumber>{item.id + 1}</RowNumber>
+              <RowTitle>{item.title}</RowTitle>
+              <RowLenght>{item.duration}</RowLenght>
+              <RowPlayButton>
+                <Play size={16} />
+              </RowPlayButton>
             </PopularElement>
           ))}
         </PopularList>
@@ -112,4 +128,4 @@ export function Popular(props: PopularProps) {
   );
 }
 
-export default Popular;
+export default Trending;

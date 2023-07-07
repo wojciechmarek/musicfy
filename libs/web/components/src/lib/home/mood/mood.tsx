@@ -63,15 +63,16 @@ const MoodElement = styled.div`
 const MoodName = styled.p`
   font-weight: bold;
   text-transform: uppercase;
+  font-size: 1.25rem;
 `;
 
 export function Mood(props: MoodProps) {
   return (
     <MoodContainer>
-      <MoodHeader>Mood</MoodHeader>
+      <MoodHeader>Pick your mood</MoodHeader>
       <MoodContent>
         <MoodGrid>
-          {['Sad', 'Happy', 'Angry', 'Chill'].map((mood) => (
+          {['Sad 😢', 'Happy 😊', 'Angry 😡', 'Chill 😎'].map((mood) => (
             <MoodElement key={mood}>
               <MoodName>{mood}</MoodName>
             </MoodElement>
