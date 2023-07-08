@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 
 export interface VfdChannelAnalyzerProps {
+  isEnabled: boolean;
   left: number;
   right: number;
 }
@@ -41,20 +42,24 @@ const SpectrumBarRed = styled.div<{
   box-shadow: 0 0 10px ${(props) => (props.isActive ? '#9c341a ' : 'none')};
 `;
 
-const BarFrequencyDescription = styled.p`
-  color: #1caeae;
+const BarFrequencyDescription = styled.p<{
+  isActive?: boolean;
+}>`
+  color: ${(props) => (props.isActive ? '#1caeae' : '#062626')};
   font-size: 0.75em;
   font-weight: bold;
-  text-shadow: 0 0 10px #1caeae;
+  text-shadow: ${(props) => (props.isActive ? '0 0 10px #1caeae' : 'none')};
   margin: 0.25em 0;
   text-align: center;
 `;
 
-const DecibelText = styled.p`
-  color: #1caeae;
+const DecibelText = styled.p<{
+  isActive?: boolean;
+}>`
+  color: ${(props) => (props.isActive ? '#1caeae' : '#062626')};
   font-size: 0.5em;
   font-weight: bold;
-  text-shadow: 0 0 10px #1caeae;
+  text-shadow: ${(props) => (props.isActive ? '0 0 10px #1caeae' : 'none')};
   text-align: center;
   margin-bottom: 0.5em;
 
@@ -73,7 +78,7 @@ const DecibelColumn = styled.div`
 `;
 
 export const VfdChannelAnalyzer = (props: VfdChannelAnalyzerProps) => {
-  const { left, right } = props;
+  const { isEnabled, left, right } = props;
 
   return (
     <VfdChannels>
@@ -81,34 +86,34 @@ export const VfdChannelAnalyzer = (props: VfdChannelAnalyzerProps) => {
         <SpectrumColumn className="channel-column">
           {Array.from({ length: 12 }, (_, index) =>
             index < 3 ? (
-              <SpectrumBarRed key={index} isActive={left > 100 - index * 7} />
+              <SpectrumBarRed key={index} isActive={isEnabled && (left > 100 - index * 7)} />
             ) : (
-              <SpectrumBar key={index} isActive={left > 100 - index * 7} />
+              <SpectrumBar key={index} isActive={isEnabled && (left > 100 - index * 7)} />
             )
           )}
-          <SpectrumBar isActive />
-          <BarFrequencyDescription>LEFT</BarFrequencyDescription>
+          <SpectrumBar isActive={isEnabled} />
+          <BarFrequencyDescription isActive={isEnabled}>LEFT</BarFrequencyDescription>
         </SpectrumColumn>
         <DecibelColumn>
-          <DecibelText>+3</DecibelText>
-          <DecibelText>0</DecibelText>
-          <DecibelText>-3</DecibelText>
-          <DecibelText>-5</DecibelText>
-          <DecibelText>-10</DecibelText>
-          <DecibelText>-20</DecibelText>
-          <DecibelText>-∞</DecibelText>
-          <BarFrequencyDescription>dB</BarFrequencyDescription>
+          <DecibelText isActive={isEnabled}>+3</DecibelText>
+          <DecibelText isActive={isEnabled}>0</DecibelText>
+          <DecibelText isActive={isEnabled}>-3</DecibelText>
+          <DecibelText isActive={isEnabled}>-5</DecibelText>
+          <DecibelText isActive={isEnabled}>-10</DecibelText>
+          <DecibelText isActive={isEnabled}>-20</DecibelText>
+          <DecibelText isActive={isEnabled}>-∞</DecibelText>
+          <BarFrequencyDescription isActive={isEnabled}>dB</BarFrequencyDescription>
         </DecibelColumn>
         <SpectrumColumn className="channel-column">
           {Array.from({ length: 12 }, (_, index) =>
             index < 3 ? (
-              <SpectrumBarRed key={index} isActive={right > 100 - index * 7} />
+              <SpectrumBarRed key={index} isActive={isEnabled && (right > 100 - index * 7)} />
             ) : (
-              <SpectrumBar key={index} isActive={right > 100 - index * 7} />
+              <SpectrumBar key={index} isActive={isEnabled && (right > 100 - index * 7)} />
             )
           )}
-          <SpectrumBar isActive />
-          <BarFrequencyDescription>RIGHT</BarFrequencyDescription>
+          <SpectrumBar isActive={isEnabled} />
+          <BarFrequencyDescription isActive={isEnabled}>RIGHT</BarFrequencyDescription>
         </SpectrumColumn>
       </VfdSpectrum>
     </VfdChannels>

@@ -7,6 +7,7 @@ import { VfdChannelAnalyzer } from './vfd-channel-analyzer';
 /* eslint-disable-next-line */
 export interface VfdDisplayProps {
   [key: string]: any;
+  isEnabled: boolean;
 }
 
 const VfdDisplayContainer = styled.div`
@@ -57,7 +58,7 @@ const frequencies = [
 const values = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
 export function VfdDisplay(props: VfdDisplayProps) {
-  const { ...rest } = props;
+  const { isEnabled, ...rest } = props;
 
   const { isMuted, level } = useSelector(
     (state: RootState) => state.playback.volume
@@ -70,17 +71,18 @@ export function VfdDisplay(props: VfdDisplayProps) {
     <VfdDisplayContainer {...rest}>
       <VfdAnalyzersRow>
         <VfdSpectrumAnalyzer
+          isEnabled={isEnabled}
           columnFrequencies={frequencies}
           columnValues={values}
         />
-        <VfdChannelAnalyzer left={level} right={level} />
+        <VfdChannelAnalyzer left={level} right={level} isEnabled={isEnabled}/>
       </VfdAnalyzersRow>
       <VfdControls>
-        <VfdControl isActive>Hi-Fi</VfdControl>
-        <VfdControl isActive>STEREO</VfdControl>
-        <VfdControl isActive={isRepeating}>REPEAT</VfdControl>
-        <VfdControl isActive={isShuffling}>SHUFFLE</VfdControl>
-        <VfdControl isActive={isMuted}>MUTED</VfdControl>
+        <VfdControl isActive={isEnabled}>Hi-Fi</VfdControl>
+        <VfdControl isActive={isEnabled}>STEREO</VfdControl>
+        <VfdControl isActive={isEnabled && isRepeating}>REPEAT</VfdControl>
+        <VfdControl isActive={isEnabled && isShuffling}>SHUFFLE</VfdControl>
+        <VfdControl isActive={isEnabled && isMuted}>MUTED</VfdControl>
       </VfdControls>
     </VfdDisplayContainer>
   );

@@ -12,10 +12,8 @@ import {
   PlayerMusicInfoAndProgressContainer,
   PlayerVolumeContainer,
   VolumeBar,
-  VolumeBarCurrent,
 } from './player.styled';
-import { useEffect, useMemo, useState } from 'react';
-import song from './Gran Error x Elvana Gjata x ANTONIA - Clap Clap.mp3';
+
 import { useDispatch, useSelector } from 'react-redux';
 import {
   RootState,
@@ -23,6 +21,7 @@ import {
   setVolume,
   setIsRepeating,
   setIsShuffling,
+  setIsPlaying,
 } from '@musicfy/web/store';
 
 /* eslint-disable-next-line */
@@ -38,36 +37,9 @@ export function Player(props: PlayerProps) {
     (state: RootState) => state.playback.mode
   );
 
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [time, setTime] = useState(0);
-  const [progress, setProgress] = useState(0);
-
-  const play = () => {
-    if (audio.paused) {
-      audio.play();
-    } else {
-      audio.pause();
-    }
-  };
-
-  const audio = useMemo(() => new Audio(song), []);
-
-  useEffect(() => {
-    setIsPlaying(isPlaying);
-  }, [isPlaying]);
-
-  audio.addEventListener('timeupdate', () => {
-    setProgress((audio.currentTime / audio.duration) * 100);
-    const songTime = audio.currentTime;
-    const minutes = Math.floor(songTime / 60);
-    const seconds = Math.floor(songTime % 60);
-    setTime(audio.currentTime);
-  });
-
-  const stop = () => {
-    audio.currentTime = 0;
-    audio.pause();
-  };
+  const isPlaying  = useSelector(
+    (state: RootState) => state.playback.isPlaying
+  );
 
   const handleMuteButtonClick = () => {
     if (isMuted) {
@@ -80,6 +52,14 @@ export function Player(props: PlayerProps) {
   const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseInt(e.target.value);
     dispatch(setVolume(value));
+  };
+
+  const stop = () => {
+    dispatch(setIsPlaying(false));
+  };
+
+  const play = () => {
+    dispatch(setIsPlaying(true));
   };
 
   const handleShuffleButtonClick = (buttonType: PlayerShuffleButtonAction) => {
@@ -110,7 +90,7 @@ export function Player(props: PlayerProps) {
             isPlaying={isPlaying}
             onClick={() => (isPlaying ? stop() : play())}
           />
-          <ProgressBar currentTime={time} totalTime={145} />
+          <ProgressBar currentTime={123} totalTime={145} />
           <ShuffleButtons
             isRepeatActive={isRepeating}
             isShuffleActive={isShuffling}

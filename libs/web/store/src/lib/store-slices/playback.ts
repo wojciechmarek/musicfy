@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { stat } from 'fs';
+import { useAudioPlayer } from '../services/audio-player'
 
 export interface PlaybackState {
   isPlaying: boolean;
