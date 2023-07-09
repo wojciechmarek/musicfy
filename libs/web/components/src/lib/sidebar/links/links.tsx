@@ -2,6 +2,8 @@ import styled from '@emotion/styled';
 import {
   Home,
   ListMusic,
+  PlaySquare,
+  Radio,
   Settings,
   Sliders,
   TrendingUp,
@@ -13,19 +15,22 @@ import { Link, NavLink } from 'react-router-dom';
 const links = [
   {
     icon: <Home />,
-    text: 'Home',
+    text: 'Demo songs',
     path: '/',
   },
-  // {
-  //   icon: <TrendingUp />,
-  //   text: 'Trending',
-  //   path: '/trending',
-  // },
-  // {
-  //   icon: <ListMusic />,
-  //   text: 'Playlists',
-  //   path: '/playlists',
-  // },
+  {
+    icon: <Radio />,
+    text: 'Internet radio',
+    path: '/internet-radio',
+  },
+  {
+    icon: <PlaySquare />,
+    text: 'Spotify',
+    path: '/spotify',
+  },
+  {
+    text: 'br',
+  },
   {
     icon: <Tv2 />,
     text: 'Visualizer',
@@ -75,6 +80,11 @@ const NavigationLink = styled.li`
   }
 `;
 
+const NavigationSeparator = styled.hr`
+  border: 1px solid #2a2b32;
+  width: 100%;
+`;
+
 const NavLinkStyle = styled(NavLink)`
   display: flex;
   color: white;
@@ -107,14 +117,21 @@ const NavLinkStyle = styled(NavLink)`
 export function Links(props: LinksProps) {
   return (
     <SidebarNavigationLinks>
-      {links.map((link) => (
-        <NavigationLink key={link.path}>
-          <NavLinkStyle to={link.path} className={({ isActive }) => isActive ? 'active' : ''}>
-            {link.icon}
-            <p>{link.text}</p>
-          </NavLinkStyle>
-        </NavigationLink>
-      ))}
+      {links.map((link) =>
+        link.text === 'br' ? (
+          <NavigationSeparator key={link.text}/>
+        ) : (
+          <NavigationLink key={link.text}>
+            <NavLinkStyle
+              to={link.path}
+              className={({ isActive }) => (isActive ? 'active' : '')}
+            >
+              {link.icon}
+              <p>{link.text}</p>
+            </NavLinkStyle>
+          </NavigationLink>
+        )
+      )}
     </SidebarNavigationLinks>
   );
 }

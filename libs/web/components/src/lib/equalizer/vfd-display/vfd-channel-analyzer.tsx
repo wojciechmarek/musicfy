@@ -47,6 +47,10 @@ const BarFrequencyDescription = styled.p<{
   text-shadow: ${(props) => (props.isActive ? '0 0 10px #1caeae' : 'none')};
   margin: 0.25em 0;
   text-align: center;
+
+  &.dB {
+    margin-top: 0;
+  }
 `;
 
 const DecibelText = styled.p<{
@@ -59,7 +63,7 @@ const DecibelText = styled.p<{
   text-align: center;
   margin-bottom: 0.5em;
 
-  &:nth-of-type(6) {
+  &:nth-of-type(7) {
     margin-bottom: 0;
   }
 `;
@@ -69,7 +73,6 @@ const DecibelColumn = styled.div`
   flex-direction: column;
   justify-content: end;
   align-items: center;
-
   width: 1.5em;
 `;
 
@@ -98,7 +101,7 @@ export const VfdChannelAnalyzer = (props: VfdChannelAnalyzerProps) => {
           <DecibelText isActive={isEnabled}>-10</DecibelText>
           <DecibelText isActive={isEnabled}>-20</DecibelText>
           <DecibelText isActive={isEnabled}>-∞</DecibelText>
-          <BarFrequencyDescription isActive={isEnabled}>dB</BarFrequencyDescription>
+          <BarFrequencyDescription className='dB' isActive={isEnabled}>dB</BarFrequencyDescription>
         </DecibelColumn>
         <SpectrumColumn className="channel-column">
           {Array.from({ length: 12 }, (_, index) =>

@@ -5,11 +5,11 @@ import {
   SearchBar,
   Trending,
 } from '@musicfy/web/components';
-import { RootState, setIsSearchActive, setSearchPhrase } from '@musicfy/web/store';
+import { RootState, setSearchPhrase } from '@musicfy/web/store';
 import { useDispatch, useSelector } from 'react-redux';
 
 /* eslint-disable-next-line */
-export interface HomeProps {}
+export interface SpotifyProps {}
 
 const HomeContainer = styled.div`
   background-color: #1a1b20;
@@ -46,7 +46,7 @@ const HomeRegularView = styled.div`
   width: 100%;
 `;
 
-export function Home(props: HomeProps) {
+export function Spotify(props: SpotifyProps) {
   const { isSearchActive } = useSelector(
     (state: RootState) => state.search
   );
@@ -79,5 +79,3 @@ export function Home(props: HomeProps) {
     </HomeContainer>
   );
 }
-
-

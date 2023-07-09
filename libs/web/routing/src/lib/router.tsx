@@ -1,4 +1,4 @@
-import { Equalizer, Home, Layout, NotFound, Visualizer } from '@musicfy/web/views';
+import { DemoSongs, Equalizer, Home, InternetRadio, Layout, NotFound, Spotify, Visualizer } from '@musicfy/web/views';
 import { createBrowserRouter } from 'react-router-dom';
 
 export const router = createBrowserRouter([
@@ -9,7 +9,15 @@ export const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <Home />,
+        element: <DemoSongs />,
+      },
+      {
+        path: '/internet-radio',
+        element: <InternetRadio />,
+      },
+      {
+        path: '/spotify',
+        element: <Spotify />,
       },
       {
         path: '/equalizer',
