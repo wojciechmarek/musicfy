@@ -17,11 +17,7 @@ const SpectrumColumn = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.25em;
-  width: 1.5em;
-
-  &.channel-column {
-    width: 2.5em;
-  }
+  width: 2.5em;
 `;
 
 const SpectrumBar = styled.div<{
@@ -86,9 +82,9 @@ export const VfdChannelAnalyzer = (props: VfdChannelAnalyzerProps) => {
         <SpectrumColumn className="channel-column">
           {Array.from({ length: 12 }, (_, index) =>
             index < 3 ? (
-              <SpectrumBarRed key={index} isActive={isEnabled && (left > 100 - index * 7)} />
+              <SpectrumBarRed key={index} isActive={isEnabled && (left >= 100 - index * 9)} />
             ) : (
-              <SpectrumBar key={index} isActive={isEnabled && (left > 100 - index * 7)} />
+              <SpectrumBar key={index} isActive={isEnabled && (left >= 100 - index * 9)} />
             )
           )}
           <SpectrumBar isActive={isEnabled} />
@@ -107,9 +103,9 @@ export const VfdChannelAnalyzer = (props: VfdChannelAnalyzerProps) => {
         <SpectrumColumn className="channel-column">
           {Array.from({ length: 12 }, (_, index) =>
             index < 3 ? (
-              <SpectrumBarRed key={index} isActive={isEnabled && (right > 100 - index * 7)} />
+              <SpectrumBarRed key={index} isActive={isEnabled && (right >= 100 - index * 9)} />
             ) : (
-              <SpectrumBar key={index} isActive={isEnabled && (right > 100 - index * 7)} />
+              <SpectrumBar key={index} isActive={isEnabled && (right >= 100 - index * 9)} />
             )
           )}
           <SpectrumBar isActive={isEnabled} />

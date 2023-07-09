@@ -41,7 +41,7 @@ const VfdControl = styled.p<{
   text-shadow: ${(props) => (props.isActive ? '0 0 10px #1caeae' : 'none')};
 `;
 
-const frequencies = [
+const frequenciesHeaders = [
   '32',
   '64',
   '128',
@@ -55,8 +55,6 @@ const frequencies = [
   '16k',
 ];
 
-const values = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-
 export function VfdDisplay(props: VfdDisplayProps) {
   const { isEnabled, ...rest } = props;
 
@@ -67,15 +65,21 @@ export function VfdDisplay(props: VfdDisplayProps) {
     (state: RootState) => state.playback.mode
   );
 
+  const { frequencies } = useSelector((state: RootState) => state.equalizer);
+
   return (
     <VfdDisplayContainer {...rest}>
       <VfdAnalyzersRow>
         <VfdSpectrumAnalyzer
           isEnabled={isEnabled}
-          columnFrequencies={frequencies}
-          columnValues={values}
+          headers={frequenciesHeaders}
+          values={frequencies}
         />
-        <VfdChannelAnalyzer left={level} right={level} isEnabled={isEnabled}/>
+        <VfdChannelAnalyzer
+          left={isMuted ? 0 : level}
+          right={isMuted ? 0 : level}
+          isEnabled={isEnabled}
+        />
       </VfdAnalyzersRow>
       <VfdControls>
         <VfdControl isActive={isEnabled}>Hi-Fi</VfdControl>

@@ -31,6 +31,7 @@ export const VolumeBar = styled.input<{
   isDisabled: boolean;
 }>`
   height: 0.25em;
+  background-color: red;
   box-shadow: 0 0 10px #2b31df;
   width: 100%;
   margin: 0 1em;

@@ -92,18 +92,21 @@ export function Equalizer(props: EqualizerProps) {
             name="Volume"
             leftLabel="MIN"
             rightLabel="MAX"
+            isEnabled={isEqualizerEnabled}
           />
           <Knob
             className="channel"
             name="Channel"
             leftLabel="LEFT"
             rightLabel="RIGHT"
+            isEnabled={isEqualizerEnabled}
           />
           <Knob
             className="boost"
             name="Boost"
             leftLabel="MIN"
             rightLabel="MAX"
+            isEnabled={isEqualizerEnabled}
           />
           <VfdDisplay className="vfd" isEnabled={isEqualizerEnabled}/>
         </EqContainer>

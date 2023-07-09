@@ -15,8 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@musicfy/common/data-access": ["libs/common/data-access/src/index.ts"],
-      "@musicfy/common/models": ["libs/common/models/src/index.ts"],
+      "@musicfy/web/data-access": ["libs/web/data-access/src/index.ts"],
       "@musicfy/web/components": ["libs/web/components/src/index.ts"],
       "@musicfy/web/routing": ["libs/web/routing/src/index.ts"],
       "@musicfy/web/store": ["libs/web/store/src/index.ts"],

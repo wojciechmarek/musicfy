@@ -33,8 +33,8 @@ const EqPowerIndicator = styled.div<{ isActive: boolean }>`
   width: 0.5em;
   height: 0.5em;
   border-radius: 50%;
-  background-color: ${({ isActive }) => (isActive ? '#4a4feb' : '#1b1c21')};
-  box-shadow: 0 0 10px ${({ isActive }) => (isActive ? '#4a4feb' : '#1b1c21')};
+  background-color: ${({ isActive }) => (isActive ? '#ce4206' : '#1b1c21')};
+  box-shadow: 0 0 10px ${({ isActive }) => (isActive ? '#ce4206' : '#1b1c21')};
   margin: 0.5em auto;
 `;
 

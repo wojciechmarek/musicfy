@@ -2,8 +2,8 @@ import styled from '@emotion/styled';
 
 export interface VfdSpectrumAnalyzerProps {
   isEnabled: boolean;
-  columnFrequencies: string[];
-  columnValues: number[];
+  headers: string[];
+  values: number[];
 }
 
 const SpectrumColumn = styled.div`
@@ -52,20 +52,28 @@ const VfdSpectrum = styled.div`
 `;
 
 export const VfdSpectrumAnalyzer = (props: VfdSpectrumAnalyzerProps) => {
-  const { isEnabled, columnFrequencies, columnValues } = props;
+  const { isEnabled, headers, values } = props;
   return (
     <VfdSpectrum>
-      {columnFrequencies.map((i, index) => (
+      {headers.map((i, columnIndex) => (
         <SpectrumColumn>
           {Array.from({ length: 12 }, (_, index) =>
             index < 3 ? (
-              <SpectrumBarRed key={index} isActive={isEnabled && false} />
+              <SpectrumBarRed
+                key={index}
+                isActive={isEnabled && (values[columnIndex] - 100) >= 100 - index * 9}
+              />
             ) : (
-              <SpectrumBar key={index} isActive={isEnabled && false} />
+              <SpectrumBar
+                key={index}
+                isActive={isEnabled && (values[columnIndex] - 100) >= 100 - index * 9}
+              />
             )
           )}
           <SpectrumBar isActive={isEnabled} />
-          <BarFrequencyDescription isActive={isEnabled}>{i}</BarFrequencyDescription>
+          <BarFrequencyDescription isActive={isEnabled}>
+            {i}
+          </BarFrequencyDescription>
         </SpectrumColumn>
       ))}
     </VfdSpectrum>

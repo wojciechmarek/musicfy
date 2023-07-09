@@ -1,5 +1,3 @@
-import Home from '../home/home';
-import Equalizer from '../equalizer/equalizer';
 import Player from '../player/player';
 import Sidebar from '../sidebar/sidebar';
 import {
@@ -8,18 +6,16 @@ import {
   LayoutContent,
 } from './layout.styled';
 
-import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
-import Visualizer from '../visualizer/visualizer';
-import { ReactNode } from 'react';
+import { Outlet } from 'react-router-dom';
+import AudioPlayerService from '../audio-player-service/audio-player-service';
 
 /* eslint-disable-next-line */
-export interface LayoutProps {
-
-}
+export interface LayoutProps {}
 
 export function Layout(props: LayoutProps) {
   return (
     <LayoutContainer>
+      <AudioPlayerService />
       <LayoutContent>
         <Sidebar />
         <ContentContainer>

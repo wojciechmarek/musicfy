@@ -1,7 +1,7 @@
 {
-  "name": "common-data-access",
+  "name": "web-data-access",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/common/data-access/src",
+  "sourceRoot": "libs/web/data-access/src",
   "projectType": "library",
   "tags": [],
   "targets": {
@@ -9,7 +9,7 @@
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["libs/common/data-access/**/*.{ts,tsx,js,jsx}"]
+        "lintFilePatterns": ["libs/web/data-access/**/*.{ts,tsx,js,jsx}"]
       }
     },
     "build": {
@@ -17,7 +17,7 @@
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
       "options": {
-        "outputPath": "dist/libs/common/data-access"
+        "outputPath": "dist/libs/web/data-access"
       },
       "configurations": {
         "development": {
@@ -30,10 +30,10 @@
     },
     "test": {
       "executor": "@nx/vite:test",
-      "outputs": ["coverage/libs/common/data-access"],
+      "outputs": ["coverage/libs/web/data-access"],
       "options": {
         "passWithNoTests": true,
-        "reportsDirectory": "../../../coverage/libs/common/data-access"
+        "reportsDirectory": "../../../coverage/libs/web/data-access"
       }
     }
   }

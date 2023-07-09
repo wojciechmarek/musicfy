@@ -22,6 +22,8 @@ import {
   setIsRepeating,
   setIsShuffling,
   setIsPlaying,
+  setCurrentTime,
+  setSeekToTime,
 } from '@musicfy/web/store';
 
 /* eslint-disable-next-line */
@@ -33,13 +35,15 @@ export function Player(props: PlayerProps) {
     (state: RootState) => state.playback.volume
   );
 
-  const { isRepeating, isShuffling } = useSelector(
+  const { isRepeating, isShuffling, isRadio } = useSelector(
     (state: RootState) => state.playback.mode
   );
 
-  const isPlaying  = useSelector(
-    (state: RootState) => state.playback.isPlaying
+  const { isPlaying, currentTime } = useSelector(
+    (state: RootState) => state.playback.audio
   );
+
+  const { duration } = useSelector((state: RootState) => state.playback.track);
 
   const handleMuteButtonClick = () => {
     if (isMuted) {
@@ -81,6 +85,10 @@ export function Player(props: PlayerProps) {
     }
   };
 
+  const handleProgressBarChange = (value: number) => {
+    dispatch(setSeekToTime(value));
+  };
+
   return (
     <PlayerContainer>
       <PlayerContent>
@@ -90,7 +98,11 @@ export function Player(props: PlayerProps) {
             isPlaying={isPlaying}
             onClick={() => (isPlaying ? stop() : play())}
           />
-          <ProgressBar currentTime={123} totalTime={145} />
+          <ProgressBar
+            currentTime={currentTime}
+            totalTime={isRadio ? -1 : duration}
+            handleProgressBarChange={handleProgressBarChange}
+          />
           <ShuffleButtons
             isRepeatActive={isRepeating}
             isShuffleActive={isShuffling}

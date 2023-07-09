@@ -7,6 +7,7 @@ export interface KnobProps {
   name: string;
   leftLabel: string;
   rightLabel: string;
+  isEnabled?: boolean;
 }
 
 const EqKnob = styled.div`
@@ -35,7 +36,7 @@ const EqKnobLabel = styled.p`
 
 const EqKnobControl = styled.div`
   width: 70%;
-  height: 70%;
+  aspect-ratio: 1/1;
   border-radius: 50%;
   background-color: #19181e;
   box-shadow: 0 0 10px #19181e;
@@ -46,45 +47,61 @@ const EqKnobControl = styled.div`
   transform: translate(-50%, -50%);
 `;
 
-const EqKnobRevolveControl = styled.div`
+const EqKnobRevolveControlContainer = styled.div`
+  width: 100%;
+  aspect-ratio: 1/1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+`;
+
+const EqKnobRevolveControl = styled.div<{
+  percentage: number;
+}>`
   width: 80%;
   height: 80%;
   border-radius: 50%;
   background-color: #272a35;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  
   cursor: move;
+  transform: rotate(56deg);
 `;
 
-const EqKnobRevolvePointer = styled.div`
-  width: 0.75em;
+const EqKnobRevolvePointer = styled.div<{
+  isActive?: boolean;
+}>`
+  width: 0.25em;
   height: 1em;
-  background-color: #19181e;
+  background-color: ${(props) => (props.isActive ? '#ce4206' : '#19181e')};
+  box-shadow: ${(props) => (props.isActive ? '0 0 10px #ce4206' : 'none')};
   margin: 0 auto;
+  border-radius: 0.25em;
   position: relative;
   top: -1px;
 `;
 
 export function Knob(props: KnobProps) {
-  const { name, leftLabel, rightLabel, ...rest } = props;
+  const { isEnabled, name, leftLabel, rightLabel, ...rest } = props;
   return (
     <EqKnob {...rest}>
       <EqKnobControl>
-        <EqKnobRevolveControl
-          onMouseDown={(e) => {
-            console.log(e);
-          }}
-          onMouseMove={(e) => {
-            console.log(e);
-          }}
-          onMouseUp={(e) => {
-            console.log(e);
-          }}
-        >
-          <EqKnobRevolvePointer />
-        </EqKnobRevolveControl>
+        <EqKnobRevolveControlContainer>
+          <EqKnobRevolveControl
+            percentage={0}
+            onMouseDown={(e) => {
+              console.log(e);
+            }}
+            onMouseMove={(e) => {
+              console.log(e);
+            }}
+            onMouseUp={(e) => {
+              console.log(e);
+            }}
+          >
+            <EqKnobRevolvePointer isActive={isEnabled} />
+          </EqKnobRevolveControl>
+        </EqKnobRevolveControlContainer>
       </EqKnobControl>
       <EqKnobLabel>{leftLabel}</EqKnobLabel>
       <EqKnobLabel>{name}</EqKnobLabel>

@@ -1,18 +1,21 @@
-import { createSlice } from '@reduxjs/toolkit'
-import type { PayloadAction } from '@reduxjs/toolkit'
-import { stat } from 'fs';
-import { useAudioPlayer } from '../services/audio-player'
+import { createSlice } from '@reduxjs/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit';
 
 export interface PlaybackState {
-  isPlaying: boolean;
+  audio: {
+    isPlaying: boolean;
+    currentTime: number;
+    seekToTime: number;
+  };
   mode: {
     isShuffling: boolean;
     isRepeating: boolean;
-  },
+    isRadio: boolean;
+  };
   volume: {
     level: number;
     isMuted: boolean;
-  },
+  };
   track: {
     id: string;
     name: string;
@@ -20,14 +23,19 @@ export interface PlaybackState {
     album: string;
     duration: number;
     image: string;
-  }
+  };
 }
 
 const initialState: PlaybackState = {
-  isPlaying: false,
+  audio: {
+    isPlaying: false,
+    currentTime: 0,
+    seekToTime: 0,
+  },
   mode: {
     isShuffling: false,
     isRepeating: false,
+    isRadio: true,
   },
   volume: {
     level: 34,
@@ -38,9 +46,9 @@ const initialState: PlaybackState = {
     name: '',
     artist: '',
     album: '',
-    duration: 0,
+    duration: 145,
     image: '',
-  }
+  },
 };
 
 export const playbackSlice = createSlice({
@@ -48,7 +56,13 @@ export const playbackSlice = createSlice({
   initialState,
   reducers: {
     setIsPlaying: (state, action: PayloadAction<boolean>) => {
-      state.isPlaying = action.payload;
+      state.audio.isPlaying = action.payload;
+    },
+    setCurrentTime: (state, action: PayloadAction<number>) => {
+      state.audio.currentTime = action.payload;
+    },
+    setSeekToTime: (state, action: PayloadAction<number>) => {
+      state.audio.seekToTime = action.payload;
     },
     setIsShuffling: (state, action: PayloadAction<boolean>) => {
       state.mode.isShuffling = action.payload;
@@ -57,6 +71,9 @@ export const playbackSlice = createSlice({
     setIsRepeating: (state, action: PayloadAction<boolean>) => {
       state.mode.isRepeating = action.payload;
       state.mode.isShuffling = false;
+    },
+    setIsRadio: (state, action: PayloadAction<boolean>) => {
+      state.mode.isRadio = action.payload;
     },
     setIsMuted: (state, action: PayloadAction<boolean>) => {
       state.volume.isMuted = action.payload;
@@ -67,9 +84,21 @@ export const playbackSlice = createSlice({
     setTrack: (state, action: PayloadAction<PlaybackState['track']>) => {
       state.track = action.payload;
     },
+    setTrackDuration: (state, action: PayloadAction<number>) => {
+      state.track.duration = action.payload;
+    }
   },
 });
 
-export const { setIsPlaying, setIsMuted, setVolume, setIsShuffling, setIsRepeating } = playbackSlice.actions;
+export const {
+  setIsPlaying,
+  setCurrentTime,
+  setSeekToTime,
+  setIsMuted,
+  setVolume,
+  setIsShuffling,
+  setIsRepeating,
+  setTrackDuration,
+} = playbackSlice.actions;
 
 export default playbackSlice.reducer;

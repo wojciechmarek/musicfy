@@ -1,10 +1,11 @@
 import styled from '@emotion/styled';
-import { useEffect, useState } from 'react';
+import { InputHTMLAttributes, useEffect, useState } from 'react';
 
 /* eslint-disable-next-line */
 export interface ProgressBarProps {
   currentTime: number;
   totalTime: number;
+  handleProgressBarChange: (value: number) => void;
 }
 
 const PlayerMusicProgress = styled.div`
@@ -32,14 +33,25 @@ const MusicTotalTime = styled.p`
 `;
 
 export function ProgressBar(props: ProgressBarProps) {
-  const { currentTime, totalTime } = props;
+  const { currentTime, totalTime, handleProgressBarChange } = props;
   const [timeForm, setTimeForm] = useState("");
-  const [progress, setProgress] = useState(0);
 
-  const totalTimeForm = new Date(totalTime * 1000);
-  const totalTimeFormated = `${totalTimeForm.getMinutes() < 10 ? "0" + totalTimeForm.getMinutes() : totalTimeForm.getMinutes()}:${
-    totalTimeForm.getSeconds() < 10 ? "0" + totalTimeForm.getSeconds() : totalTimeForm.getSeconds()
-  }`
+  let totalTimeFormatted = "";
+  if (totalTime === -1) {
+    totalTimeFormatted = "🔴 LIVE";
+  } else {
+    const totalTimeForm = new Date(totalTime * 1000);
+    totalTimeFormatted = `${totalTimeForm.getMinutes() < 10 ? "0" + totalTimeForm.getMinutes() : totalTimeForm.getMinutes()}:${
+      totalTimeForm.getSeconds() < 10 ? "0" + totalTimeForm.getSeconds() : totalTimeForm.getSeconds()
+    }`
+  }
+
+  const onProgressBarChange = (e: InputHTMLAttributes<HTMLInputElement>) => {
+    const progress = Number.parseInt(e.currentTarget.value);
+    handleProgressBarChange(progress);
+  }
+    
+
   
   useEffect(() => {
     const time = new Date(currentTime * 1000);
@@ -47,9 +59,6 @@ export function ProgressBar(props: ProgressBarProps) {
       time.getSeconds() < 10 ? "0" + time.getSeconds() : time.getSeconds()
     }`
     setTimeForm(timeForm);
-
-    const progress = (currentTime / totalTime) * 100;
-    setProgress(progress);
   }, [currentTime, totalTime]);
 
   return (
@@ -58,10 +67,11 @@ export function ProgressBar(props: ProgressBarProps) {
       <MusicProgress
         type="range"
         min={0}
-        max={100}
-        value={progress}
+        max={totalTime}
+        value={currentTime}
+        onChange={onProgressBarChange}
       />
-      <MusicTotalTime>{totalTimeFormated}</MusicTotalTime>
+      <MusicTotalTime>{totalTimeFormatted}</MusicTotalTime>
     </PlayerMusicProgress>
   );
 }
