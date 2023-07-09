@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import styles from './knob.module.css';
+import { useRef, useState } from 'react';
 
 /* eslint-disable-next-line */
 export interface KnobProps {
@@ -57,15 +58,15 @@ const EqKnobRevolveControlContainer = styled.div`
 `;
 
 const EqKnobRevolveControl = styled.div<{
-  percentage: number;
+  rotate: number;
 }>`
   width: 80%;
   height: 80%;
   border-radius: 50%;
   background-color: #272a35;
   
-  cursor: move;
-  transform: rotate(56deg);
+  cursor: ns-resize;
+  transform: rotate(${(props) => props.rotate}deg);
 `;
 
 const EqKnobRevolvePointer = styled.div<{
@@ -83,21 +84,35 @@ const EqKnobRevolvePointer = styled.div<{
 
 export function Knob(props: KnobProps) {
   const { isEnabled, name, leftLabel, rightLabel, ...rest } = props;
+  const isKnobInTouch = useRef(false);
+  const [rotate, setRotate] = useState(0);
+
+  const handleOnMouseDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    isKnobInTouch.current = true;
+  };
+
+  const handleOnMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    if (isKnobInTouch.current) {
+      const { clientY } = e;
+      console.log();
+      
+      setRotate(clientY);
+    }
+  };
+
+  const handleOnMouseUp = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    isKnobInTouch.current = false;
+  };
+
   return (
     <EqKnob {...rest}>
       <EqKnobControl>
         <EqKnobRevolveControlContainer>
           <EqKnobRevolveControl
-            percentage={0}
-            onMouseDown={(e) => {
-              console.log(e);
-            }}
-            onMouseMove={(e) => {
-              console.log(e);
-            }}
-            onMouseUp={(e) => {
-              console.log(e);
-            }}
+            rotate={rotate}
+            onMouseDown={(e) => handleOnMouseDown(e)}
+            onMouseMove={(e) => handleOnMouseMove(e)}
+            onMouseUp={(e) => handleOnMouseUp(e)}
           >
             <EqKnobRevolvePointer isActive={isEnabled} />
           </EqKnobRevolveControl>
