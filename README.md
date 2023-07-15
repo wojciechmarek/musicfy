@@ -21,7 +21,6 @@ A demo is available at [https://musicfy-omega.vercel.app/](https://musicfy-omega
 - 🧪 Testing: ~~cypress, jest~~
 - ☁️ Data source: ~~Spotify API~~ hardcoded song
 - 💎 Others: desktop-first approach, ~~progressive web app, atomic design~~
-
 ## How to start
 
 1. Clone the repository.

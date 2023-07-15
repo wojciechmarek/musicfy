@@ -12,11 +12,14 @@ export function AudioPlayerService() {
   const dispatch = useDispatch();
   const { seekToTime, isPlaying } = useSelector((state: RootState) => state.playback.audio);
   const { level, isMuted } = useSelector((state: RootState) => state.playback.volume);
+  const { url } = useSelector((state: RootState) => state.playback.audio.url);
 
   const songTimeInSeconds = useRef(0);
 
   // SOUND OBJECT
-  const audio = useRef<HTMLAudioElement>(new Audio(song));
+  const audio = useRef<HTMLAudioElement>(new Audio("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"));
+
+
 
   // EVENT LISTENERS
   audio.current.addEventListener('timeupdate', () => {
@@ -71,6 +74,11 @@ export function AudioPlayerService() {
   useEffect(() => {
     audio.current.muted = isMuted;
   }, [audio, isMuted]);
+
+  // URL
+  useEffect(() => {
+    audio.current = new Audio(url);
+  }, [audio, url]);
 
   return null;
 }

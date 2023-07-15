@@ -95,14 +95,14 @@ export function Equalizer(props: EqualizerProps) {
             isEnabled={isEqualizerEnabled}
           />
           <Knob
-            className="channel"
+            className="channel is-small"
             name="Channel"
             leftLabel="LEFT"
             rightLabel="RIGHT"
             isEnabled={isEqualizerEnabled}
           />
           <Knob
-            className="boost"
+            className="boost is-small"
             name="Boost"
             leftLabel="MIN"
             rightLabel="MAX"

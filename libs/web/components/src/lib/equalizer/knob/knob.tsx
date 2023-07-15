@@ -9,6 +9,7 @@ export interface KnobProps {
   leftLabel: string;
   rightLabel: string;
   isEnabled?: boolean;
+  isSmall?: boolean;
 }
 
 const EqKnob = styled.div`
@@ -19,7 +20,9 @@ const EqKnob = styled.div`
   position: relative;
 `;
 
-const EqKnobLabel = styled.p`
+const EqKnobLabel = styled.p<{
+  isLarge?: boolean;
+}>`
   color: white;
   font-size: 0.75em;
   font-weight: bold;
@@ -27,12 +30,13 @@ const EqKnobLabel = styled.p`
 
   &:nth-of-type(1),
   &:nth-of-type(3) {
-    margin: auto 0 2em;
+    margin: ${(props) => (props.isLarge ? '0.5em 0' : 'auto 0 1.25em')};
   }
 
   &:nth-of-type(2) {
-    margin-top: 1em;
+    margin-top: ${(props) => (props.isLarge ? '0.5em' : '0.25em')};
   }
+
 `;
 
 const EqKnobControl = styled.div`
@@ -54,7 +58,6 @@ const EqKnobRevolveControlContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-
 `;
 
 const EqKnobRevolveControl = styled.div<{

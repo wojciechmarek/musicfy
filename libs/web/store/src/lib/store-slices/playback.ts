@@ -6,6 +6,7 @@ export interface PlaybackState {
     isPlaying: boolean;
     currentTime: number;
     seekToTime: number;
+    url: string;
   };
   mode: {
     isShuffling: boolean;
@@ -31,6 +32,7 @@ const initialState: PlaybackState = {
     isPlaying: false,
     currentTime: 0,
     seekToTime: 0,
+    url: '',
   },
   mode: {
     isShuffling: false,
@@ -55,6 +57,9 @@ export const playbackSlice = createSlice({
   name: 'playback',
   initialState,
   reducers: {
+    setUrl: (state, action: PayloadAction<string>) => {
+      state.audio.url = action.payload;
+    },
     setIsPlaying: (state, action: PayloadAction<boolean>) => {
       state.audio.isPlaying = action.payload;
     },
@@ -99,6 +104,7 @@ export const {
   setIsShuffling,
   setIsRepeating,
   setTrackDuration,
+  setUrl,
 } = playbackSlice.actions;
 
 export default playbackSlice.reducer;

@@ -43,15 +43,25 @@ const NavigationButton = styled.button`
     background-color: #2b31df;
     box-shadow: 0 0 10px #2b31df;
     border-radius: 50%;
+
+    &:hover {
+      background-color: #4a4feb;
+    }
+  }
+
+  .play__icon {
+    position: relative;
+    left: 0.125em;
   }
 `;
+
 
 export function PlayButtons(props: PlayButtonsProps) {
   const { isPlaying, onClick } = props;
 
   const [isAudioPlaying, setIsAudioPlaying] = useState(isPlaying);
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const onPlayPauseClick = () => {
     if (!isAudioPlaying) {
@@ -60,8 +70,8 @@ export function PlayButtons(props: PlayButtonsProps) {
       onClick(PlayerNavigationButtonAction.Play);
     } else {
       dispatch(setIsPlaying(false));
-       setIsAudioPlaying(false);
-        onClick(PlayerNavigationButtonAction.Pause);
+      setIsAudioPlaying(false);
+      onClick(PlayerNavigationButtonAction.Pause);
     }
   };
 
@@ -77,10 +87,10 @@ export function PlayButtons(props: PlayButtonsProps) {
         <Rewind />
       </NavigationButton>
       <NavigationButton
-        className='play-pause__button'
+        className="play-pause__button"
         onClick={onPlayPauseClick}
       >
-        {isAudioPlaying ? <Pause /> : <Play />}
+          {isAudioPlaying ? <Pause /> : <Play className="play__icon"/>}
       </NavigationButton>
       <NavigationButton
         onClick={() => onClick(PlayerNavigationButtonAction.FastForward)}
