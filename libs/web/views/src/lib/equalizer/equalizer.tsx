@@ -80,7 +80,7 @@ export function Equalizer(props: EqualizerProps) {
   return (
     <EqualizerContainer>
       <EqualizerContent>
-        <EqualizerTitle>Welcome to Equalizer!</EqualizerTitle>
+        <EqualizerTitle>EQUALIZER AVR-X1700H</EqualizerTitle>
         <EqContainer>
           <Power
             className="power"

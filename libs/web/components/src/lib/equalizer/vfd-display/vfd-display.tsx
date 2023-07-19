@@ -41,6 +41,16 @@ const VfdControl = styled.p<{
   text-shadow: ${(props) => (props.isActive ? '0 0 10px #1caeae' : 'none')};
 `;
 
+const VfdControlRed = styled.p<{
+  isActive: boolean;
+}>`
+  font-size: 1em;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: ${(props) => (props.isActive ? '#9c341a' : '#250c06')};
+  text-shadow: 0 0 10px ${(props) => (props.isActive ? '#9c341a ' : 'none')};
+`;
+
 const frequenciesHeaders = [
   '32',
   '64',
@@ -65,7 +75,7 @@ export function VfdDisplay(props: VfdDisplayProps) {
     (state: RootState) => state.playback.mode
   );
 
-  const { frequencies } = useSelector((state: RootState) => state.equalizer);
+  const { frequencies, isKaraoke, isError } = useSelector((state: RootState) => state.equalizer);
 
   return (
     <VfdDisplayContainer {...rest}>
@@ -87,6 +97,8 @@ export function VfdDisplay(props: VfdDisplayProps) {
         <VfdControl isActive={isEnabled && isRepeating}>REPEAT</VfdControl>
         <VfdControl isActive={isEnabled && isShuffling}>SHUFFLE</VfdControl>
         <VfdControl isActive={isEnabled && isMuted}>MUTED</VfdControl>
+        <VfdControl isActive={isEnabled && isKaraoke}>KARAOKE</VfdControl>
+        <VfdControlRed isActive={isEnabled && isError}>ERROR</VfdControlRed>
       </VfdControls>
     </VfdDisplayContainer>
   );
