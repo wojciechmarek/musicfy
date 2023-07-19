@@ -115,7 +115,7 @@ export function InternetRadio(props: InternetRadioProps) {
   return (
     <RadioContainer>
       <RadioContent>
-        <Header>Demo songs</Header>
+        <Header>Internet radio</Header>
         <Content>
           {radioStations.map((station) => (
             <Radio key={station.id}>

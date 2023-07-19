@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import {
+  CassetteTape,
   Home,
   ListMusic,
   PlaySquare,
@@ -14,8 +15,8 @@ import { Link, NavLink } from 'react-router-dom';
 
 const links = [
   {
-    icon: <Home />,
-    text: 'Demo songs',
+    icon: <CassetteTape />,
+    text: 'Tape',
     path: '/',
   },
   {

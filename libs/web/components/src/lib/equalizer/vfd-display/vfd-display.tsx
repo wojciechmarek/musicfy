@@ -15,10 +15,11 @@ const VfdDisplayContainer = styled.div`
   border-radius: 0.5em;
   display: flex;
   flex-direction: column;
+  padding: 0.5em 0;
 `;
 
 const VfdAnalyzersRow = styled.div`
-  padding: 1.25em 1.25em 0.5em;
+  padding: 0 1.25em;
   display: flex;
   flex: 1;
   gap: 2em;
@@ -28,7 +29,7 @@ const VfdAnalyzersRow = styled.div`
 const VfdControls = styled.div`
   display: flex;
   gap: 1em;
-  padding: 0.5em 1.25em 1.25em;
+  padding: 0.25em 1.25em;
 `;
 
 const VfdControl = styled.p<{
@@ -68,9 +69,14 @@ const frequenciesHeaders = [
 export function VfdDisplay(props: VfdDisplayProps) {
   const { isEnabled, ...rest } = props;
 
+  const { source } = useSelector(
+    (state: RootState) => state.playback.audio
+  );
+
   const { isMuted, level } = useSelector(
     (state: RootState) => state.playback.volume
   );
+
   const { isRepeating, isShuffling } = useSelector(
     (state: RootState) => state.playback.mode
   );
@@ -79,6 +85,11 @@ export function VfdDisplay(props: VfdDisplayProps) {
 
   return (
     <VfdDisplayContainer {...rest}>
+      <VfdControls>
+        <VfdControl isActive={isEnabled && source === 'tape'}>TAPE</VfdControl>
+        <VfdControl isActive={isEnabled && source === 'internet-radio'}>INTERNET RADIO</VfdControl>
+        <VfdControl isActive={isEnabled && source === 'spotify'}>SPOTIFY</VfdControl>
+      </VfdControls>
       <VfdAnalyzersRow>
         <VfdSpectrumAnalyzer
           isEnabled={isEnabled}

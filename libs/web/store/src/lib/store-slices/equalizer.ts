@@ -12,7 +12,6 @@ export interface EqualizerState {
     rightValue: number;
   };
   frequencies: number[];
-
 }
 
 const initialState: EqualizerState = {

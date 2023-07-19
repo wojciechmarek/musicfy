@@ -7,6 +7,7 @@ export interface PlaybackState {
     currentTime: number;
     seekToTime: number;
     url: string;
+    source: 'tape' | 'internet-radio' | 'spotify';
   };
   mode: {
     isShuffling: boolean;
@@ -33,6 +34,7 @@ const initialState: PlaybackState = {
     currentTime: 0,
     seekToTime: 0,
     url: '',
+    source: 'tape',
   },
   mode: {
     isShuffling: false,

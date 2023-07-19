@@ -119,7 +119,7 @@ export function DemoSongs(props: DemoSongsProps) {
   return (
     <DemoContainer>
       <DemoContent>
-        <Header>Demo songs</Header>
+        <Header>Tape Cassette RIP</Header>
         <Content>
           {demoSongs.map((song) => (
             <Song key={song.id}>
