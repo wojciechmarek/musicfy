@@ -1,22 +1,19 @@
 import styled from '@emotion/styled';
 import {
-  CassetteTape,
-  Home,
-  ListMusic,
+  Music4,
   PlaySquare,
   Radio,
   Settings,
   Sliders,
-  TrendingUp,
   Tv2,
 } from 'lucide-react';
 
-import { Link, NavLink } from 'react-router-dom';
+import {  NavLink } from 'react-router-dom';
 
 const links = [
   {
-    icon: <CassetteTape />,
-    text: 'Tape',
+    icon: <Music4 />,
+    text: 'Demo',
     path: '/',
   },
   {
@@ -42,11 +39,14 @@ const links = [
     text: 'Equalizer',
     path: '/equalizer',
   },
-  // {
-  //   icon: <Settings />,
-  //   text: 'Settings',
-  //   path: '/settings',
-  // },
+  {
+    text: 'br',
+  },
+  {
+    icon: <Settings />,
+    text: 'Settings',
+    path: '/settings',
+  },
 ];
 
 /* eslint-disable-next-line */

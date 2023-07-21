@@ -5,6 +5,7 @@ import { InputHTMLAttributes, useEffect, useState } from 'react';
 export interface ProgressBarProps {
   currentTime: number;
   totalTime: number;
+  isRadio: boolean;
   handleProgressBarChange: (value: number) => void;
 }
 
@@ -20,12 +21,17 @@ const MusicCurrentTime = styled.p`
   color: white;
 `;
 
-const MusicProgress = styled.input`
+const MusicProgress = styled.input<{
+  isDisabled: boolean;
+}>`
   height: 0.25em;
   width: 100%;
   flex: 1;
   margin: 0 1em;
   box-shadow: 0 0 10px #2b31df;
+  cursor: ${(props) => (props.isDisabled ? 'default' : 'pointer')};
+  opacity: ${(props) => (props.isDisabled ? 0.3 : 1)};
+  pointer-events: ${(props) => (props.isDisabled ? 'none' : 'all')};
 `;
 
 const MusicTotalTime = styled.p`
@@ -33,11 +39,11 @@ const MusicTotalTime = styled.p`
 `;
 
 export function ProgressBar(props: ProgressBarProps) {
-  const { currentTime, totalTime, handleProgressBarChange } = props;
+  const { currentTime, totalTime, isRadio, handleProgressBarChange } = props;
   const [timeForm, setTimeForm] = useState("");
 
   let totalTimeFormatted = "";
-  if (totalTime === -1) {
+  if (isRadio) {
     totalTimeFormatted = "🔴 LIVE";
   } else {
     const totalTimeForm = new Date(totalTime * 1000);
@@ -50,9 +56,7 @@ export function ProgressBar(props: ProgressBarProps) {
     const progress = Number.parseInt(e.currentTarget.value);
     handleProgressBarChange(progress);
   }
-    
 
-  
   useEffect(() => {
     const time = new Date(currentTime * 1000);
     const timeForm = `${time.getMinutes() < 10 ? "0" + time.getMinutes() : time.getMinutes()}:${
@@ -65,6 +69,7 @@ export function ProgressBar(props: ProgressBarProps) {
     <PlayerMusicProgress>
       <MusicCurrentTime>{timeForm}</MusicCurrentTime>
       <MusicProgress
+        isDisabled={isRadio}
         type="range"
         min={0}
         max={totalTime}

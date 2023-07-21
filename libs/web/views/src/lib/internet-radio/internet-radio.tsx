@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { RootState, setUrl } from '@musicfy/web/store';
+import { RootState, Track, setAudioSource, setIsRadio, setIsRepeating, setIsShuffling, setTrack, setUrl } from '@musicfy/web/store';
 import { Play } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -47,11 +47,12 @@ const Radio = styled.div`
 
 const RadioImage = styled.div`
   height: 7em;
+  width: 7em;
 
   img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     border-radius: 0.5em;
   }
 `;
@@ -105,10 +106,23 @@ export function InternetRadio(props: InternetRadioProps) {
   const radioStations = useSelector((state:RootState) => state.radio.stations);
   const dispatch = useDispatch();
 
-  const onPlayClick = (id: string) => {
+  const onPlayClick = (id: number) => {
     const radioToPlay = radioStations.find((radio) => radio.id === id);
     if (radioToPlay) {
+      const track: Track = {
+        id: radioToPlay.id,
+        title: radioToPlay.title,
+        artist: radioToPlay.description,
+        coverUrl: radioToPlay.cover,
+        duration: -1,
+      };
+
       dispatch(setUrl(radioToPlay.url));
+      dispatch(setIsRadio(true));
+      dispatch(setAudioSource("internet-radio"));
+      dispatch(setIsShuffling(false));
+      dispatch(setIsRepeating(false));
+      dispatch(setTrack(track));
     }
   }
 
@@ -124,7 +138,7 @@ export function InternetRadio(props: InternetRadioProps) {
               </RadioImage>
               <RadioInfo>
                 <RadioInfoTitle>{station.title}</RadioInfoTitle>
-                <RadioInfoDuration>{station.country}</RadioInfoDuration>
+                <RadioInfoDuration>{station.description}</RadioInfoDuration>
               </RadioInfo>
               <RadioPlay>
                 <PlayIconButton onClick={() => onPlayClick(station.id)}>

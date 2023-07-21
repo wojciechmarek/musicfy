@@ -1,9 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 export interface RadioStation {
-  id: string;
+  id: number;
   title: string;
-  country: string;
+  description: string;
   cover: string;
   url: string;
 }
@@ -15,25 +15,25 @@ export interface RadioState {
 const radioState: RadioState = {
   stations: [
     {
-      id: '1',
+      id: 1,
       title: 'RFM FM',
-      country: 'Poland',
-      cover: 'https://picsum.photos/300/300/',
-      url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
+      description: 'Polish General Radio',
+      cover: 'https://upload.wikimedia.org/wikipedia/commons/c/ca/RMF_FM_logotyp_2022.png',
+      url: 'https://rs6-krk2.rmfstream.pl/rmf_fm',
     },
     {
-      id: '2',
+      id: 2,
       title: 'Radio ZET',
-      country: 'Poland',
-      cover: 'https://picsum.photos/303/340/',
-      url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3',
+      description: 'Polish General Radio',
+      cover: 'https://upload.wikimedia.org/wikipedia/commons/4/4b/Radio_ZET_logo.png',
+      url: 'https://r.dcs.redcdn.pl/sc/o2/Eurozet/live/audio.livx',
     },
     {
-      id: '3',
-      title: 'Polish Radio 3',
-      country: 'Poland',
-      cover: 'https://picsum.photos/300/300/',
-      url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3',
+      id: 3,
+      title: 'Radio Maryja',
+      description: 'Polish Religious Radio',
+      cover: 'https://upload.wikimedia.org/wikipedia/en/c/cc/Radio-Maryja1.jpg',
+      url: 'https://radiomaryja.fastcast4u.com/proxy/radiomaryja?mp=/1',
     },
   ]
 };
@@ -41,13 +41,7 @@ const radioState: RadioState = {
 export const radioSlice = createSlice({
   name: 'radio',
   initialState: radioState,
-  reducers: {
-    addStation: (state, action) => {
-      state.stations.push(action.payload);
-    }
-  }
+  reducers: {}
 });
-
-export const { addStation } = radioSlice.actions;
 
 export default radioSlice.reducer;

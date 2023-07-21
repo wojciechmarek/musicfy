@@ -14,6 +14,7 @@ export enum PlayerNavigationButtonAction {
 }
 export interface PlayButtonsProps {
   isPlaying: boolean;
+  isRadio: boolean;
   onClick: (actp: PlayerNavigationButtonAction) => void;
 }
 
@@ -24,7 +25,9 @@ const PlayerNavigationButtons = styled.div`
   gap: 0.25em;
 `;
 
-const NavigationButton = styled.button`
+const NavigationButton = styled.button<{
+  isDisabled?: boolean;
+}>`
   background-color: transparent;
   border: none;
   color: white;
@@ -34,6 +37,8 @@ const NavigationButton = styled.button`
   cursor: pointer;
   transition: background-color 0.2s ease-in-out;
   border-radius: 0.5em;
+  opacity: ${(props) => (props.isDisabled ? 0.3 : 1)};
+  pointer-events: ${(props) => (props.isDisabled ? 'none' : 'all')};
 
   &:hover {
     background-color: #2a2b32;
@@ -57,7 +62,7 @@ const NavigationButton = styled.button`
 
 
 export function PlayButtons(props: PlayButtonsProps) {
-  const { isPlaying, onClick } = props;
+  const { isPlaying, isRadio, onClick } = props;
 
   const [isAudioPlaying, setIsAudioPlaying] = useState(isPlaying);
 
@@ -82,6 +87,7 @@ export function PlayButtons(props: PlayButtonsProps) {
   return (
     <PlayerNavigationButtons>
       <NavigationButton
+        isDisabled={isRadio}
         onClick={() => onClick(PlayerNavigationButtonAction.Rewind)}
       >
         <Rewind />
@@ -93,6 +99,7 @@ export function PlayButtons(props: PlayButtonsProps) {
           {isAudioPlaying ? <Pause /> : <Play className="play__icon"/>}
       </NavigationButton>
       <NavigationButton
+        isDisabled={isRadio}
         onClick={() => onClick(PlayerNavigationButtonAction.FastForward)}
       >
         <FastForward />

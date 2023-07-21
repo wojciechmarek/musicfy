@@ -3,16 +3,17 @@ import {
   RootState,
   setCurrentTime,
   setFrequencies,
+  setIsPlaying,
   setTrackDuration,
 } from '@musicfy/web/store';
 import song from './Gran Error x Elvana Gjata x ANTONIA - Clap Clap.mp3';
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 
 export function AudioPlayerService() {
   const dispatch = useDispatch();
   const { seekToTime, isPlaying } = useSelector((state: RootState) => state.playback.audio);
   const { level, isMuted } = useSelector((state: RootState) => state.playback.volume);
-  const { url } = useSelector((state: RootState) => state.playback.audio.url);
+  const { url } = useSelector((state: RootState) => state.playback.audio);
 
   const songTimeInSeconds = useRef(0);
 
@@ -41,24 +42,15 @@ export function AudioPlayerService() {
   // audioSrc.connect(audioCtx.destination);
   // const timeDomainData = new Uint8Array(11);
 
-  // --- EFFECTS ---
-  // PLAY/PAUSE and setInterval to update to played time
+
+  // PLAY/PAUSE
   useEffect(() => {
     if (isPlaying) {
       audio.current.play();
-
-      const songDuration = audio.current.duration;
-      const songDurationInSeconds = Math.floor(songDuration);
-      dispatch(setTrackDuration(songDurationInSeconds));
-
-      // setInterval(() => {
-      //   // analyser.getByteTimeDomainData(timeDomainData);
-      //   // dispatch(setFrequencies(Array.from(timeDomainData)));
-      // }, 70);
     } else {
       audio.current.pause();
     }
-  }, [isPlaying, audio, dispatch]);
+  }, [isPlaying]);
 
   // SEEK TO TIME
   useEffect(() => { 
@@ -77,7 +69,9 @@ export function AudioPlayerService() {
 
   // URL
   useEffect(() => {
+    audio.current.pause();
     audio.current = new Audio(url);
+    audio.current.play();
   }, [audio, url]);
 
   return null;

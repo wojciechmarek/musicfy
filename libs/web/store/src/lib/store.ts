@@ -1,19 +1,19 @@
 import { configureStore } from '@reduxjs/toolkit';
 import playbackReducer from './store-slices/playback';
 import suggestionReducer from './store-slices/suggestions';
-import searchReducer from './store-slices/search';
 import equalizerReducer from './store-slices/equalizer';
 import demoReducer from './store-slices/demo';
 import radioReducer from './store-slices/radio';
+import spotifySlice from './store-slices/spotify';
 
 export const store = configureStore({
   reducer: {
     playback: playbackReducer,
     suggestions: suggestionReducer,
-    search: searchReducer,
     equalizer: equalizerReducer,
     demo: demoReducer,
     radio: radioReducer,
+    spotify: spotifySlice,
   },
 });
 

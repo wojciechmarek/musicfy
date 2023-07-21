@@ -86,7 +86,7 @@ export function VfdDisplay(props: VfdDisplayProps) {
   return (
     <VfdDisplayContainer {...rest}>
       <VfdControls>
-        <VfdControl isActive={isEnabled && source === 'tape'}>TAPE</VfdControl>
+        <VfdControl isActive={isEnabled && source === 'demo'}>DEMO SONGS</VfdControl>
         <VfdControl isActive={isEnabled && source === 'internet-radio'}>INTERNET RADIO</VfdControl>
         <VfdControl isActive={isEnabled && source === 'spotify'}>SPOTIFY</VfdControl>
       </VfdControls>

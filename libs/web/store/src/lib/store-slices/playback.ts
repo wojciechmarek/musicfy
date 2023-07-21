@@ -1,13 +1,21 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
+export interface Track {
+  id: number;
+  title: string;
+  artist: string;
+  duration: number;
+  coverUrl: string;
+}
+
 export interface PlaybackState {
   audio: {
     isPlaying: boolean;
     currentTime: number;
     seekToTime: number;
     url: string;
-    source: 'tape' | 'internet-radio' | 'spotify';
+    source: 'demo' | 'internet-radio' | 'spotify';
   };
   mode: {
     isShuffling: boolean;
@@ -18,14 +26,7 @@ export interface PlaybackState {
     level: number;
     isMuted: boolean;
   };
-  track: {
-    id: string;
-    name: string;
-    artist: string;
-    album: string;
-    duration: number;
-    image: string;
-  };
+  track: Track;
 }
 
 const initialState: PlaybackState = {
@@ -34,24 +35,23 @@ const initialState: PlaybackState = {
     currentTime: 0,
     seekToTime: 0,
     url: '',
-    source: 'tape',
+    source: 'demo',
   },
   mode: {
     isShuffling: false,
     isRepeating: false,
-    isRadio: true,
+    isRadio: false,
   },
   volume: {
     level: 34,
     isMuted: false,
   },
   track: {
-    id: '',
-    name: '',
+    id: 0,
+    title: '',
     artist: '',
-    album: '',
-    duration: 145,
-    image: '',
+    duration: 0,
+    coverUrl: '',
   },
 };
 
@@ -88,11 +88,14 @@ export const playbackSlice = createSlice({
     setVolume: (state, action: PayloadAction<number>) => {
       state.volume.level = action.payload;
     },
-    setTrack: (state, action: PayloadAction<PlaybackState['track']>) => {
+    setTrack: (state, action: PayloadAction<Track>) => {
       state.track = action.payload;
     },
     setTrackDuration: (state, action: PayloadAction<number>) => {
       state.track.duration = action.payload;
+    },
+    setAudioSource: (state, action: PayloadAction<'demo' | 'internet-radio' | 'spotify'>) => {
+      state.audio.source = action.payload;
     }
   },
 });
@@ -105,7 +108,10 @@ export const {
   setVolume,
   setIsShuffling,
   setIsRepeating,
+  setIsRadio,
+  setTrack,
   setTrackDuration,
+  setAudioSource,
   setUrl,
 } = playbackSlice.actions;
 

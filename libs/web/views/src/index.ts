@@ -9,3 +9,4 @@ export * from './lib/audio-player-service/audio-player-service';
 export * from './lib/demo-songs/demo-songs';
 export * from './lib/spotify/spotify';
 export * from './lib/internet-radio/internet-radio';
+export * from './lib/settings/settings';

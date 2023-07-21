@@ -1,7 +1,11 @@
 import styled from '@emotion/styled';
 
 /* eslint-disable-next-line */
-export interface SongDetailsProps {}
+export interface SongDetailsProps {
+  title: string;
+  author: string;
+  coverUrl: string;
+}
 
 const PlayerMusicInfo = styled.div`
   display: flex;
@@ -44,17 +48,18 @@ export const MusicAuthor = styled.p`
 
 
 export function SongDetails(props: SongDetailsProps) {
+  const { title, author, coverUrl } = props;
   return (
     <PlayerMusicInfo>
       <MusicThumbnail>
         <MusicThumbnailImage
-          src="https://picsum.photos/300/300"
+          src={coverUrl}
           alt="music thumbnail"
         />
       </MusicThumbnail>
       <MusicTitleAuthor>
-        <MusicTitle>Clap Clap</MusicTitle>
-        <MusicAuthor>Gran Error x Elvana Gjata x ANTONIA</MusicAuthor>
+        <MusicTitle>{title}</MusicTitle>
+        <MusicAuthor>{author}</MusicAuthor>
       </MusicTitleAuthor>
     </PlayerMusicInfo>
   );
