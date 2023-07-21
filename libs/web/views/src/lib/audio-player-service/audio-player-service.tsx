@@ -2,25 +2,20 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   RootState,
   setCurrentTime,
-  setFrequencies,
-  setIsPlaying,
-  setTrackDuration,
 } from '@musicfy/web/store';
-import song from './Gran Error x Elvana Gjata x ANTONIA - Clap Clap.mp3';
-import { useCallback, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 export function AudioPlayerService() {
   const dispatch = useDispatch();
-  const { seekToTime, isPlaying } = useSelector((state: RootState) => state.playback.audio);
+
+  const { seekToTime, isPlaying, url,  } = useSelector((state: RootState) => state.playback.audio);
+  const { isRadio } = useSelector((state: RootState) => state.playback.mode);
   const { level, isMuted } = useSelector((state: RootState) => state.playback.volume);
-  const { url } = useSelector((state: RootState) => state.playback.audio);
 
   const songTimeInSeconds = useRef(0);
 
   // SOUND OBJECT
-  const audio = useRef<HTMLAudioElement>(new Audio("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"));
-
-
+  const audio = useRef<HTMLAudioElement>(new Audio());
 
   // EVENT LISTENERS
   audio.current.addEventListener('timeupdate', () => {
@@ -43,9 +38,11 @@ export function AudioPlayerService() {
   // const timeDomainData = new Uint8Array(11);
 
 
+  // --------------------------------------------------
+
   // PLAY/PAUSE
   useEffect(() => {
-    if (isPlaying) {
+    if (isPlaying && audio.current.paused) {
       audio.current.play();
     } else {
       audio.current.pause();
@@ -71,7 +68,10 @@ export function AudioPlayerService() {
   useEffect(() => {
     audio.current.pause();
     audio.current = new Audio(url);
-    audio.current.play();
+
+    if (url) {
+      audio.current.play();
+    }
   }, [audio, url]);
 
   return null;

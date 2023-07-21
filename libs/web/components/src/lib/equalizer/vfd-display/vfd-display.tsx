@@ -38,7 +38,6 @@ const VfdControl = styled.p<{
   color: ${(props) => (props.isActive ? '#1caeae;' : '#062626')};
   font-size: 1em;
   font-weight: bold;
-  text-transform: uppercase;
   text-shadow: ${(props) => (props.isActive ? '0 0 10px #1caeae' : 'none')};
 `;
 
@@ -81,7 +80,7 @@ export function VfdDisplay(props: VfdDisplayProps) {
     (state: RootState) => state.playback.mode
   );
 
-  const { frequencies, isKaraoke, isError } = useSelector((state: RootState) => state.equalizer);
+  const { frequencies, isKaraoke, isMicrophoneSource, isStereo } = useSelector((state: RootState) => state.equalizer);
 
   return (
     <VfdDisplayContainer {...rest}>
@@ -89,6 +88,7 @@ export function VfdDisplay(props: VfdDisplayProps) {
         <VfdControl isActive={isEnabled && source === 'demo'}>DEMO SONGS</VfdControl>
         <VfdControl isActive={isEnabled && source === 'internet-radio'}>INTERNET RADIO</VfdControl>
         <VfdControl isActive={isEnabled && source === 'spotify'}>SPOTIFY</VfdControl>
+        <VfdControlRed isActive={isEnabled && isMicrophoneSource}>MICROPHONE</VfdControlRed>
       </VfdControls>
       <VfdAnalyzersRow>
         <VfdSpectrumAnalyzer
@@ -104,12 +104,11 @@ export function VfdDisplay(props: VfdDisplayProps) {
       </VfdAnalyzersRow>
       <VfdControls>
         <VfdControl isActive={isEnabled}>Hi-Fi</VfdControl>
-        <VfdControl isActive={isEnabled}>STEREO</VfdControl>
+        <VfdControl isActive={isEnabled && isStereo}>STEREO</VfdControl>
         <VfdControl isActive={isEnabled && isRepeating}>REPEAT</VfdControl>
         <VfdControl isActive={isEnabled && isShuffling}>SHUFFLE</VfdControl>
         <VfdControl isActive={isEnabled && isMuted}>MUTED</VfdControl>
         <VfdControl isActive={isEnabled && isKaraoke}>KARAOKE</VfdControl>
-        <VfdControlRed isActive={isEnabled && isError}>ERROR</VfdControlRed>
       </VfdControls>
     </VfdDisplayContainer>
   );

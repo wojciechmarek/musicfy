@@ -4,7 +4,7 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 export interface EqualizerState {
   isEnabled: boolean;
   isStereo: boolean;
-  isError: boolean;
+  isMicrophoneSource: boolean;
   isKaraoke: boolean;
   channel: {
     balance: number;
@@ -17,7 +17,7 @@ export interface EqualizerState {
 const initialState: EqualizerState = {
   isEnabled: false,
   isStereo: true,
-  isError: false,
+  isMicrophoneSource: false,
   isKaraoke: false,
   channel: {
     balance: 50,
@@ -37,21 +37,21 @@ export const equalizerSlice = createSlice({
     setFrequencies: (state, action: PayloadAction<number[]>) => {
       state.frequencies = action.payload;
     },
-    setStereo: (state, action: PayloadAction<boolean>) => {
+    setIsStereo: (state, action: PayloadAction<boolean>) => {
       state.isStereo = action.payload;
     },
-    setKaraoke: (state, action: PayloadAction<boolean>) => {
+    setIsKaraoke: (state, action: PayloadAction<boolean>) => {
       state.isKaraoke = action.payload;
     },
     setBalance: (state, action: PayloadAction<number>) => {
       state.channel.balance = action.payload;
     },
-    setError: (state, action: PayloadAction<boolean>) => {
-      state.isError = action.payload;
+    setIsMicrophoneSource: (state, action: PayloadAction<boolean>) => {
+      state.isMicrophoneSource = action.payload;
     }
   },
 });
 
-export const { setIsEnabled, setFrequencies, setKaraoke, setError } = equalizerSlice.actions;
+export const { setIsEnabled, setIsStereo, setFrequencies, setIsKaraoke, setIsMicrophoneSource } = equalizerSlice.actions;
 
 export default equalizerSlice.reducer;

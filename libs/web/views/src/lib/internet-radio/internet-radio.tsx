@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { RootState, Track, setAudioSource, setIsRadio, setIsRepeating, setIsShuffling, setTrack, setUrl } from '@musicfy/web/store';
+import { RootState, Track, setAudioSource, setIsPlaying, setIsRadio, setIsRepeating, setIsShuffling, setTrack, setUrl } from '@musicfy/web/store';
 import { Play } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -114,10 +114,10 @@ export function InternetRadio(props: InternetRadioProps) {
         title: radioToPlay.title,
         artist: radioToPlay.description,
         coverUrl: radioToPlay.cover,
-        duration: -1,
       };
 
       dispatch(setUrl(radioToPlay.url));
+      dispatch(setIsPlaying(true));
       dispatch(setIsRadio(true));
       dispatch(setAudioSource("internet-radio"));
       dispatch(setIsShuffling(false));
