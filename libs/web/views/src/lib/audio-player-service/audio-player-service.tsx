@@ -16,6 +16,27 @@ export function AudioPlayerService() {
 
   // SOUND OBJECT
   const audio = useRef<HTMLAudioElement>(new Audio());
+  const context = new window.AudioContext();
+
+  // ANALYSER
+  const analyser = context.createAnalyser();
+  // analyser.minDecibels = -90;
+  // analyser.maxDecibels = -10;
+  // analyser.smoothingTimeConstant = 0.85;
+
+  const distortion = context.createWaveShaper();
+  const gainNode = context.createGain();
+  const biquadFilter = context.createBiquadFilter();
+  const convolver = context.createConvolver();
+
+  // BARS
+  analyser.fftSize = 32;
+  analyser.minDecibels = -90;
+  analyser.maxDecibels = -10;
+  analyser.smoothingTimeConstant = 0.85;
+  analyser.connect(context.destination);
+  const bufferLength = analyser.frequencyBinCount;
+  const dataArray = new Uint8Array(bufferLength);
 
   // EVENT LISTENERS
   audio.current.addEventListener('timeupdate', () => {
@@ -25,11 +46,13 @@ export function AudioPlayerService() {
     if (currentSongTimeInSeconds > songTimeInSeconds.current) {
       songTimeInSeconds.current = currentSongTimeInSeconds;
       dispatch(setCurrentTime(currentSongTimeInSeconds));
+
+      analyser.getByteFrequencyData(dataArray);
+      console.log(dataArray);
     }
   });
 
   // AUDIO PROCESSING
-  const audioCtx = new window.AudioContext();
   // const audioSrc = audioCtx.createMediaElementSource(audio.current);
   // const analyser = audioCtx.createAnalyser();
   // // Bind analyser to media element source.

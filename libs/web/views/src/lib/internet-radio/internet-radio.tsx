@@ -1,6 +1,16 @@
 import styled from '@emotion/styled';
-import { RootState, Track, setAudioSource, setIsPlaying, setIsRadio, setIsRepeating, setIsShuffling, setTrack, setUrl } from '@musicfy/web/store';
-import { Play } from 'lucide-react';
+import {
+  RootState,
+  Track,
+  setAudioSource,
+  setIsPlaying,
+  setIsRadio,
+  setIsRepeating,
+  setIsShuffling,
+  setTrack,
+  setUrl,
+} from '@musicfy/web/store';
+import { Pause, Play } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
 
 /* eslint-disable-next-line */
@@ -60,6 +70,8 @@ const RadioImage = styled.div`
 const RadioInfo = styled.div`
   flex: 1;
   margin-left: 1em;
+  display: flex;
+  flex-direction: column;
 `;
 
 const RadioInfoTitle = styled.h3`
@@ -72,7 +84,19 @@ const RadioInfoDuration = styled.p`
   color: #a0a0a0;
 `;
 
+const RadioInfoSpacer = styled.div`
+  flex: 1;
+`;
 
+const RadioInfoPlaying = styled.p`
+  margin: 0;
+  font-size: 0.75em;
+  background-color: #df582b;
+  padding: 0.35em 0.5em 0.25em;
+  border-radius: 0.5em;
+  font-weight: bold;
+  width: fit-content;
+`;
 
 const RadioPlay = styled.div`
   display: flex;
@@ -80,7 +104,7 @@ const RadioPlay = styled.div`
   justify-content: end;
 `;
 
-const PlayIconButton = styled.div` 
+const PlayIconButton = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -99,11 +123,15 @@ const PlayIconButton = styled.div`
     position: relative;
     left: 0.125em;
   }
-
 `;
 
 export function InternetRadio(props: InternetRadioProps) {
-  const radioStations = useSelector((state:RootState) => state.radio.stations);
+  const radioStations = useSelector((state: RootState) => state.radio.stations);
+  const isRadio = useSelector(
+    (state: RootState) => state.playback.mode.isRadio
+  );
+  const trackId = useSelector((state: RootState) => state.playback.track.id);
+
   const dispatch = useDispatch();
 
   const onPlayClick = (id: number) => {
@@ -119,12 +147,12 @@ export function InternetRadio(props: InternetRadioProps) {
       dispatch(setUrl(radioToPlay.url));
       dispatch(setIsPlaying(true));
       dispatch(setIsRadio(true));
-      dispatch(setAudioSource("internet-radio"));
+      dispatch(setAudioSource('internet-radio'));
       dispatch(setIsShuffling(false));
       dispatch(setIsRepeating(false));
       dispatch(setTrack(track));
     }
-  }
+  };
 
   return (
     <RadioContainer>
@@ -139,10 +167,18 @@ export function InternetRadio(props: InternetRadioProps) {
               <RadioInfo>
                 <RadioInfoTitle>{station.title}</RadioInfoTitle>
                 <RadioInfoDuration>{station.description}</RadioInfoDuration>
+                <RadioInfoSpacer />
+                {isRadio && trackId === station.id && (
+                  <RadioInfoPlaying>IS PLAYING</RadioInfoPlaying>
+                )}
               </RadioInfo>
               <RadioPlay>
                 <PlayIconButton onClick={() => onPlayClick(station.id)}>
-                  <Play size={20} className='icon' />
+                  {isRadio && trackId === station.id ? (
+                    <Pause size={20} className="icon" />
+                  ) : (
+                    <Play size={20} className="icon" />
+                  )}
                 </PlayIconButton>
               </RadioPlay>
             </Radio>

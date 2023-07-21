@@ -34,7 +34,7 @@ const ButtonsContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-`
+`;
 
 const EqContainer = styled.div`
   margin-top: 1em;
@@ -87,8 +87,13 @@ const EqContainer = styled.div`
     grid-row: 4 / span 1;
   }
 
-  .channel {
+  .balance {
     grid-column: 8 / span 1;
+    grid-row: 4 / span 1;
+  }
+
+  .mic {
+    grid-column: 9 / span 1;
     grid-row: 4 / span 1;
   }
 `;
@@ -101,9 +106,7 @@ export function Equalizer(props: EqualizerProps) {
     isKaraoke,
   } = useSelector((state: RootState) => state.equalizer);
 
-  const {
-    isMuted
-  } = useSelector((state: RootState) => state.playback.volume);
+  const { isMuted } = useSelector((state: RootState) => state.playback.volume);
 
   const dispatch = useDispatch();
 
@@ -126,7 +129,21 @@ export function Equalizer(props: EqualizerProps) {
   };
 
   const onEqMicrophoneClick = () => {
-    dispatch(setIsMicrophoneSource(!isMicrophoneSource));
+    if (!isMicrophoneSource) {
+      window.navigator.mediaDevices
+        .getUserMedia({ audio: true })
+        .then((stream) => {
+          dispatch(setIsMicrophoneSource(true));
+          stream.getAudioTracks().forEach((track) => track.stop());
+        })
+        .catch((err) => {
+          dispatch(setIsMicrophoneSource(false));
+          console.log(err);
+        }
+      );
+    } else {
+      dispatch(setIsMicrophoneSource(false));
+    }      
   };
 
   return (
@@ -147,22 +164,10 @@ export function Equalizer(props: EqualizerProps) {
             isEnabled={isEqualizerEnabled}
           />
           <ButtonsContainer className="buttons">
-            <EqButton
-              label="Stereo"
-              handleOnClick={onEqStereoClick}
-            />
-            <EqButton
-              label="Mute"
-              handleOnClick={onEqMuteClick}
-            />
-            <EqButton
-              label="Karaoke"
-              handleOnClick={onEqKaraokeClick}
-            />
-            <EqButton
-              label="Mic"
-              handleOnClick={onEqMicrophoneClick}
-            />
+            <EqButton label="Stereo" handleOnClick={onEqStereoClick} />
+            <EqButton label="Mute" handleOnClick={onEqMuteClick} />
+            <EqButton label="Karaoke" handleOnClick={onEqKaraokeClick} />
+            <EqButton label="Mic" handleOnClick={onEqMicrophoneClick} />
           </ButtonsContainer>
           <Knob
             className="treble is-small"
@@ -186,11 +191,18 @@ export function Equalizer(props: EqualizerProps) {
             isEnabled={isEqualizerEnabled}
           />
           <Knob
-            className="channel is-small"
-            name="Channel"
+            className="balance is-small"
+            name="Balance"
             leftLabel="L"
             rightLabel="R"
             isEnabled={isEqualizerEnabled}
+          />
+          <Knob
+            className="mic is-small"
+            name="Microphone"
+            leftLabel="L"
+            rightLabel="H"
+            isEnabled={isEqualizerEnabled && isMicrophoneSource}
           />
           <VfdDisplay className="vfd" isEnabled={isEqualizerEnabled} />
         </EqContainer>
