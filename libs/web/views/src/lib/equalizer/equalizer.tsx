@@ -7,7 +7,6 @@ import {
   setIsMicrophoneSource,
   setIsMuted,
   setIsStereo,
-  setStereo,
 } from '@musicfy/web/store';
 import { useDispatch, useSelector } from 'react-redux';
 
