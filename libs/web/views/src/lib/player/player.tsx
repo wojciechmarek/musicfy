@@ -101,7 +101,7 @@ export function Player(props: PlayerProps) {
           <ProgressBar
             isRadio={isRadio}
             currentTime={currentTime}
-            totalTime={duration}
+            totalTime={duration ? duration : 0}
             handleProgressBarChange={handleProgressBarChange}
           />
           <ShuffleButtons

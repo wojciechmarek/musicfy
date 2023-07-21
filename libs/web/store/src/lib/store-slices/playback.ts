@@ -5,8 +5,8 @@ export interface Track {
   id: number;
   title: string;
   artist: string;
-  duration: number;
   coverUrl: string;
+  duration?: number;
 }
 
 export interface PlaybackState {

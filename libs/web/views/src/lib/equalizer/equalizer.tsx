@@ -1,7 +1,13 @@
 import styled from '@emotion/styled';
-import { Knob, Power, VfdDisplay } from '@musicfy/web/components';
-import { RootState, setIsEnabled as setIsEqualizerEnabled } from '@musicfy/web/store';
-import { useState } from 'react';
+import { EqButton, Knob, Power, VfdDisplay } from '@musicfy/web/components';
+import {
+  RootState,
+  setIsEnabled as setIsEqualizerEnabled,
+  setIsKaraoke,
+  setIsMicrophoneSource,
+  setIsMuted,
+  setIsStereo,
+} from '@musicfy/web/store';
 import { useDispatch, useSelector } from 'react-redux';
 
 /* eslint-disable-next-line */
@@ -24,6 +30,12 @@ const EqualizerTitle = styled.h1`
   margin-top: 0.75em;
 `;
 
+const ButtonsContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+`
+
 const EqContainer = styled.div`
   margin-top: 1em;
   display: flex;
@@ -41,33 +53,57 @@ const EqContainer = styled.div`
   gap: 1em;
 
   .power {
-    grid-column: 1 / 1;
-    grid-row: 1 / 1;
+    grid-column: 1 / span 1;
+    grid-row: 1 / span 1;
   }
 
   .volume {
-    grid-column: 3 / 5;
-    grid-row: 1 / 3;
-  }
-
-  .boost {
-    grid-column: 2 / 3;
-    grid-row: 1 / 2;
-  }
-
-  .channel {
-    grid-column: 2 / 3;
-    grid-row: 2 / 3;
+    grid-column: 3 / span 2;
+    grid-row: 1 / span 2;
   }
 
   .vfd {
-    grid-column: 5 / 10;
-    grid-row: 1 / 3;
+    grid-column: 5 / span 5;
+    grid-row: 1 / span 2;
+  }
+
+  .buttons {
+    grid-column: 1 / span 3;
+    grid-row: 4 / span 1;
+  }
+
+  .bass {
+    grid-column: 5 / span 1;
+    grid-row: 4 / span 1;
+  }
+
+  .middle {
+    grid-column: 6 / span 1;
+    grid-row: 4 / span 1;
+  }
+
+  .treble {
+    grid-column: 7 / span 1;
+    grid-row: 4 / span 1;
+  }
+
+  .channel {
+    grid-column: 8 / span 1;
+    grid-row: 4 / span 1;
   }
 `;
 
 export function Equalizer(props: EqualizerProps) {
-  const { isEnabled: isEqualizerEnabled } = useSelector((state: RootState) => state.equalizer);
+  const {
+    isEnabled: isEqualizerEnabled,
+    isStereo,
+    isMicrophoneSource,
+    isKaraoke,
+  } = useSelector((state: RootState) => state.equalizer);
+
+  const {
+    isMuted
+  } = useSelector((state: RootState) => state.playback.volume);
 
   const dispatch = useDispatch();
 
@@ -75,6 +111,22 @@ export function Equalizer(props: EqualizerProps) {
     setTimeout(() => {
       dispatch(setIsEqualizerEnabled(!isEqualizerEnabled));
     }, 200);
+  };
+
+  const onEqStereoClick = () => {
+    dispatch(setIsStereo(!isStereo));
+  };
+
+  const onEqMuteClick = () => {
+    dispatch(setIsMuted(!isMuted));
+  };
+
+  const onEqKaraokeClick = () => {
+    dispatch(setIsKaraoke(!isKaraoke));
+  };
+
+  const onEqMicrophoneClick = () => {
+    dispatch(setIsMicrophoneSource(!isMicrophoneSource));
   };
 
   return (
@@ -94,21 +146,53 @@ export function Equalizer(props: EqualizerProps) {
             rightLabel="MAX"
             isEnabled={isEqualizerEnabled}
           />
+          <ButtonsContainer className="buttons">
+            <EqButton
+              label="Stereo"
+              handleOnClick={onEqStereoClick}
+            />
+            <EqButton
+              label="Mute"
+              handleOnClick={onEqMuteClick}
+            />
+            <EqButton
+              label="Karaoke"
+              handleOnClick={onEqKaraokeClick}
+            />
+            <EqButton
+              label="Mic"
+              handleOnClick={onEqMicrophoneClick}
+            />
+          </ButtonsContainer>
+          <Knob
+            className="treble is-small"
+            name="Treble"
+            leftLabel="L"
+            rightLabel="H"
+            isEnabled={isEqualizerEnabled}
+          />
+          <Knob
+            className="middle is-small"
+            name="Middle"
+            leftLabel="L"
+            rightLabel="H"
+            isEnabled={isEqualizerEnabled}
+          />
+          <Knob
+            className="bass is-small"
+            name="Bass"
+            leftLabel="L"
+            rightLabel="H"
+            isEnabled={isEqualizerEnabled}
+          />
           <Knob
             className="channel is-small"
             name="Channel"
-            leftLabel="LEFT"
-            rightLabel="RIGHT"
+            leftLabel="L"
+            rightLabel="R"
             isEnabled={isEqualizerEnabled}
           />
-          <Knob
-            className="boost is-small"
-            name="Boost"
-            leftLabel="MIN"
-            rightLabel="MAX"
-            isEnabled={isEqualizerEnabled}
-          />
-          <VfdDisplay className="vfd" isEnabled={isEqualizerEnabled}/>
+          <VfdDisplay className="vfd" isEnabled={isEqualizerEnabled} />
         </EqContainer>
       </EqualizerContent>
     </EqualizerContainer>
