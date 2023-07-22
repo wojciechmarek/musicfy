@@ -1,4 +1,4 @@
-import { Play, Square } from 'lucide-react';
+import { Pause, Play, Square } from 'lucide-react';
 import {
   AudioTileContainer,
   AudioTileImage,
@@ -41,7 +41,7 @@ export function AudioTile(props: AudioTileProps) {
       <AudioTilePlay>
         <PlayIconButton onClick={() => onPlayClick(id)}>
           {isPlaying ? (
-            <Square size={20} className="icon" />
+            <Pause size={20}/>
           ) : (
             <Play size={20} className="icon" />
           )}

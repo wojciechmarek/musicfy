@@ -57,7 +57,7 @@ export function DemoSongs(props: DemoSongsProps) {
               description={song.artist}
               coverUrl={song.cover}
               isPlaying={
-                audioSource === AudioSource.INTERNET_RADIO &&
+                audioSource === AudioSource.DEMO &&
                 trackId === song.id
               }
               onPlayClick={() => handleOnPlayClick(song.id)}
