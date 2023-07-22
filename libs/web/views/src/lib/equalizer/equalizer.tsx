@@ -2,11 +2,16 @@ import styled from '@emotion/styled';
 import { EqButton, Knob, Power, VfdDisplay } from '@musicfy/web/components';
 import {
   RootState,
+  setBalance,
+  setBassBooster,
   setIsEnabled as setIsEqualizerEnabled,
   setIsKaraoke,
   setIsMicrophoneSource,
   setIsMuted,
   setIsStereo,
+  setMiddleBooster,
+  setTrebleBooster,
+  setVolume,
 } from '@musicfy/web/store';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -72,6 +77,11 @@ const EqContainer = styled.div`
     grid-row: 4 / span 1;
   }
 
+  .reset {
+    grid-column: 4 / span 1;
+    grid-row: 4 / span 1;
+  }
+
   .bass {
     grid-column: 5 / span 1;
     grid-row: 4 / span 1;
@@ -101,12 +111,14 @@ const EqContainer = styled.div`
 export function Equalizer(props: EqualizerProps) {
   const {
     isEnabled: isEqualizerEnabled,
-    isStereo,
-    isMicrophoneSource,
-    isKaraoke,
+    isStereo: isStereoEnabled,
+    isMicrophoneSource: isMicrophoneSourceEnabled,
+    isKaraoke: isKaraokeEnabled,
+    balance: channelBalanceValue,
   } = useSelector((state: RootState) => state.equalizer);
 
-  const { isMuted } = useSelector((state: RootState) => state.playback.volume);
+  const { isMuted, level: volumeLevelValue } = useSelector((state: RootState) => state.playback.volume);
+  const { bass, middle, treble } = useSelector((state: RootState) => state.equalizer);
 
   const dispatch = useDispatch();
 
@@ -117,7 +129,7 @@ export function Equalizer(props: EqualizerProps) {
   };
 
   const onEqStereoClick = () => {
-    dispatch(setIsStereo(!isStereo));
+    dispatch(setIsStereo(!isStereoEnabled));
   };
 
   const onEqMuteClick = () => {
@@ -125,25 +137,38 @@ export function Equalizer(props: EqualizerProps) {
   };
 
   const onEqKaraokeClick = () => {
-    dispatch(setIsKaraoke(!isKaraoke));
+    dispatch(setIsKaraoke(!isKaraokeEnabled));
   };
 
   const onEqMicrophoneClick = () => {
-    if (!isMicrophoneSource) {
-      window.navigator.mediaDevices
-        .getUserMedia({ audio: true })
-        .then((stream) => {
-          dispatch(setIsMicrophoneSource(true));
-          stream.getAudioTracks().forEach((track) => track.stop());
-        })
-        .catch((err) => {
-          dispatch(setIsMicrophoneSource(false));
-          console.log(err);
-        }
-      );
-    } else {
-      dispatch(setIsMicrophoneSource(false));
-    }      
+    dispatch(setIsMicrophoneSource(!isMicrophoneSourceEnabled));    
+  };
+
+  const onEqResetClick = () => {
+    dispatch(setTrebleBooster(0));
+    dispatch(setMiddleBooster(0));
+    dispatch(setBassBooster(0));
+    dispatch(setBalance(50));
+  };
+
+  const handleVolumeChange = (value: number) => {
+    dispatch(setVolume(value));
+  };
+
+  const handleTrebleChange = (value: number) => {
+    dispatch(setTrebleBooster(value));
+  };
+
+  const handleMiddleChange = (value: number) => {
+    dispatch(setMiddleBooster(value));
+  };
+
+  const handleBassChange = (value: number) => {
+    dispatch(setBassBooster(value));
+  };
+
+  const handleBalanceChange = (value: number) => {
+    dispatch(setBalance(value));
   };
 
   return (
@@ -162,6 +187,8 @@ export function Equalizer(props: EqualizerProps) {
             leftLabel="MIN"
             rightLabel="MAX"
             isEnabled={isEqualizerEnabled}
+            value={volumeLevelValue}
+            onChange={handleVolumeChange}
           />
           <ButtonsContainer className="buttons">
             <EqButton label="Stereo" handleOnClick={onEqStereoClick} />
@@ -169,12 +196,15 @@ export function Equalizer(props: EqualizerProps) {
             <EqButton label="Karaoke" handleOnClick={onEqKaraokeClick} />
             <EqButton label="Mic" handleOnClick={onEqMicrophoneClick} />
           </ButtonsContainer>
+          <EqButton className="reset" label="Reset" handleOnClick={onEqResetClick} />
           <Knob
             className="treble is-small"
             name="Treble"
             leftLabel="L"
             rightLabel="H"
             isEnabled={isEqualizerEnabled}
+            onChange={handleTrebleChange}
+            value={treble}
           />
           <Knob
             className="middle is-small"
@@ -182,6 +212,8 @@ export function Equalizer(props: EqualizerProps) {
             leftLabel="L"
             rightLabel="H"
             isEnabled={isEqualizerEnabled}
+            onChange={handleMiddleChange}
+            value={middle}
           />
           <Knob
             className="bass is-small"
@@ -189,6 +221,8 @@ export function Equalizer(props: EqualizerProps) {
             leftLabel="L"
             rightLabel="H"
             isEnabled={isEqualizerEnabled}
+            onChange={handleBassChange}
+            value={bass}
           />
           <Knob
             className="balance is-small"
@@ -196,13 +230,15 @@ export function Equalizer(props: EqualizerProps) {
             leftLabel="L"
             rightLabel="R"
             isEnabled={isEqualizerEnabled}
+            onChange={handleBalanceChange}
+            value={channelBalanceValue}
           />
           <Knob
             className="mic is-small"
             name="Microphone"
             leftLabel="L"
             rightLabel="H"
-            isEnabled={isEqualizerEnabled && isMicrophoneSource}
+            isEnabled={isEqualizerEnabled && isMicrophoneSourceEnabled}
           />
           <VfdDisplay className="vfd" isEnabled={isEqualizerEnabled} />
         </EqContainer>

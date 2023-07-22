@@ -9,13 +9,19 @@ export interface Track {
   duration?: number;
 }
 
+export const enum AudioSource {
+  DEMO = 'demo',
+  INTERNET_RADIO = 'internet-radio',
+  SPOTIFY = 'spotify',
+}
+
 export interface PlaybackState {
   audio: {
     isPlaying: boolean;
     currentTime: number;
     seekToTime: number;
     url: string;
-    source: 'demo' | 'internet-radio' | 'spotify';
+    source: AudioSource;
   };
   mode: {
     isShuffling: boolean;
@@ -26,7 +32,12 @@ export interface PlaybackState {
     level: number;
     isMuted: boolean;
   };
-  track: Track;
+  track: Track,
+  analysis: {
+    leftChannel: number;
+    rightChannel: number;
+    frequencies: number[];
+  }
 }
 
 const initialState: PlaybackState = {
@@ -35,7 +46,7 @@ const initialState: PlaybackState = {
     currentTime: 0,
     seekToTime: 0,
     url: '',
-    source: 'demo',
+    source: AudioSource.DEMO,
   },
   mode: {
     isShuffling: false,
@@ -53,6 +64,11 @@ const initialState: PlaybackState = {
     duration: 0,
     coverUrl: '',
   },
+  analysis: {
+    leftChannel: 0,
+    rightChannel: 0,
+    frequencies: [],
+  }
 };
 
 export const playbackSlice = createSlice({
@@ -94,8 +110,14 @@ export const playbackSlice = createSlice({
     setTrackDuration: (state, action: PayloadAction<number>) => {
       state.track.duration = action.payload;
     },
-    setAudioSource: (state, action: PayloadAction<'demo' | 'internet-radio' | 'spotify'>) => {
+    setAudioSource: (state, action: PayloadAction<AudioSource>) => {
       state.audio.source = action.payload;
+    },
+    setLeftChannel: (state, action: PayloadAction<number>) => {
+      state.analysis.leftChannel = action.payload;
+    },
+    setRightChannel: (state, action: PayloadAction<number>) => {
+      state.analysis.rightChannel = action.payload;
     }
   },
 });
@@ -113,6 +135,8 @@ export const {
   setTrackDuration,
   setAudioSource,
   setUrl,
+  setLeftChannel,
+  setRightChannel,
 } = playbackSlice.actions;
 
 export default playbackSlice.reducer;

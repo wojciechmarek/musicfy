@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { useRef } from 'react';
 
 /* eslint-disable-next-line */
 export interface VisualizerProps {}
@@ -29,11 +30,34 @@ const Canvas = styled.canvas`
 `;
 
 export function Visualizer(props: VisualizerProps) {
+
+  // Get a canvas defined with ID "oscilloscope"
+  const canvas = useRef<HTMLCanvasElement>(null);
+  const canvasCtx = canvas.current?.getContext("2d");
+
+  if (!(canvasCtx && canvas.current)) {
+    return null;
+  }
+
+  // canvasCtx.fillStyle = "rgb(200, 200, 200)";
+  // canvasCtx.fillRect(0, 0, canvas.current.width, canvas.current.height);
+
+  // canvasCtx.lineWidth = 2;
+  // canvasCtx.strokeStyle = "rgb(0, 0, 0)";
+
+  // canvasCtx.moveTo(4, 75);
+  // canvasCtx.lineTo(500, 75);
+  // canvasCtx.stroke();
+
+  // canvasCtx.beginPath();
+  // canvasCtx.lineTo(canvas.current.width, canvas.current.height / 2);
+  // canvasCtx.stroke();
+
   return (
     <VisualizerContainer>
       <VisualizerContent>
         <VisualizerTitle>Welcome to Visualizer!</VisualizerTitle>
-        <Canvas />
+        <Canvas ref={canvas} width="120" height="30"></Canvas>
 
       </VisualizerContent>
     </VisualizerContainer>

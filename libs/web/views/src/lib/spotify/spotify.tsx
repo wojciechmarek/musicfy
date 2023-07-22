@@ -121,7 +121,7 @@ export function Spotify(props: SpotifyProps) {
           <MessageBox>
             <MessageTitle>Warning</MessageTitle>
             <MessageTextRed>
-              This feature is not ready yet.
+              This audio source is NOT READY yet, use demo songs or internet radio!
             </MessageTextRed>
             <MessageText>
               To use the Spotify features you need to provide a <strong>valid API key</strong> in
@@ -132,7 +132,7 @@ export function Spotify(props: SpotifyProps) {
               from RapidAPI (https://rapidapi.com/).
             </MessageText>
             <MessageText>
-              <strong>DISCLAIMER:</strong> If you just edit the API key without providing a valid one, the Spotify features will be unlocked but they will not work!
+              <strong>DISCLAIMER:</strong> If you just edit the API key without providing a valid one, the Spotify features will be unlocked but they will not work properly.
             </MessageText>
             <MessageLink to="/settings">Go to settings</MessageLink>
           </MessageBox>

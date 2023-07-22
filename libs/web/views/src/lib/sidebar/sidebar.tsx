@@ -1,13 +1,5 @@
 import styled from '@emotion/styled';
 import { Links, Title } from '@musicfy/web/components';
-import {
-  Home,
-  ListMusic,
-  Settings,
-  Sliders,
-  TrendingUp,
-  Tv2,
-} from 'lucide-react';
 
 /* eslint-disable-next-line */
 export interface SidebarProps {}

@@ -118,13 +118,13 @@ const NavLinkStyle = styled(NavLink)`
 export function Links(props: LinksProps) {
   return (
     <SidebarNavigationLinks>
-      {links.map((link) =>
+      {links.map((link, index) =>
         link.text === 'br' ? (
-          <NavigationSeparator key={link.text}/>
+          <NavigationSeparator key={`${link.text}-${index}`} />
         ) : (
           <NavigationLink key={link.text}>
             <NavLinkStyle
-              to={link.path}
+              to={link.path || '/'}
               className={({ isActive }) => (isActive ? 'active' : '')}
             >
               {link.icon}

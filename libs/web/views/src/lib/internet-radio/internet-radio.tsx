@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import {
+  AudioSource,
   RootState,
   Track,
   setAudioSource,
@@ -10,7 +11,7 @@ import {
   setTrack,
   setUrl,
 } from '@musicfy/web/store';
-import { Pause, Play } from 'lucide-react';
+import { Play, Square } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
 
 /* eslint-disable-next-line */
@@ -96,6 +97,10 @@ const RadioInfoPlaying = styled.p`
   border-radius: 0.5em;
   font-weight: bold;
   width: fit-content;
+
+  span {
+    margin-left: 0.5em;
+  }
 `;
 
 const RadioPlay = styled.div`
@@ -147,7 +152,7 @@ export function InternetRadio(props: InternetRadioProps) {
       dispatch(setUrl(radioToPlay.url));
       dispatch(setIsPlaying(true));
       dispatch(setIsRadio(true));
-      dispatch(setAudioSource('internet-radio'));
+      dispatch(setAudioSource(AudioSource.INTERNET_RADIO));
       dispatch(setIsShuffling(false));
       dispatch(setIsRepeating(false));
       dispatch(setTrack(track));
@@ -169,13 +174,13 @@ export function InternetRadio(props: InternetRadioProps) {
                 <RadioInfoDuration>{station.description}</RadioInfoDuration>
                 <RadioInfoSpacer />
                 {isRadio && trackId === station.id && (
-                  <RadioInfoPlaying>IS PLAYING</RadioInfoPlaying>
+                  <RadioInfoPlaying>IS PLAYING NOW <span>▶</span></RadioInfoPlaying>
                 )}
               </RadioInfo>
               <RadioPlay>
                 <PlayIconButton onClick={() => onPlayClick(station.id)}>
                   {isRadio && trackId === station.id ? (
-                    <Pause size={20} className="icon" />
+                    <Square size={20} className="icon" />
                   ) : (
                     <Play size={20} className="icon" />
                   )}

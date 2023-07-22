@@ -80,7 +80,9 @@ export function VfdDisplay(props: VfdDisplayProps) {
     (state: RootState) => state.playback.mode
   );
 
-  const { frequencies, isKaraoke, isMicrophoneSource, isStereo } = useSelector((state: RootState) => state.equalizer);
+  const { isKaraoke, isMicrophoneSource, isStereo } = useSelector((state: RootState) => state.equalizer);
+  const { frequencies } = useSelector((state: RootState) => state.playback.analysis);
+
 
   return (
     <VfdDisplayContainer {...rest}>

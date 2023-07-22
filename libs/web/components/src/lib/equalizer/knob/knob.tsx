@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import styles from './knob.module.css';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 /* eslint-disable-next-line */
 export interface KnobProps {
@@ -10,6 +10,8 @@ export interface KnobProps {
   rightLabel: string;
   isEnabled?: boolean;
   isSmall?: boolean;
+  value?: number;
+  onChange?: (value: number) => void;
 }
 
 const EqKnob = styled.div`
@@ -58,6 +60,7 @@ const EqKnobRevolveControlContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  transform: rotate(-135deg);
 `;
 
 const EqKnobRevolveControl = styled.div<{
@@ -86,36 +89,39 @@ const EqKnobRevolvePointer = styled.div<{
 `;
 
 export function Knob(props: KnobProps) {
-  const { isEnabled, name, leftLabel, rightLabel, ...rest } = props;
-  const isKnobInTouch = useRef(false);
-  const [rotate, setRotate] = useState(0);
+  const { isEnabled, name, leftLabel, rightLabel, value, onChange, ...rest } = props;
+  const [deg, setDeg] = useState(0);
 
-  const handleOnMouseDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    isKnobInTouch.current = true;
-  };
 
-  const handleOnMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    if (isKnobInTouch.current) {
-      const { clientY } = e;
-      console.log();
-      
-      setRotate(clientY);
+  const handleOnWheelChange = (e: React.WheelEvent<HTMLDivElement>) => {
+    const { deltaY } = e;
+
+    const newRotate = deg + deltaY;
+
+    if (newRotate >= 0 && newRotate <= 270) {
+      setDeg(newRotate);
     }
+
+    const value = Math.round((newRotate / 270) * 100);
+    const valueWithLimitedRange = value > 100 ? 100 : value <= 0 ? 0 : value;
+    onChange?.(valueWithLimitedRange);
   };
 
-  const handleOnMouseUp = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    isKnobInTouch.current = false;
-  };
+  useEffect(() => {
+    if (value) {
+      const newRotate = Math.round((value / 100) * 270);
+      setDeg(newRotate);
+    }
+  }, [value]);
 
   return (
     <EqKnob {...rest}>
       <EqKnobControl>
         <EqKnobRevolveControlContainer>
           <EqKnobRevolveControl
-            rotate={rotate}
-            onMouseDown={(e) => handleOnMouseDown(e)}
-            onMouseMove={(e) => handleOnMouseMove(e)}
-            onMouseUp={(e) => handleOnMouseUp(e)}
+            title='Use mouse wheel to control'
+            rotate={deg}
+            onWheel={(e) => handleOnWheelChange(e)}
           >
             <EqKnobRevolvePointer isActive={isEnabled} />
           </EqKnobRevolveControl>

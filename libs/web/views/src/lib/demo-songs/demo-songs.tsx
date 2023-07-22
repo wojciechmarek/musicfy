@@ -1,7 +1,7 @@
-import { RootState, Track, setAudioSource, setIsRadio, setTrack, setUrl } from '@musicfy/web/store';
+import { AudioSource, RootState, Track, setAudioSource, setIsRadio, setTrack, setUrl } from '@musicfy/web/store';
 import { Play } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Content, DemoContainer, DemoContent, Header, PlayIconButton, Song, SongImage, SongInfo, SongInfoDescription, SongInfoDuration, SongInfoTitle, SongPlay } from './demo-songs copy';
+import { Content, DemoContainer, DemoContent, Header, PlayIconButton, Song, SongImage, SongInfo, SongInfoDescription, SongInfoDuration, SongInfoTitle, SongPlay } from './demo-songs.styled';
 
 /* eslint-disable-next-line */
 export interface DemoSongsProps {}
@@ -24,7 +24,7 @@ export function DemoSongs(props: DemoSongsProps) {
 
       dispatch(setUrl(songToPlay.url));
       dispatch(setIsRadio(false));
-      dispatch(setAudioSource("demo"));
+      dispatch(setAudioSource(AudioSource.DEMO));
       dispatch(setTrack(trackDetails));
     }
   }
