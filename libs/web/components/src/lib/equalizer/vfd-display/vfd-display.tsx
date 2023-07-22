@@ -1,55 +1,20 @@
-import styled from '@emotion/styled';
 import { useSelector } from 'react-redux';
 import { RootState } from '@musicfy/web/store';
 import { VfdSpectrumAnalyzer } from './vfd-spectrum';
 import { VfdChannelAnalyzer } from './vfd-channel-analyzer';
+import {
+  VfdAnalyzersRow,
+  VfdControl,
+  VfdControlRed,
+  VfdControls,
+  VfdDisplayContainer,
+} from './vfd-display.styled';
 
 /* eslint-disable-next-line */
 export interface VfdDisplayProps {
   [key: string]: any;
   isEnabled: boolean;
 }
-
-const VfdDisplayContainer = styled.div`
-  background-color: #0b0b0e;
-  border-radius: 0.5em;
-  display: flex;
-  flex-direction: column;
-  padding: 0.5em 0;
-`;
-
-const VfdAnalyzersRow = styled.div`
-  padding: 0 1.25em;
-  display: flex;
-  flex: 1;
-  gap: 2em;
-  align-items: center;
-`;
-
-const VfdControls = styled.div`
-  display: flex;
-  gap: 1em;
-  padding: 0.25em 1.25em;
-`;
-
-const VfdControl = styled.p<{
-  isActive: boolean;
-}>`
-  color: ${(props) => (props.isActive ? '#1caeae;' : '#062626')};
-  font-size: 1em;
-  font-weight: bold;
-  text-shadow: ${(props) => (props.isActive ? '0 0 10px #1caeae' : 'none')};
-`;
-
-const VfdControlRed = styled.p<{
-  isActive: boolean;
-}>`
-  font-size: 1em;
-  font-weight: bold;
-  text-transform: uppercase;
-  color: ${(props) => (props.isActive ? '#9c341a' : '#250c06')};
-  text-shadow: 0 0 10px ${(props) => (props.isActive ? '#9c341a ' : 'none')};
-`;
 
 const frequenciesHeaders = [
   '32',
@@ -68,9 +33,7 @@ const frequenciesHeaders = [
 export function VfdDisplay(props: VfdDisplayProps) {
   const { isEnabled, ...rest } = props;
 
-  const { source } = useSelector(
-    (state: RootState) => state.playback.audio
-  );
+  const { source } = useSelector((state: RootState) => state.playback.audio);
 
   const { isMuted, level } = useSelector(
     (state: RootState) => state.playback.volume
@@ -80,17 +43,28 @@ export function VfdDisplay(props: VfdDisplayProps) {
     (state: RootState) => state.playback.mode
   );
 
-  const { isKaraoke, isMicrophoneSource, isStereo } = useSelector((state: RootState) => state.equalizer);
-  const { frequencies } = useSelector((state: RootState) => state.playback.analysis);
-
+  const { isKaraoke, isMicrophoneSource, isStereo } = useSelector(
+    (state: RootState) => state.equalizer
+  );
+  const { frequencies } = useSelector(
+    (state: RootState) => state.playback.analysis
+  );
 
   return (
     <VfdDisplayContainer {...rest}>
       <VfdControls>
-        <VfdControl isActive={isEnabled && source === 'demo'}>DEMO SONGS</VfdControl>
-        <VfdControl isActive={isEnabled && source === 'internet-radio'}>INTERNET RADIO</VfdControl>
-        <VfdControl isActive={isEnabled && source === 'spotify'}>SPOTIFY</VfdControl>
-        <VfdControlRed isActive={isEnabled && isMicrophoneSource}>MICROPHONE</VfdControlRed>
+        <VfdControl isActive={isEnabled && source === 'demo'}>
+          DEMO SONGS
+        </VfdControl>
+        <VfdControl isActive={isEnabled && source === 'internet-radio'}>
+          INTERNET RADIO
+        </VfdControl>
+        <VfdControl isActive={isEnabled && source === 'spotify'}>
+          SPOTIFY
+        </VfdControl>
+        <VfdControlRed isActive={isEnabled && isMicrophoneSource}>
+          MICROPHONE
+        </VfdControlRed>
       </VfdControls>
       <VfdAnalyzersRow>
         <VfdSpectrumAnalyzer

@@ -64,6 +64,11 @@ export const EqContainer = styled.div`
     grid-row: 4 / span 1;
   }
 
+  .tones {
+    grid-column: 5 / span 3;
+    grid-row: 3 / span 1;
+  }
+
   .bass {
     grid-column: 5 / span 1;
     grid-row: 4 / span 1;

@@ -1,5 +1,4 @@
-import styled from '@emotion/styled';
-import { EqButton, Knob, Power, VfdDisplay } from '@musicfy/web/components';
+import { Description, EqButton, Knob, Power, VfdDisplay } from '@musicfy/web/components';
 import {
   RootState,
   setBalance,
@@ -32,13 +31,13 @@ export function Equalizer(props: EqualizerProps) {
     isMicrophoneSource: isMicrophoneSourceEnabled,
     isKaraoke: isKaraokeEnabled,
     balance: channelBalanceValue,
+    bass: bassValue,
+    middle: middleValue,
+    treble: trebleValue,
   } = useSelector((state: RootState) => state.equalizer);
 
   const { isMuted, level: volumeLevelValue } = useSelector(
     (state: RootState) => state.playback.volume
-  );
-  const { bass, middle, treble } = useSelector(
-    (state: RootState) => state.equalizer
   );
 
   const dispatch = useDispatch();
@@ -122,6 +121,7 @@ export function Equalizer(props: EqualizerProps) {
             label="Reset"
             handleOnClick={onEqResetClick}
           />
+          <Description label="TONES" className="tones" />
           <Knob
             className="treble is-small"
             name="Treble"
@@ -129,7 +129,7 @@ export function Equalizer(props: EqualizerProps) {
             rightLabel="H"
             isEnabled={isEqualizerEnabled}
             onChange={handleTrebleChange}
-            value={treble}
+            value={trebleValue}
           />
           <Knob
             className="middle is-small"
@@ -138,7 +138,7 @@ export function Equalizer(props: EqualizerProps) {
             rightLabel="H"
             isEnabled={isEqualizerEnabled}
             onChange={handleMiddleChange}
-            value={middle}
+            value={middleValue}
           />
           <Knob
             className="bass is-small"
@@ -147,7 +147,7 @@ export function Equalizer(props: EqualizerProps) {
             rightLabel="H"
             isEnabled={isEqualizerEnabled}
             onChange={handleBassChange}
-            value={bass}
+            value={bassValue}
           />
           <Knob
             className="balance is-small"
