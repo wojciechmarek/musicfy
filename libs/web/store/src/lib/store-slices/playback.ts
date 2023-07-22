@@ -26,7 +26,6 @@ export interface PlaybackState {
   mode: {
     isShuffling: boolean;
     isRepeating: boolean;
-    isRadio: boolean;
   };
   volume: {
     level: number;
@@ -51,7 +50,6 @@ const initialState: PlaybackState = {
   mode: {
     isShuffling: false,
     isRepeating: false,
-    isRadio: false,
   },
   volume: {
     level: 34,
@@ -95,9 +93,6 @@ export const playbackSlice = createSlice({
       state.mode.isRepeating = action.payload;
       state.mode.isShuffling = false;
     },
-    setIsRadio: (state, action: PayloadAction<boolean>) => {
-      state.mode.isRadio = action.payload;
-    },
     setIsMuted: (state, action: PayloadAction<boolean>) => {
       state.volume.isMuted = action.payload;
     },
@@ -130,7 +125,6 @@ export const {
   setVolume,
   setIsShuffling,
   setIsRepeating,
-  setIsRadio,
   setTrack,
   setTrackDuration,
   setAudioSource,

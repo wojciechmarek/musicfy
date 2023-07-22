@@ -1,4 +1,4 @@
-import styled from '@emotion/styled';
+import { AudioTile } from '@musicfy/web/components';
 import {
   AudioSource,
   RootState,
@@ -11,135 +11,27 @@ import {
   setTrack,
   setUrl,
 } from '@musicfy/web/store';
-import { Play, Square } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
+import {
+  Content,
+  Header,
+  RadioContainer,
+  RadioContent,
+} from './internet-radio.styled';
 
 /* eslint-disable-next-line */
 export interface InternetRadioProps {}
 
-const RadioContainer = styled.div`
-  background-color: #1a1b20;
-  height: 100%;
-`;
-
-const RadioContent = styled.div`
-  height: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0.5em 1em 0;
-`;
-
-const Header = styled.h1`
-  color: white;
-  margin-top: 0.75em;
-`;
-
-const Content = styled.div`
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-gap: 1em;
-  margin-top: 1em;
-
-  @media (max-width: 1200px) {
-    grid-template-columns: repeat(1, 1fr);
-  }
-`;
-
-const Radio = styled.div`
-  background-color: #2a2b30;
-  border-radius: 0.5em;
-  padding: 1em;
-  color: white;
-  display: flex;
-  justify-content: space-between;
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-`;
-
-const RadioImage = styled.div`
-  height: 7em;
-  width: 7em;
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    border-radius: 0.5em;
-  }
-`;
-
-const RadioInfo = styled.div`
-  flex: 1;
-  margin-left: 1em;
-  display: flex;
-  flex-direction: column;
-`;
-
-const RadioInfoTitle = styled.h3`
-  margin: 0;
-`;
-
-const RadioInfoDuration = styled.p`
-  margin: 0;
-  font-size: 0.75em;
-  color: #a0a0a0;
-`;
-
-const RadioInfoSpacer = styled.div`
-  flex: 1;
-`;
-
-const RadioInfoPlaying = styled.p`
-  margin: 0;
-  font-size: 0.75em;
-  background-color: #df582b;
-  padding: 0.35em 0.5em 0.25em;
-  border-radius: 0.5em;
-  font-weight: bold;
-  width: fit-content;
-
-  span {
-    margin-left: 0.5em;
-  }
-`;
-
-const RadioPlay = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: end;
-`;
-
-const PlayIconButton = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #2b31df;
-  border-radius: 50%;
-  width: 3em;
-  height: 3em;
-  transition: background-color 0.2s ease-in-out;
-  position: relative;
-
-  &:hover {
-    background-color: #4a4feb;
-  }
-
-  .icon {
-    position: relative;
-    left: 0.125em;
-  }
-`;
-
 export function InternetRadio(props: InternetRadioProps) {
   const radioStations = useSelector((state: RootState) => state.radio.stations);
-  const isRadio = useSelector(
-    (state: RootState) => state.playback.mode.isRadio
+  const audioSource = useSelector(
+    (state: RootState) => state.playback.audio.source
   );
   const trackId = useSelector((state: RootState) => state.playback.track.id);
 
   const dispatch = useDispatch();
 
-  const onPlayClick = (id: number) => {
+  const handleOnPlayClick = (id: number) => {
     const radioToPlay = radioStations.find((radio) => radio.id === id);
     if (radioToPlay) {
       const track: Track = {
@@ -151,7 +43,6 @@ export function InternetRadio(props: InternetRadioProps) {
 
       dispatch(setUrl(radioToPlay.url));
       dispatch(setIsPlaying(true));
-      dispatch(setIsRadio(true));
       dispatch(setAudioSource(AudioSource.INTERNET_RADIO));
       dispatch(setIsShuffling(false));
       dispatch(setIsRepeating(false));
@@ -165,28 +56,18 @@ export function InternetRadio(props: InternetRadioProps) {
         <Header>Internet radio</Header>
         <Content>
           {radioStations.map((station) => (
-            <Radio key={station.id}>
-              <RadioImage>
-                <img src={station.cover} alt="Song Cover" />
-              </RadioImage>
-              <RadioInfo>
-                <RadioInfoTitle>{station.title}</RadioInfoTitle>
-                <RadioInfoDuration>{station.description}</RadioInfoDuration>
-                <RadioInfoSpacer />
-                {isRadio && trackId === station.id && (
-                  <RadioInfoPlaying>IS PLAYING NOW <span>▶</span></RadioInfoPlaying>
-                )}
-              </RadioInfo>
-              <RadioPlay>
-                <PlayIconButton onClick={() => onPlayClick(station.id)}>
-                  {isRadio && trackId === station.id ? (
-                    <Square size={20} className="icon" />
-                  ) : (
-                    <Play size={20} className="icon" />
-                  )}
-                </PlayIconButton>
-              </RadioPlay>
-            </Radio>
+            <AudioTile
+              id={station.id}
+              key={station.id}
+              title={station.title}
+              description={station.description}
+              coverUrl={station.cover}
+              isPlaying={
+                audioSource === AudioSource.INTERNET_RADIO &&
+                trackId === station.id
+              }
+              onPlayClick={() => handleOnPlayClick(station.id)}
+            />
           ))}
         </Content>
       </RadioContent>

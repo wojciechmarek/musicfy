@@ -1,17 +1,33 @@
-import { AudioSource, RootState, Track, setAudioSource, setIsRadio, setTrack, setUrl } from '@musicfy/web/store';
-import { Play } from 'lucide-react';
+import {
+  AudioSource,
+  RootState,
+  Track,
+  setAudioSource,
+  setTrack,
+  setUrl,
+} from '@musicfy/web/store';
 import { useDispatch, useSelector } from 'react-redux';
-import { Content, DemoContainer, DemoContent, Header, PlayIconButton, Song, SongImage, SongInfo, SongInfoDescription, SongInfoDuration, SongInfoTitle, SongPlay } from './demo-songs.styled';
+import {
+  Content,
+  DemoContainer,
+  DemoContent,
+  Header,
+} from './demo-songs.styled';
+import { AudioTile } from '@musicfy/web/components';
 
 /* eslint-disable-next-line */
 export interface DemoSongsProps {}
 
-
 export function DemoSongs(props: DemoSongsProps) {
-  const demoSongs = useSelector((state:RootState) => state.demo.songs);
+  const trackId = useSelector((state: RootState) => state.playback.track.id);
+  const demoSongs = useSelector((state: RootState) => state.demo.songs);
+  const audioSource = useSelector(
+    (state: RootState) => state.playback.audio.source
+  );
+
   const dispatch = useDispatch();
 
-  const onPlayClick = (id: number) => {
+  const handleOnPlayClick = (id: number) => {
     const songToPlay = demoSongs.find((song) => song.id === id);
     if (songToPlay) {
       const trackDetails: Track = {
@@ -23,11 +39,10 @@ export function DemoSongs(props: DemoSongsProps) {
       };
 
       dispatch(setUrl(songToPlay.url));
-      dispatch(setIsRadio(false));
       dispatch(setAudioSource(AudioSource.DEMO));
       dispatch(setTrack(trackDetails));
     }
-  }
+  };
 
   return (
     <DemoContainer>
@@ -35,21 +50,18 @@ export function DemoSongs(props: DemoSongsProps) {
         <Header>Demo</Header>
         <Content>
           {demoSongs.map((song) => (
-            <Song key={song.id}>
-              <SongImage>
-                <img src={song.cover} alt="Song Cover" />
-              </SongImage>
-              <SongInfo>
-                <SongInfoTitle>{song.title}</SongInfoTitle>
-                <SongInfoDescription>{song.artist}</SongInfoDescription>
-                <SongInfoDuration>{song.duration}</SongInfoDuration>
-              </SongInfo>
-              <SongPlay>
-                <PlayIconButton onClick={() => onPlayClick(song.id)}>
-                  <Play size={20} className='icon' />
-                </PlayIconButton>
-              </SongPlay>
-            </Song>
+            <AudioTile
+              id={song.id}
+              key={song.id}
+              title={song.title}
+              description={song.artist}
+              coverUrl={song.cover}
+              isPlaying={
+                audioSource === AudioSource.INTERNET_RADIO &&
+                trackId === song.id
+              }
+              onPlayClick={() => handleOnPlayClick(song.id)}
+            />
           ))}
         </Content>
       </DemoContent>

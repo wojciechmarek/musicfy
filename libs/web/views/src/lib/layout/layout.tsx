@@ -1,5 +1,5 @@
 import Player from '../player/player';
-import Sidebar from '../sidebar/sidebar';
+import {Sidebar} from '../sidebar/sidebar';
 import {
   ContentContainer,
   LayoutContainer,

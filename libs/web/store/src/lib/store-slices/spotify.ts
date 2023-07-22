@@ -2,14 +2,14 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 export interface SpotifyState {
   accessApiKey: string;
-  isAccessApiKeyChanged: boolean;
+  isSpotifyAccessActive: boolean;
   isSearchActive: boolean;
   searchPhrase: string;
 }
 
 const spotifyState: SpotifyState = {
   accessApiKey: 'NO_API_KEY',
-  isAccessApiKeyChanged: false,
+  isSpotifyAccessActive: false,
   isSearchActive: false,
   searchPhrase: '',
 };
@@ -20,7 +20,7 @@ export const spotifySlice = createSlice({
   reducers: {
     setAccessApiKey: (state, action) => {
       state.accessApiKey = action.payload;
-      state.isAccessApiKeyChanged = true;
+      state.isSpotifyAccessActive = true;
     },
     setSearchPhrase: (state, action: PayloadAction<string>) => {
       state.searchPhrase = action.payload;

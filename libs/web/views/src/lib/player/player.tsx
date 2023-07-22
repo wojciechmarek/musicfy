@@ -23,6 +23,7 @@ import {
   setIsShuffling,
   setIsPlaying,
   setSeekToTime,
+  AudioSource,
 } from '@musicfy/web/store';
 
 /* eslint-disable-next-line */
@@ -34,11 +35,11 @@ export function Player(props: PlayerProps) {
     (state: RootState) => state.playback.volume
   );
 
-  const { isRepeating, isShuffling, isRadio } = useSelector(
+  const { isRepeating, isShuffling } = useSelector(
     (state: RootState) => state.playback.mode
   );
 
-  const { isPlaying, currentTime } = useSelector(
+  const { isPlaying, currentTime, source } = useSelector(
     (state: RootState) => state.playback.audio
   );
 
@@ -94,18 +95,18 @@ export function Player(props: PlayerProps) {
         <SongDetails coverUrl={coverUrl} title={title} author={artist} />
         <PlayerMusicInfoAndProgressContainer>
           <PlayButtons
-            isRadio={isRadio}
+            isNavigationDisabled={source === AudioSource.INTERNET_RADIO}
             isPlaying={isPlaying}
             onClick={() => (isPlaying ? stop() : play())}
           />
           <ProgressBar
-            isRadio={isRadio}
+            isRadio={source === AudioSource.INTERNET_RADIO}
             currentTime={currentTime}
             totalTime={duration ? duration : 0}
             handleProgressBarChange={handleProgressBarChange}
           />
           <ShuffleButtons
-            isDisabled={isRadio}
+            isDisabled={source === AudioSource.INTERNET_RADIO}
             isRepeatActive={isRepeating}
             isShuffleActive={isShuffling}
             onClick={(e) => handleShuffleButtonClick(e)}
