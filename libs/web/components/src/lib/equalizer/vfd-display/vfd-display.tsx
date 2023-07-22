@@ -54,16 +54,16 @@ export function VfdDisplay(props: VfdDisplayProps) {
     <VfdDisplayContainer {...rest}>
       <VfdControls>
         <VfdControl isActive={isEnabled && source === 'demo'}>
-          DEMO SONGS
+          TAPE/CD
         </VfdControl>
         <VfdControl isActive={isEnabled && source === 'internet-radio'}>
-          INTERNET RADIO
+          TUNER
         </VfdControl>
         <VfdControl isActive={isEnabled && source === 'spotify'}>
-          SPOTIFY
+          AUX
         </VfdControl>
         <VfdControlRed isActive={isEnabled && isMicrophoneSource}>
-          MICROPHONE
+          MIC
         </VfdControlRed>
       </VfdControls>
       <VfdAnalyzersRow>
@@ -83,7 +83,7 @@ export function VfdDisplay(props: VfdDisplayProps) {
         <VfdControl isActive={isEnabled && isStereo}>STEREO</VfdControl>
         <VfdControl isActive={isEnabled && isRepeating}>REPEAT</VfdControl>
         <VfdControl isActive={isEnabled && isShuffling}>SHUFFLE</VfdControl>
-        <VfdControl isActive={isEnabled && isMuted}>MUTED</VfdControl>
+        <VfdControl isActive={isEnabled && isMuted}>MUTING</VfdControl>
         <VfdControl isActive={isEnabled && isKaraoke}>KARAOKE</VfdControl>
       </VfdControls>
     </VfdDisplayContainer>

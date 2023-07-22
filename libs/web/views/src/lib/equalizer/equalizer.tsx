@@ -31,10 +31,10 @@ export function Equalizer(props: EqualizerProps) {
     isMicrophoneSource: isMicrophoneSourceEnabled,
     isKaraoke: isKaraokeEnabled,
     balance: channelBalanceValue,
-    bass: bassValue,
-    middle: middleValue,
-    treble: trebleValue,
   } = useSelector((state: RootState) => state.equalizer);
+
+  const { treble: trebleValue, middle: middleValue, bass: bassValue } =
+    useSelector((state: RootState) => state.equalizer.boostTones);
 
   const { isMuted, level: volumeLevelValue } = useSelector(
     (state: RootState) => state.playback.volume

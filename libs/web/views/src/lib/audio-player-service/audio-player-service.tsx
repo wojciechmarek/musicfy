@@ -12,12 +12,14 @@ export function AudioPlayerService() {
     setPlaybackState,
     setVolume,
     setMuted,
-    setNewAudioUrl,
+    setNewAudioUrlAndStartPlay,
     setMicrophoneSource,
     setBalance,
     setStereo,
     setKaraoke,
     setSeekToTime,
+    connectTimeCounterToAudioEventListener,
+    resetTimeCounter,
   } = useAudioPlayerService();
 
   // PLAY/PAUSE
@@ -42,8 +44,10 @@ export function AudioPlayerService() {
 
   // URL
   useEffect(() => {
-    setNewAudioUrl(url);
-  }, [url, setNewAudioUrl]);
+    resetTimeCounter();
+    setNewAudioUrlAndStartPlay(url);
+    connectTimeCounterToAudioEventListener();
+  }, [url, setNewAudioUrlAndStartPlay, connectTimeCounterToAudioEventListener, resetTimeCounter]);
 
   // MICROPHONE
   useEffect(() => {

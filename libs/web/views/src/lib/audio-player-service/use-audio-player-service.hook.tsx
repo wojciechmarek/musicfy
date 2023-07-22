@@ -3,15 +3,17 @@ import { setCurrentTime } from '@musicfy/web/store';
 import { useCallback, useRef } from 'react';
 
 export const useAudioPlayerService = () => {
+  const songTimeInSeconds = useRef(0);
+  const contextRef = useRef(new window.AudioContext());
+  const analyserRef = useRef(contextRef.current.createAnalyser());
+
   // ---------------------- STORE ----------------------------
   const dispatch = useDispatch();
 
-  // ---------- AUDIO PROCESSING - SOUND OBJECT -----------------
+  // ---------- SOUND OBJECT AND CONTEXT -----------------
   const audio = useRef<HTMLAudioElement>(new Audio());
-  const context = new window.AudioContext();
 
   // ------------ AUDIO PROCESSING - ANALYSER --------------------
-  const analyser = context.createAnalyser();
   // analyser.minDecibels = -90;
   // analyser.maxDecibels = -10;
   // analyser.smoothingTimeConstant = 0.85;
@@ -22,30 +24,34 @@ export const useAudioPlayerService = () => {
   // const convolver = context.createConvolver();
 
   // BARS
-  analyser.fftSize = 32;
-  analyser.minDecibels = -90;
-  analyser.maxDecibels = -10;
-  analyser.smoothingTimeConstant = 0.85;
-  analyser.connect(context.destination);
-  const bufferLength = analyser.frequencyBinCount;
-  const dataArray = new Uint8Array(bufferLength);
 
-  // ------------ SOUND OBJECT - EVENT LISTENERS ----------------------------
-  const songTimeInSeconds = useRef(0);
-  audio.current.addEventListener('timeupdate', () => {
-    const songTime = audio.current.currentTime;
-    const currentSongTimeInSeconds = Math.floor(songTime);
 
-    if (currentSongTimeInSeconds > songTimeInSeconds.current) {
-      songTimeInSeconds.current = currentSongTimeInSeconds;
-      dispatch(setCurrentTime(currentSongTimeInSeconds));
 
-      analyser.getByteFrequencyData(dataArray);
-      console.log(dataArray);
-    }
-  });
+  // --------------- PRIVATE METHODS -----------------
+  const connectTimeCounterToAudioEventListener = () => {
+    audio.current.addEventListener('timeupdate', () => {
+        const songTime = audio.current.currentTime;
+        const currentSongTimeInSeconds = Math.floor(songTime);
+  
+        if (currentSongTimeInSeconds > songTimeInSeconds.current) {
+          songTimeInSeconds.current = currentSongTimeInSeconds;
+          dispatch(setCurrentTime(currentSongTimeInSeconds));
+    
 
-  // ---------------- METHODS ----------------------------
+          const bufferLength = analyserRef.current.frequencyBinCount;
+          const dataArray = new Uint8Array(bufferLength);
+
+          analyserRef.current.getByteFrequencyData(dataArray);
+          console.log(dataArray);
+        }
+    });
+  };
+
+
+  const resetTimeCounter = () => {
+    songTimeInSeconds.current = 0;
+  };
+
   const setPlaybackState = useCallback(
     (isPlaying: boolean) => {
       if (isPlaying && audio.current.paused) {
@@ -71,12 +77,25 @@ export const useAudioPlayerService = () => {
     [audio]
   );
 
-  const setNewAudioUrl = useCallback(
+  const setNewAudioUrlAndStartPlay = useCallback(
     (url: string) => {
+      if (audio.current.src === url) {
+        return;
+      }
+
       audio.current.pause();
       audio.current = new Audio(url);
+      contextRef.current = new window.AudioContext();
+      analyserRef.current = contextRef.current.createAnalyser();
 
-      if (url) {
+      analyserRef.current.fftSize = 32;
+      analyserRef.current.minDecibels = -90;
+      analyserRef.current.maxDecibels = -10;
+      analyserRef.current.smoothingTimeConstant = 0.85;
+      analyserRef.current.connect(contextRef.current.destination);
+
+
+      if (url) {        
         setPlaybackState(true);
       }
     },
@@ -128,11 +147,13 @@ export const useAudioPlayerService = () => {
     setPlaybackState,
     setVolume,
     setMuted,
-    setNewAudioUrl,
+    setNewAudioUrlAndStartPlay,
     setMicrophoneSource,
     setBalance,
     setStereo,
     setKaraoke,
     setSeekToTime,
+    connectTimeCounterToAudioEventListener,
+    resetTimeCounter,
   };
 };

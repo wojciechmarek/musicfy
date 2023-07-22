@@ -1,15 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
+export interface Tones {
+  bass: number;
+  middle: number;
+  treble: number;
+}
 export interface EqualizerState {
   isEnabled: boolean;
   isStereo: boolean;
   isMicrophoneSource: boolean;
   isKaraoke: boolean;
   balance: number;
-  bass: number;
-  middle: number;
-  treble: number;
+  boostTones: Tones;
 }
 
 const initialState: EqualizerState = {
@@ -18,9 +21,11 @@ const initialState: EqualizerState = {
   isMicrophoneSource: false,
   isKaraoke: false,
   balance: 50,
-  bass: 45,
-  middle: 0,
-  treble: 0,
+  boostTones: {
+    bass: 0,
+    middle: 0,
+    treble: 0,
+  },
 };
 
 export const equalizerSlice = createSlice({
@@ -43,13 +48,13 @@ export const equalizerSlice = createSlice({
       state.isMicrophoneSource = action.payload;
     },
     setBassBooster: (state, action: PayloadAction<number>) => {
-      state.bass = action.payload;
+      state.boostTones.bass = action.payload;
     },
     setMiddleBooster: (state, action: PayloadAction<number>) => {
-      state.middle = action.payload;
+      state.boostTones.middle = action.payload;
     },
     setTrebleBooster: (state, action: PayloadAction<number>) => {
-      state.treble = action.payload;
+      state.boostTones.treble = action.payload;
     },
   },
 });
