@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import {
   CanvasContainer,
   CanvasEffects,
@@ -8,11 +8,15 @@ import {
   VisualizerContent,
   VisualizerTitle,
 } from './visualizer.styled';
+import { useSelector } from 'react-redux';
+import { RootState } from '@musicfy/web/store';
 
 /* eslint-disable-next-line */
 export interface VisualizerProps {}
 
 export function Visualizer(props: VisualizerProps) {
+  const { frequencies, frequencyBinCount } = useSelector((state: RootState) => state.playback.analysis);
+
   // Get a canvas defined with ID "oscilloscope"
   const canvas = useRef<HTMLCanvasElement>(null);
   const canvasCtx = canvas.current?.getContext('2d');
@@ -26,8 +30,30 @@ export function Visualizer(props: VisualizerProps) {
     canvasCtx.moveTo(0, 0);
     canvasCtx.lineTo(100, 100);
     canvasCtx.stroke();
-
   }
+
+  useEffect(() => {
+    if (canvasCtx && canvas.current) {
+      canvasCtx.clearRect(0, 0, canvas.current.width, canvas.current.height);
+      const barWidth = (canvas.current.width / frequencyBinCount) * 2.5;
+
+      let x = 0;
+
+      for (let i = 0; i < frequencyBinCount; i++) {
+        const barHeight = frequencies[i];
+  
+        const r = barHeight + 25 * (i / frequencyBinCount);
+        const g = 250 * (i / frequencyBinCount);
+        const b = 50;
+  
+        canvasCtx.fillStyle = `rgb(${r}, ${g}, ${b})`;
+        canvasCtx.fillRect(x, canvas.current.height - barHeight, barWidth, barHeight);
+  
+        x += barWidth + 1;
+      }
+    }
+  
+  }, [canvasCtx, canvas, frequencies, frequencyBinCount]);
 
   return (
     <VisualizerContainer>

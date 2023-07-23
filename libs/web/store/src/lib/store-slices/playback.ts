@@ -36,6 +36,7 @@ export interface PlaybackState {
     leftChannel: number;
     rightChannel: number;
     frequencies: number[];
+    frequencyBinCount: number;
   }
 }
 
@@ -66,6 +67,7 @@ const initialState: PlaybackState = {
     leftChannel: 0,
     rightChannel: 0,
     frequencies: [],
+    frequencyBinCount: 0,
   }
 };
 
@@ -113,6 +115,12 @@ export const playbackSlice = createSlice({
     },
     setRightChannel: (state, action: PayloadAction<number>) => {
       state.analysis.rightChannel = action.payload;
+    },
+    setFrequencyData: (state, action: PayloadAction<number[]>) => {
+      state.analysis.frequencies = action.payload;
+    },
+    setFrequencyBinCount: (state, action: PayloadAction<number>) => {
+      state.analysis.frequencyBinCount = action.payload;
     }
   },
 });
@@ -131,6 +139,8 @@ export const {
   setUrl,
   setLeftChannel,
   setRightChannel,
+  setFrequencyData,
+  setFrequencyBinCount,
 } = playbackSlice.actions;
 
 export default playbackSlice.reducer;

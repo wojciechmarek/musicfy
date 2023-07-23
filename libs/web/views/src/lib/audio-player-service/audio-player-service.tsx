@@ -15,7 +15,7 @@ export function AudioPlayerService() {
   );
 
   const {
-    setPlaybackState,
+    setPlaybackStateToPlay,
     setVolume,
     setMuted,
     setNewAudioUrlAndStartPlay,
@@ -24,15 +24,12 @@ export function AudioPlayerService() {
     setStereo,
     setKaraoke,
     setSeekToTime,
-    disconnectTimeUpdateAudioEventListener,
-    connectTimeUpdateAudioEventListener,
-    resetTimeCounter,
   } = useAudioPlayerService();
 
   // PLAY/PAUSE
   useEffect(() => {
-    setPlaybackState(isPlaying);
-  }, [isPlaying, setPlaybackState]);
+    setPlaybackStateToPlay(isPlaying);
+  }, [isPlaying, setPlaybackStateToPlay]);
 
   // SEEK TO TIME
   useEffect(() => {
@@ -51,17 +48,8 @@ export function AudioPlayerService() {
 
   // URL
   useEffect(() => {
-    disconnectTimeUpdateAudioEventListener();
-    resetTimeCounter();
     setNewAudioUrlAndStartPlay(url);
-    connectTimeUpdateAudioEventListener();
-  }, [
-    url,
-    disconnectTimeUpdateAudioEventListener,
-    resetTimeCounter,
-    setNewAudioUrlAndStartPlay,
-    connectTimeUpdateAudioEventListener,
-  ]);
+  }, [url, setNewAudioUrlAndStartPlay]);
 
   // MICROPHONE
   useEffect(() => {

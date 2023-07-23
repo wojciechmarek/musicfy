@@ -50,6 +50,7 @@ export function VfdDisplay(props: VfdDisplayProps) {
     (state: RootState) => state.playback.analysis
   );
 
+
   return (
     <VfdDisplayContainer {...rest}>
       <VfdControls>

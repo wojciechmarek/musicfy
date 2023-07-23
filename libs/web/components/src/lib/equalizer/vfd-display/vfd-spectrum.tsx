@@ -57,16 +57,21 @@ export const VfdSpectrumAnalyzer = (props: VfdSpectrumAnalyzerProps) => {
     <VfdSpectrum>
       {headers.map((i, columnIndex) => (
         <SpectrumColumn>
+          <BarFrequencyDescription isActive={isEnabled}>
+          {Math.round(values[columnIndex] % 12)}
+          </BarFrequencyDescription>
+          
+          
           {Array.from({ length: 12 }, (_, index) =>
             index < 3 ? (
               <SpectrumBarRed
                 key={index}
-                isActive={isEnabled && (values[columnIndex] - 100) >= 100 - index * 9}
+                isActive={isEnabled && (values[columnIndex] - 100) >= 100 - index * 6}
               />
             ) : (
               <SpectrumBar
                 key={index}
-                isActive={isEnabled && (values[columnIndex] - 100) >= 100 - index * 9}
+                isActive={isEnabled && (values[columnIndex] - 100) >= 100 - index * 6}
               />
             )
           )}

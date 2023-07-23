@@ -1,11 +1,10 @@
 import { useDispatch } from 'react-redux';
-import { setCurrentTime } from '@musicfy/web/store';
+import { setCurrentTime, setFrequencyBinCount, setFrequencyData } from '@musicfy/web/store';
 import { useCallback, useRef } from 'react';
+import song from './song.mp3';
 
 export const useAudioPlayerService = () => {
   const songTimeInSeconds = useRef(0);
-  const contextRef = useRef(new window.AudioContext());
-  const analyserRef = useRef(contextRef.current.createAnalyser());
 
   // ---------------------- STORE ----------------------------
   const dispatch = useDispatch();
@@ -13,26 +12,18 @@ export const useAudioPlayerService = () => {
   // ---------- SOUND OBJECT AND CONTEXT -----------------
   const audio = useRef<HTMLAudioElement>(new Audio());
   const context = useRef(new window.AudioContext());
-  const analyserNode = useRef(context.current.createAnalyser());
-
-  // ------------ AUDIO PROCESSING - ANALYSER --------------------
-  // analyser.minDecibels = -90;
-  // analyser.maxDecibels = -10;
-  // analyser.smoothingTimeConstant = 0.85;
-
-  // const distortion = context.createWaveShaper();
-  // const gainNode = context.createGain();
-  // const biquadFilter = context.createBiquadFilter();
-  // const convolver = context.createConvolver();
+  const analyser = useRef(context.current.createAnalyser());
 
   // --------------- PRIVATE METHODS -----------------
-  const disconnectTimeUpdateAudioEventListener = () => {
+  const disconnectTimeUpdateAudioEventListener = useCallback(() => {
     audio.current.removeEventListener('timeupdate', () => {
       console.log('event listener disconnected');
     });
-  };
+  }, []);
 
-  const connectTimeUpdateAudioEventListener = () => {
+  const connectTimeUpdateAudioEventListener = useCallback(() => {
+    dispatch(setFrequencyBinCount(analyser.current.frequencyBinCount));
+
     audio.current.addEventListener('timeupdate', () => {
       const songTime = audio.current.currentTime;
       const currentSongTimeInSeconds = Math.floor(songTime);
@@ -40,21 +31,20 @@ export const useAudioPlayerService = () => {
       if (currentSongTimeInSeconds > songTimeInSeconds.current) {
         songTimeInSeconds.current = currentSongTimeInSeconds;
         dispatch(setCurrentTime(currentSongTimeInSeconds));
-
-        analyserNode.current.fftSize = 32;
-        const dataArray = new Float32Array(16);
-
-        analyserRef.current.getFloatFrequencyData(dataArray);
-        console.log(dataArray);
       }
+
+      const bufferLength = analyser.current.frequencyBinCount;
+      const dataArray = new Uint8Array(bufferLength);
+      analyser.current.getByteFrequencyData(dataArray);
+      dispatch(setFrequencyData(Array.from(dataArray)));
     });
-  };
+  }, [dispatch]);
 
-  const resetTimeCounter = () => {
+  const resetTimeCounter = useCallback(() => {
     songTimeInSeconds.current = 0;
-  };
+  }, []);
 
-  const setPlaybackState = useCallback(
+  const setPlaybackStateToPlay = useCallback(
     (isPlaying: boolean) => {
       if (isPlaying && audio.current.paused) {
         audio.current.play();
@@ -85,17 +75,42 @@ export const useAudioPlayerService = () => {
         return;
       }
 
-      audio.current.pause();
+      setPlaybackStateToPlay(false);
+      disconnectTimeUpdateAudioEventListener();
+      resetTimeCounter();
+
       audio.current = new Audio(url);
-      context.current = new AudioContext();
-      analyserNode.current = context.current.createAnalyser();
+      audio.current.crossOrigin="anonymous"
       
+      // audio.current = new Audio(song);
+      context.current = new AudioContext();
+
+      // audio.current.crossOrigin = 'anonymous';
+
       if (url) {
-        setPlaybackState(true);
+        setPlaybackStateToPlay(true);
+        setupAudioAnalyser();
+        connectTimeUpdateAudioEventListener();
       }
     },
-    [audio, setPlaybackState]
+    [
+      audio,
+      setPlaybackStateToPlay,
+      disconnectTimeUpdateAudioEventListener,
+      resetTimeCounter,
+      connectTimeUpdateAudioEventListener,
+    ]
   );
+
+  const setupAudioAnalyser = () => {
+    const source = context.current.createMediaElementSource(audio.current);
+    analyser.current = context.current.createAnalyser();
+
+    source.connect(analyser.current);
+    analyser.current.connect(context.current.destination);
+
+    analyser.current.fftSize = 32;
+  };
 
   const setMicrophoneSource = useCallback((isMicrophoneSource: boolean) => {
     if (isMicrophoneSource) {
@@ -130,7 +145,7 @@ export const useAudioPlayerService = () => {
   );
 
   return {
-    setPlaybackState,
+    setPlaybackStateToPlay,
     setVolume,
     setMuted,
     setNewAudioUrlAndStartPlay,

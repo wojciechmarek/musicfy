@@ -23,7 +23,7 @@ export const CanvasContainer = styled.div`
   margin-top: 1em;
   height: 400px;
   width: 100%;
-  background-color: #8b1e1e;
+  background-color: #2a2b30;
 `;
 
 export const CanvasEffects = styled.div`

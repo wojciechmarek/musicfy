@@ -20,6 +20,7 @@ import {
   EqualizerContent,
   EqualizerTitle,
 } from './equalizer.styled';
+import { useEffect } from 'react';
 
 /* eslint-disable-next-line */
 export interface EqualizerProps {}
@@ -165,7 +166,7 @@ export function Equalizer(props: EqualizerProps) {
             rightLabel="H"
             isEnabled={isEqualizerEnabled && isMicrophoneSourceEnabled}
           />
-          <VfdDisplay className="vfd" isEnabled={isEqualizerEnabled} />
+          <VfdDisplay className="vfd" isEnabled={isEqualizerEnabled}  />
         </EqContainer>
       </EqualizerContent>
     </EqualizerContainer>
