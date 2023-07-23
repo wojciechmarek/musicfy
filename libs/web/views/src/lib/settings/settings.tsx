@@ -95,7 +95,7 @@ export function Settings(props: SettingsProps) {
   return (
     <SettingsContainer>
       <SettingsContent>
-        <SettingsTitle>Welcome to Settings!</SettingsTitle>
+        <SettingsTitle>Settings</SettingsTitle>
         <SettingsList>
           <SettingsEntry>
             <EntryText>Spotify API key:</EntryText>

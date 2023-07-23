@@ -12,6 +12,8 @@ export const useAudioPlayerService = () => {
 
   // ---------- SOUND OBJECT AND CONTEXT -----------------
   const audio = useRef<HTMLAudioElement>(new Audio());
+  const context = useRef(new window.AudioContext());
+  const analyserNode = useRef(context.current.createAnalyser());
 
   // ------------ AUDIO PROCESSING - ANALYSER --------------------
   // analyser.minDecibels = -90;
@@ -23,30 +25,30 @@ export const useAudioPlayerService = () => {
   // const biquadFilter = context.createBiquadFilter();
   // const convolver = context.createConvolver();
 
-  // BARS
-
-
-
   // --------------- PRIVATE METHODS -----------------
-  const connectTimeCounterToAudioEventListener = () => {
-    audio.current.addEventListener('timeupdate', () => {
-        const songTime = audio.current.currentTime;
-        const currentSongTimeInSeconds = Math.floor(songTime);
-  
-        if (currentSongTimeInSeconds > songTimeInSeconds.current) {
-          songTimeInSeconds.current = currentSongTimeInSeconds;
-          dispatch(setCurrentTime(currentSongTimeInSeconds));
-    
-
-          const bufferLength = analyserRef.current.frequencyBinCount;
-          const dataArray = new Uint8Array(bufferLength);
-
-          analyserRef.current.getByteFrequencyData(dataArray);
-          console.log(dataArray);
-        }
+  const disconnectTimeUpdateAudioEventListener = () => {
+    audio.current.removeEventListener('timeupdate', () => {
+      console.log('event listener disconnected');
     });
   };
 
+  const connectTimeUpdateAudioEventListener = () => {
+    audio.current.addEventListener('timeupdate', () => {
+      const songTime = audio.current.currentTime;
+      const currentSongTimeInSeconds = Math.floor(songTime);
+
+      if (currentSongTimeInSeconds > songTimeInSeconds.current) {
+        songTimeInSeconds.current = currentSongTimeInSeconds;
+        dispatch(setCurrentTime(currentSongTimeInSeconds));
+
+        analyserNode.current.fftSize = 32;
+        const dataArray = new Float32Array(16);
+
+        analyserRef.current.getFloatFrequencyData(dataArray);
+        console.log(dataArray);
+      }
+    });
+  };
 
   const resetTimeCounter = () => {
     songTimeInSeconds.current = 0;
@@ -85,17 +87,10 @@ export const useAudioPlayerService = () => {
 
       audio.current.pause();
       audio.current = new Audio(url);
-      contextRef.current = new window.AudioContext();
-      analyserRef.current = contextRef.current.createAnalyser();
-
-      analyserRef.current.fftSize = 32;
-      analyserRef.current.minDecibels = -90;
-      analyserRef.current.maxDecibels = -10;
-      analyserRef.current.smoothingTimeConstant = 0.85;
-      analyserRef.current.connect(contextRef.current.destination);
-
-
-      if (url) {        
+      context.current = new AudioContext();
+      analyserNode.current = context.current.createAnalyser();
+      
+      if (url) {
         setPlaybackState(true);
       }
     },
@@ -115,26 +110,17 @@ export const useAudioPlayerService = () => {
     }
   }, []);
 
-  const setBalance = useCallback(
-    (balance: number) => {
-      // audio.current.balance = balance;
-    },
-    [audio]
-  );
+  const setBalance = useCallback((balance: number) => {
+    console.log('change balance', balance);
+  }, []);
 
-  const setStereo = useCallback(
-    (isStereo: boolean) => {
-      // audio.current.stereo = isStereo;
-    },
-    [audio]
-  );
+  const setStereo = useCallback((isStereo: boolean) => {
+    console.log('change stereo', isStereo);
+  }, []);
 
-  const setKaraoke = useCallback(
-    (isKaraoke: boolean) => {
-      // audio.current.karaoke = isKaraoke;
-    },
-    [audio]
-  );
+  const setKaraoke = useCallback((isKaraoke: boolean) => {
+    console.log('change karaoke', isKaraoke);
+  }, []);
 
   const setSeekToTime = useCallback(
     (seekToTime: number) => {
@@ -153,7 +139,8 @@ export const useAudioPlayerService = () => {
     setStereo,
     setKaraoke,
     setSeekToTime,
-    connectTimeCounterToAudioEventListener,
+    disconnectTimeUpdateAudioEventListener,
+    connectTimeUpdateAudioEventListener,
     resetTimeCounter,
   };
 };

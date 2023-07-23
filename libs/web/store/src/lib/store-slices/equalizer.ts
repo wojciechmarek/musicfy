@@ -16,7 +16,7 @@ export interface EqualizerState {
 }
 
 const initialState: EqualizerState = {
-  isEnabled: true,
+  isEnabled: false,
   isStereo: true,
   isMicrophoneSource: false,
   isKaraoke: false,

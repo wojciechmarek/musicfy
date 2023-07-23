@@ -9,7 +9,8 @@ export const HomeContent = styled.div`
   height: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0.5em 1em 0;
+  padding: 0.5em 1em 1.5em;
+  overflow-y: auto;
 `;
 
 export const PopularAndMoodContainer = styled.div`

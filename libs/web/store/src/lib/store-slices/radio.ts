@@ -51,12 +51,26 @@ const radioState: RadioState = {
     },
     {
       id: 6,
-      title: 'Radio Free Europe - Radio Liberty (RUS)',
-      description: 'General Radio',
+      title: 'Radio Free Europe - Radio Liberty',
+      description: 'Freedom Radio (Russian)',
       cover: 'https://www.rferl.org/Content/responsive/RFE/en-US/img/logo-print_color.png',
       url: 'https://rfe-channel-04.akacast.akamaistream.net/7/885/229654/v1/ibb.akacast.akamaistream.net/rfe_channel_04.mp3',
     },
-  ]
+    {
+      id: 7,
+      title: 'RMF Maxxx',
+      description: 'Polish Party Radio',
+      cover: 'https://upload.wikimedia.org/wikipedia/commons/8/86/Logo_RMF_MAXX.png',
+      url: 'http://195.150.20.7/rmf_maxxx',
+    },
+    {
+      id: 8,
+      title: 'Nash FM 106.1',
+      description: 'American Country Radio (New Orleans)',
+      cover: 'https://upload.wikimedia.org/wikipedia/en/7/7f/WRKN_Nash_Icon_106.1_logo.png',
+      url: 'https://playerservices.streamtheworld.com/api/livestream-redirect/WRKNFMAAC.aac',
+    },
+  ],
 };
 
 export const radioSlice = createSlice({

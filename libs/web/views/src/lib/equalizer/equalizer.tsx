@@ -94,7 +94,7 @@ export function Equalizer(props: EqualizerProps) {
   return (
     <EqualizerContainer>
       <EqualizerContent>
-        <EqualizerTitle>EQUALIZER AVR-X1700H Super Heavy Bass</EqualizerTitle>
+        <EqualizerTitle>EQUALIZER Super Heavy Bass</EqualizerTitle>
         <EqContainer>
           <Power
             className="power"

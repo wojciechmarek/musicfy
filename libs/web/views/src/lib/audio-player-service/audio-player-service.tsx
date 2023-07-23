@@ -4,10 +4,16 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@musicfy/web/store';
 
 export function AudioPlayerService() {
-  const { seekToTime, isPlaying, url } = useSelector((state: RootState) => state.playback.audio);
-  const { isMicrophoneSource, balance, isStereo, isKaraoke } = useSelector((state: RootState) => state.equalizer);
-  const { level, isMuted } = useSelector((state: RootState) => state.playback.volume);
-  
+  const { seekToTime, isPlaying, url } = useSelector(
+    (state: RootState) => state.playback.audio
+  );
+  const { isMicrophoneSource, balance, isStereo, isKaraoke } = useSelector(
+    (state: RootState) => state.equalizer
+  );
+  const { level, isMuted } = useSelector(
+    (state: RootState) => state.playback.volume
+  );
+
   const {
     setPlaybackState,
     setVolume,
@@ -18,7 +24,8 @@ export function AudioPlayerService() {
     setStereo,
     setKaraoke,
     setSeekToTime,
-    connectTimeCounterToAudioEventListener,
+    disconnectTimeUpdateAudioEventListener,
+    connectTimeUpdateAudioEventListener,
     resetTimeCounter,
   } = useAudioPlayerService();
 
@@ -44,10 +51,17 @@ export function AudioPlayerService() {
 
   // URL
   useEffect(() => {
+    disconnectTimeUpdateAudioEventListener();
     resetTimeCounter();
     setNewAudioUrlAndStartPlay(url);
-    connectTimeCounterToAudioEventListener();
-  }, [url, setNewAudioUrlAndStartPlay, connectTimeCounterToAudioEventListener, resetTimeCounter]);
+    connectTimeUpdateAudioEventListener();
+  }, [
+    url,
+    disconnectTimeUpdateAudioEventListener,
+    resetTimeCounter,
+    setNewAudioUrlAndStartPlay,
+    connectTimeUpdateAudioEventListener,
+  ]);
 
   // MICROPHONE
   useEffect(() => {

@@ -5,7 +5,6 @@ import {
   Track,
   setAudioSource,
   setIsPlaying,
-  setIsRadio,
   setIsRepeating,
   setIsShuffling,
   setTrack,
