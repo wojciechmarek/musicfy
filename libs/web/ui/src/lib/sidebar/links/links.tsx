@@ -15,7 +15,7 @@ import { NavLink } from 'react-router-dom';
 
 const links = [
   {
-    icon: <Music4 />,
+    icon: <Disc3 />,
     text: 'Demo',
     path: '/',
     id: AudioSource.DEMO,
@@ -155,7 +155,7 @@ export function Links(props: LinksProps) {
                 {link.icon}
                 <p>{link.text}</p>
               </LinkContent>
-              {isPlaying && source && link.id === source && <Disc3 />}
+              {isPlaying && source && link.id === source && <Music4 />}
             </NavLinkStyle>
           </NavigationLink>
         )

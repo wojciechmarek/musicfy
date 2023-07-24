@@ -56,6 +56,7 @@ export const EqKnobRevolveControl = styled.div<{
   height: 80%;
   border-radius: 50%;
   background-color: #272a35;
+  z-index: 1;
   
   cursor: ns-resize;
   transform: rotate(${(props) => props.rotate}deg);

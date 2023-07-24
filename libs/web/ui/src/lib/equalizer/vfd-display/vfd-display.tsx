@@ -73,8 +73,8 @@ export function VfdDisplay(props: VfdDisplayProps) {
           headers={frequenciesHeaders}
         />
         <VfdChannelAnalyzer
-          left={isMuted ? 0 : leftChannel}
-          right={isMuted ? 0 : rightChannel}
+          left={leftChannel}
+          right={rightChannel}
           isEnabled={isEnabled}
         />
       </VfdAnalyzersRow>
