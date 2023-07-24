@@ -1,8 +1,7 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   CanvasContainer,
   CanvasEffects,
-
   EffectTileButton,
   VisualizerContainer,
   VisualizerContent,
@@ -15,8 +14,21 @@ import styled from '@emotion/styled';
 /* eslint-disable-next-line */
 export interface VisualizerProps {}
 
+const enum Effect {
+  OFF,
+  BARS,
+  OSCILLATOR,
+  WAVE,
+  NOISE,
+  FRACTALS,
+}
+
 export function Visualizer(props: VisualizerProps) {
-  const { frequencies, bufferSize } = useSelector((state: RootState) => state.playback.analysis);
+  const { frequencies, bufferSize } = useSelector(
+    (state: RootState) => state.playback.analysis
+  );
+
+  const [effect, setEffect] = useState(Effect.OFF);
 
   // Get a canvas defined with ID "oscilloscope"
   const canvas = useRef<HTMLCanvasElement>(null);
@@ -34,46 +46,68 @@ export function Visualizer(props: VisualizerProps) {
   }
 
   useEffect(() => {
-    if (canvasCtx && canvas.current) {
-      canvasCtx.clearRect(0, 0, 400, 100);
-      const barWidth = (canvas.current.width / bufferSize) * 2.5;
+    switch (effect) {
+      case Effect.BARS:
+        if (canvasCtx && canvas.current) {
+          canvasCtx.clearRect(0, 0, 400, 100);
+          const barWidth = (canvas.current.width / bufferSize) * 1;
 
-      let x = 0;
+          let x = 0;
 
-      for (let i = 0; i < bufferSize; i++) {
-        const barHeight = frequencies[i];
-  
-        const r = barHeight + 25 * (i / bufferSize);
-        const g = 250 * (i / bufferSize);
-        const b = 50;
-  
-        canvasCtx.fillStyle = `rgb(${r}, ${g}, ${b})`;
-        canvasCtx.fillRect(x, canvas.current.height - barHeight, barWidth, barHeight);
-  
-        x += barWidth + 1;
-      }
+          for (let i = 0; i < bufferSize; i++) {
+            const barHeight = frequencies[i];
+
+            const r = barHeight + 25 * (i / bufferSize);
+            const g = 250 * (i / bufferSize);
+            const b = 50;
+
+            canvasCtx.fillStyle = `rgb(${r}, ${g}, ${b})`;
+            canvasCtx.fillRect(
+              x,
+              canvas.current.height - barHeight,
+              barWidth,
+              barHeight
+            );
+
+            x += barWidth + 1;
+          }
+        }
+        break;
+      case Effect.OFF:
+      default:
+        if (canvasCtx && canvas.current) {
+          canvasCtx.clearRect(
+            0,
+            0,
+            canvas.current.width,
+            canvas.current.height
+          );
+        }
+        break;
     }
-  
-  }, [canvasCtx, canvas, frequencies, bufferSize]);
-
+  }, [canvasCtx, canvas, frequencies, bufferSize, effect]);
 
   return (
     <VisualizerContainer>
       <VisualizerContent>
         <VisualizerTitle>Audio Sound Visualizer</VisualizerTitle>
         <CanvasContainer>
-          <canvas ref={canvas} height={200} width={800} />
+          <canvas ref={canvas} height={340} width={1000} />
         </CanvasContainer>
         <CanvasEffects>
-          <EffectTileButton>OFF</EffectTileButton>
-          <EffectTileButton>BARS</EffectTileButton>
+          <EffectTileButton isActive={effect === Effect.OFF} onClick={() => setEffect(Effect.OFF)}>
+            OFF
+          </EffectTileButton>
+          <EffectTileButton isActive={effect === Effect.BARS} onClick={() => setEffect(Effect.BARS)}>
+            BARS
+          </EffectTileButton>
           <EffectTileButton>OSCILLATOR</EffectTileButton>
           <EffectTileButton>WAVE</EffectTileButton>
           <EffectTileButton>NOISE</EffectTileButton>
           <EffectTileButton>FRACTALS</EffectTileButton>
           {Array.from(Array(10).keys()).map((i) => (
             <EffectTileButton key={i}>EFFECT #{i}</EffectTileButton>
-          ))}  
+          ))}
         </CanvasEffects>
       </VisualizerContent>
     </VisualizerContainer>

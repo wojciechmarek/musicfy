@@ -36,8 +36,11 @@ export const CanvasEffects = styled.div`
   overflow-x: auto;
 `;
 
-export const EffectTileButton = styled.button`
-  background-color: #2a2b30;
+export const EffectTileButton = styled.button<{
+  isActive?: boolean;
+}>`
+  background-color: ${(props) => (props.isActive ? '#2b31df' : '#2a2b30')};
+  box-shadow: ${(props) => (props.isActive ? '0 0 10px #2b31df' : 'none')};
   color: white;
   padding: 0.5em 1em;
   border-radius: 0.5em;
@@ -47,7 +50,7 @@ export const EffectTileButton = styled.button`
   border: none;
 
   &:hover {
-    background-color: #ffffff20;
+    background-color: ${(props) => (props.isActive ? '#4a4feb' : '#ffffff20')};
   }
 `;
 
