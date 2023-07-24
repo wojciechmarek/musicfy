@@ -151,6 +151,9 @@ export const useAudioProcessor = () => {
     channelSplitter.current.connect(rightChannelAnalyser.current, 1, 0);
     rightChannelAnalyser.current.connect(context.current.destination);
     rightChannelAnalyser.current.fftSize = 32;
+
+    // -- SETUP AUDIO SOURCE --
+    source.connect(context.current.destination);
   };
 
   const setMicrophoneSource = useCallback((isMicrophoneSource: boolean) => {
