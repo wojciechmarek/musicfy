@@ -10,6 +10,8 @@ export interface KnobProps {
   isEnabled?: boolean;
   isSmall?: boolean;
   value?: number;
+  isInfinite?: boolean;
+  isIndicatorsVisible?: boolean;
   onChange?: (value: number) => void;
 }
 

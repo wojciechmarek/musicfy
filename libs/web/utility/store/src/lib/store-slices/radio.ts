@@ -63,6 +63,13 @@ const radioState: RadioState = {
       cover: 'https://upload.wikimedia.org/wikipedia/en/7/7f/WRKN_Nash_Icon_106.1_logo.png',
       url: 'https://playerservices.streamtheworld.com/api/livestream-redirect/WRKNFMAAC.aac',
     },
+    {
+      id: 9,
+      title: 'Classic Rock 102.9 MGK',
+      description: 'Classic Radio (Greater Philadelphia Radio)',
+      cover: 'https://upload.wikimedia.org/wikipedia/en/a/a1/WMGK_102.9ClassicRock_logo.png',
+      url: 'http://playerservices.streamtheworld.com/api/livestream-redirect/WMGKFMAACIHR.aac',
+    },
   ],
 };
 

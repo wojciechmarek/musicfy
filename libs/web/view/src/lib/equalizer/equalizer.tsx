@@ -102,6 +102,8 @@ export function Equalizer(props: EqualizerProps) {
             handleOnPowerClick={onEqPowerClick}
           />
           <Knob
+            isInfinitive={true}
+            isIndicatorsVisible={true}
             className="volume"
             name="Volume"
             leftLabel="MIN"
