@@ -10,6 +10,7 @@ import {
 } from './visualizer.styled';
 import { useSelector } from 'react-redux';
 import { RootState } from '@musicfy/web/utility/store';
+import styled from '@emotion/styled';
 
 /* eslint-disable-next-line */
 export interface VisualizerProps {}
@@ -34,7 +35,7 @@ export function Visualizer(props: VisualizerProps) {
 
   useEffect(() => {
     if (canvasCtx && canvas.current) {
-      canvasCtx.clearRect(0, 0, canvas.current.width, canvas.current.height);
+      canvasCtx.clearRect(0, 0, 400, 100);
       const barWidth = (canvas.current.width / bufferSize) * 2.5;
 
       let x = 0;
@@ -55,12 +56,13 @@ export function Visualizer(props: VisualizerProps) {
   
   }, [canvasCtx, canvas, frequencies, bufferSize]);
 
+
   return (
     <VisualizerContainer>
       <VisualizerContent>
         <VisualizerTitle>Audio Sound Visualizer</VisualizerTitle>
         <CanvasContainer>
-          <canvas ref={canvas} id="oscilloscope" width="100%" height="100px" />
+          <canvas ref={canvas} height={200} width={800} />
         </CanvasContainer>
         <CanvasEffects>
           <EffectTileButton>OFF</EffectTileButton>

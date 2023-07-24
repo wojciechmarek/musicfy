@@ -1,28 +1,38 @@
 import { useDispatch } from 'react-redux';
-import { setBufferSize, setCurrentTime, setFrequencyData } from '@musicfy/web/utility/store';
+import { setBufferSize, setCurrentTime, setFrequencyData, setLeftChannel, setRightChannel } from '@musicfy/web/utility/store';
 import { useCallback, useRef } from 'react';
 
 export const useAudioProcessor = () => {
+  // ----------- PROCESSOR INTERNAL VARIABLES ----------------
   const songTimeInSeconds = useRef(0);
   const interval = useRef<NodeJS.Timeout>();
 
-  // ---------------------- STORE ----------------------------
+  // ------------- DISPATCH OBJECT ----------------------------
   const dispatch = useDispatch();
 
   // ---------- SOUND OBJECT AND CONTEXT -----------------
   const audio = useRef<HTMLAudioElement>(new Audio());
   const context = useRef(new window.AudioContext());
   const analyser = useRef(context.current.createAnalyser());
+  const leftChannelAnalyser = useRef(context.current.createAnalyser());
+  const rightChannelAnalyser = useRef(context.current.createAnalyser());
+  const channelSplitter = useRef(context.current.createChannelSplitter(2));
 
   // --------------- PRIVATE METHODS -----------------
-  const disconnectTimeUpdateAudioEventListener = useCallback(() => {
-    audio.current.removeEventListener('timeupdate', () => {
-      console.log('event listener disconnected');
-    });
-  }, []);
+  const startAnalyserInterval = useCallback(() => {
+    // -- CREATE DATA BUFFER AND DISPATCH DATA BUFFER LENGTH (for FREQUENCY) --
+    const bufferLength = analyser.current.frequencyBinCount;
+    const dataArray = new Uint8Array(bufferLength);
+    dispatch(setBufferSize(bufferLength));
 
-  const connectTimeUpdateAudioEventListener = useCallback(() => {
-    audio.current.addEventListener('timeupdate', () => {
+    // -- START DATA BUFFER AND DISPATCH DATA BUFFER (for CHANNELS) --
+    const leftChannel = new Uint8Array(bufferLength);
+    const rightChannel = new Uint8Array(bufferLength);
+
+    // -- START INTERVAL: 1sek/20ms = 50HZ REFRESH RATE --
+    interval.current = setInterval(() => {
+
+      // -- CALCULATE AND DISPATCH CURRENT PLAYBACK TIME --
       const songTime = audio.current.currentTime;
       const currentSongTimeInSeconds = Math.floor(songTime);
 
@@ -30,18 +40,27 @@ export const useAudioProcessor = () => {
         songTimeInSeconds.current = currentSongTimeInSeconds;
         dispatch(setCurrentTime(currentSongTimeInSeconds));
       }
-    });
-  }, [dispatch]);
 
-  const startAnalyserInterval = useCallback(() => {
-    dispatch(setBufferSize(analyser.current.frequencyBinCount));
-
-    interval.current = setInterval(() => {
-      const bufferLength = analyser.current.frequencyBinCount;
-      const dataArray = new Uint8Array(bufferLength);
+      // -- CALCULATE AND DISPATCH FREQUENCY DATA --
       analyser.current.getByteFrequencyData(dataArray);
       dispatch(setFrequencyData(Array.from(dataArray)));
-    }, 30);
+
+      // -- CALCULATE AND DISPATCH SPLITTER CHANNELS DATA --
+      leftChannelAnalyser.current.getByteFrequencyData(leftChannel);
+      rightChannelAnalyser.current.getByteFrequencyData(rightChannel);
+
+      const leftChannelReducedValue = leftChannel.reduce((acc, curr) => acc + curr, 0);
+      const rightChannelReducedValue = rightChannel.reduce((acc, curr) => acc + curr, 0);
+
+      const leftChannelAverageValue = leftChannelReducedValue / leftChannel.length;
+      const rightChannelAverageValue = rightChannelReducedValue / rightChannel.length;
+
+      const leftChannelValue = Math.floor(leftChannelAverageValue);
+      const rightChannelValue = Math.floor(rightChannelAverageValue);
+      
+      dispatch(setLeftChannel(leftChannelValue));
+      dispatch(setRightChannel(rightChannelValue));   
+    }, 20);
   }, [dispatch]);
 
   const stopAnalyserInterval = useCallback(() => {
@@ -88,43 +107,50 @@ export const useAudioProcessor = () => {
       }
 
       setPlaybackStateToPlay(false);
-      disconnectTimeUpdateAudioEventListener();
       resetTimeCounter();
       stopAnalyserInterval();
 
-      // audio.current = new Audio(song);
       audio.current = new Audio(url);
-
       audio.current.crossOrigin="anonymous"
 
       if (url) {
         setPlaybackStateToPlay(true);
         setupAudioAnalyser();
-        connectTimeUpdateAudioEventListener();
         startAnalyserInterval();
       }
     },
     [
       audio,
       setPlaybackStateToPlay,
-      disconnectTimeUpdateAudioEventListener,
       resetTimeCounter,
-      connectTimeUpdateAudioEventListener,
       startAnalyserInterval,
       stopAnalyserInterval
     ]
   );
 
-
-
   const setupAudioAnalyser = () => {
+    // -- SETUP AUDIO SOURCE --
     const source = context.current.createMediaElementSource(audio.current);
-    analyser.current = context.current.createAnalyser();
 
+    // -- SETUP FREQUENCY ANALYSER --
+    analyser.current = context.current.createAnalyser();
     source.connect(analyser.current);
     analyser.current.connect(context.current.destination);
-
     analyser.current.fftSize = 32;
+
+    // -- SETUP CHANNELS SPLITS --
+    channelSplitter.current = context.current.createChannelSplitter(2);
+    source.connect(channelSplitter.current);
+
+    // -- SETUP LEFT CHANNEL ANALYSER --
+    channelSplitter.current.connect(leftChannelAnalyser.current, 0, 0);
+    leftChannelAnalyser.current.connect(context.current.destination);
+    leftChannelAnalyser.current.fftSize = 32;
+
+    // -- SETUP RIGHT CHANNEL ANALYSER --
+    channelSplitter.current.connect(rightChannelAnalyser.current, 1, 0);
+    rightChannelAnalyser.current.connect(context.current.destination);
+    rightChannelAnalyser.current.fftSize = 32;
   };
 
   const setMicrophoneSource = useCallback((isMicrophoneSource: boolean) => {
@@ -169,8 +195,6 @@ export const useAudioProcessor = () => {
     setStereo,
     setKaraoke,
     setSeekToTime,
-    disconnectTimeUpdateAudioEventListener,
-    connectTimeUpdateAudioEventListener,
     resetTimeCounter,
   };
 };

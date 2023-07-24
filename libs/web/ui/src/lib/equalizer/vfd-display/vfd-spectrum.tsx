@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { RootState } from 'libs/web/utility/store/src';
+import { RootState } from '@musicfy/web/utility/store';
 import { useSelector } from 'react-redux';
 
 export interface VfdSpectrumAnalyzerProps {
@@ -67,14 +67,18 @@ export const VfdSpectrumAnalyzer = (props: VfdSpectrumAnalyzerProps) => {
               <SpectrumBarRed
                 key={index}
                 isActive={
-                  isEnabled && frequencies[columnIndex] - 100 >= 100 - index * 6
+                  isEnabled &&
+                  frequencies[columnIndex] - 100 - (55 - columnIndex * 5) >=
+                    100 - index * 10
                 }
               />
             ) : (
               <SpectrumBar
                 key={index}
                 isActive={
-                  isEnabled && frequencies[columnIndex] - 100 >= 100 - index * 6
+                  isEnabled &&
+                  frequencies[columnIndex] - 100 - (55 - columnIndex * 5)>=
+                    100 - index * 10
                 }
               />
             )

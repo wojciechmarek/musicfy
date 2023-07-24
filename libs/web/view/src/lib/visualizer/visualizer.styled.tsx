@@ -24,6 +24,7 @@ export const CanvasContainer = styled.div`
   height: 400px;
   width: 100%;
   background-color: #2a2b30;
+  position: relative;
 `;
 
 export const CanvasEffects = styled.div`

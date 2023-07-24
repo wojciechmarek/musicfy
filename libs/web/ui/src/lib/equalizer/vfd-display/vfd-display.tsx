@@ -1,5 +1,4 @@
 import { useSelector } from 'react-redux';
-import { RootState } from 'libs/web/utility/store/src';
 import { VfdSpectrumAnalyzer } from './vfd-spectrum';
 import { VfdChannelAnalyzer } from './vfd-channel-analyzer';
 import {
@@ -9,6 +8,7 @@ import {
   VfdControls,
   VfdDisplayContainer,
 } from './vfd-display.styled';
+import { RootState } from '@musicfy/web/utility/store';
 
 /* eslint-disable-next-line */
 export interface VfdDisplayProps {
@@ -47,6 +47,10 @@ export function VfdDisplay(props: VfdDisplayProps) {
     (state: RootState) => state.equalizer
   );
 
+  const { leftChannel, rightChannel } = useSelector(
+    (state: RootState) => state.playback.analysis
+  );
+
   return (
     <VfdDisplayContainer {...rest}>
       <VfdControls>
@@ -69,8 +73,8 @@ export function VfdDisplay(props: VfdDisplayProps) {
           headers={frequenciesHeaders}
         />
         <VfdChannelAnalyzer
-          left={isMuted ? 0 : level}
-          right={isMuted ? 0 : level}
+          left={isMuted ? 0 : leftChannel}
+          right={isMuted ? 0 : rightChannel}
           isEnabled={isEnabled}
         />
       </VfdAnalyzersRow>
