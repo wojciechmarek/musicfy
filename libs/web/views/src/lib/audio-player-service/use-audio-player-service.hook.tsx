@@ -41,7 +41,7 @@ export const useAudioPlayerService = () => {
       const dataArray = new Uint8Array(bufferLength);
       analyser.current.getByteFrequencyData(dataArray);
       dispatch(setFrequencyData(Array.from(dataArray)));
-    }, 25);
+    }, 30);
   }, [dispatch]);
 
   const stopAnalyserInterval = useCallback(() => {
