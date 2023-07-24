@@ -1,0 +1,30 @@
+import { AudioProcessor } from '../audio-processor/audio-processor';
+import { Player } from '../player/player';
+import { Sidebar } from '../sidebar/sidebar';
+import {
+  ContentContainer,
+  LayoutContainer,
+  LayoutContent,
+} from './layout.styled';
+
+import { Outlet } from 'react-router-dom';
+
+/* eslint-disable-next-line */
+export interface LayoutProps {}
+
+export function Layout(props: LayoutProps) {
+  return (
+    <LayoutContainer>
+      <AudioProcessor />
+      <LayoutContent>
+        <Sidebar />
+        <ContentContainer>
+          <Outlet />
+        </ContentContainer>
+      </LayoutContent>
+      <Player />
+    </LayoutContainer>
+  );
+}
+
+export default Layout;

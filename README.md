@@ -39,7 +39,7 @@ Almost everything might be an audio source, such as a local file, a remote file,
 - 🎁 Repository: Monorepo powered by NX
 - 🧰 Frameworks: React, Redux Toolkit
 - 🛠️ Tools: ~~yarn, eslint, prettier, husky, conventional commits, axios~~, react-router
-- 🎨 Styling: styled components by emotion, lucide icons
+- 🎨 Styling: styled ui by emotion, lucide icons
 - 🧪 Testing: ~~cypress, jest~~
 - ☁️ Data source: ~~Spotify API~~ hardcoded song
 - 💎 Others: desktop-first approach, ~~progressive web app, atomic design~~
