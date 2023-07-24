@@ -1,9 +1,10 @@
 import styled from '@emotion/styled';
+import { RootState } from '@musicfy/web/store';
+import { useSelector } from 'react-redux';
 
 export interface VfdSpectrumAnalyzerProps {
   isEnabled: boolean;
   headers: string[];
-  values: number[];
 }
 
 const SpectrumColumn = styled.div`
@@ -52,26 +53,29 @@ const VfdSpectrum = styled.div`
 `;
 
 export const VfdSpectrumAnalyzer = (props: VfdSpectrumAnalyzerProps) => {
-  const { isEnabled, headers, values } = props;
+  const { frequencies } = useSelector(
+    (state: RootState) => state.playback.analysis
+  );
+
+  const { isEnabled, headers } = props;
   return (
     <VfdSpectrum>
       {headers.map((i, columnIndex) => (
-        <SpectrumColumn>
-          <BarFrequencyDescription isActive={isEnabled}>
-          {Math.round(values[columnIndex] % 12)}
-          </BarFrequencyDescription>
-          
-          
+        <SpectrumColumn key={i}>
           {Array.from({ length: 12 }, (_, index) =>
             index < 3 ? (
               <SpectrumBarRed
                 key={index}
-                isActive={isEnabled && (values[columnIndex] - 100) >= 100 - index * 6}
+                isActive={
+                  isEnabled && frequencies[columnIndex] - 100 >= 100 - index * 6
+                }
               />
             ) : (
               <SpectrumBar
                 key={index}
-                isActive={isEnabled && (values[columnIndex] - 100) >= 100 - index * 6}
+                isActive={
+                  isEnabled && frequencies[columnIndex] - 100 >= 100 - index * 6
+                }
               />
             )
           )}

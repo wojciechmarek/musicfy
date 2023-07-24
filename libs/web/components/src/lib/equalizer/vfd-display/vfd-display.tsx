@@ -46,10 +46,6 @@ export function VfdDisplay(props: VfdDisplayProps) {
   const { isKaraoke, isMicrophoneSource, isStereo } = useSelector(
     (state: RootState) => state.equalizer
   );
-  const { frequencies } = useSelector(
-    (state: RootState) => state.playback.analysis
-  );
-
 
   return (
     <VfdDisplayContainer {...rest}>
@@ -71,7 +67,6 @@ export function VfdDisplay(props: VfdDisplayProps) {
         <VfdSpectrumAnalyzer
           isEnabled={isEnabled}
           headers={frequenciesHeaders}
-          values={frequencies}
         />
         <VfdChannelAnalyzer
           left={isMuted ? 0 : level}

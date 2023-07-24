@@ -15,7 +15,7 @@ import { RootState } from '@musicfy/web/store';
 export interface VisualizerProps {}
 
 export function Visualizer(props: VisualizerProps) {
-  const { frequencies, frequencyBinCount } = useSelector((state: RootState) => state.playback.analysis);
+  const { frequencies, bufferSize } = useSelector((state: RootState) => state.playback.analysis);
 
   // Get a canvas defined with ID "oscilloscope"
   const canvas = useRef<HTMLCanvasElement>(null);
@@ -35,15 +35,15 @@ export function Visualizer(props: VisualizerProps) {
   useEffect(() => {
     if (canvasCtx && canvas.current) {
       canvasCtx.clearRect(0, 0, canvas.current.width, canvas.current.height);
-      const barWidth = (canvas.current.width / frequencyBinCount) * 2.5;
+      const barWidth = (canvas.current.width / bufferSize) * 2.5;
 
       let x = 0;
 
-      for (let i = 0; i < frequencyBinCount; i++) {
+      for (let i = 0; i < bufferSize; i++) {
         const barHeight = frequencies[i];
   
-        const r = barHeight + 25 * (i / frequencyBinCount);
-        const g = 250 * (i / frequencyBinCount);
+        const r = barHeight + 25 * (i / bufferSize);
+        const g = 250 * (i / bufferSize);
         const b = 50;
   
         canvasCtx.fillStyle = `rgb(${r}, ${g}, ${b})`;
@@ -53,7 +53,7 @@ export function Visualizer(props: VisualizerProps) {
       }
     }
   
-  }, [canvasCtx, canvas, frequencies, frequencyBinCount]);
+  }, [canvasCtx, canvas, frequencies, bufferSize]);
 
   return (
     <VisualizerContainer>

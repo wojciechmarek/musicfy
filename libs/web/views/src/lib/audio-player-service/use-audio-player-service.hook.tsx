@@ -1,10 +1,10 @@
 import { useDispatch } from 'react-redux';
-import { setCurrentTime, setFrequencyBinCount, setFrequencyData } from '@musicfy/web/store';
+import { setBufferSize, setCurrentTime, setFrequencyData } from '@musicfy/web/store';
 import { useCallback, useRef } from 'react';
-import song from './song.mp3';
 
 export const useAudioPlayerService = () => {
   const songTimeInSeconds = useRef(0);
+  const interval = useRef<NodeJS.Timeout>();
 
   // ---------------------- STORE ----------------------------
   const dispatch = useDispatch();
@@ -22,8 +22,6 @@ export const useAudioPlayerService = () => {
   }, []);
 
   const connectTimeUpdateAudioEventListener = useCallback(() => {
-    dispatch(setFrequencyBinCount(analyser.current.frequencyBinCount));
-
     audio.current.addEventListener('timeupdate', () => {
       const songTime = audio.current.currentTime;
       const currentSongTimeInSeconds = Math.floor(songTime);
@@ -32,13 +30,25 @@ export const useAudioPlayerService = () => {
         songTimeInSeconds.current = currentSongTimeInSeconds;
         dispatch(setCurrentTime(currentSongTimeInSeconds));
       }
+    });
+  }, [dispatch]);
 
+  const startAnalyserInterval = useCallback(() => {
+    dispatch(setBufferSize(analyser.current.frequencyBinCount));
+
+    interval.current = setInterval(() => {
       const bufferLength = analyser.current.frequencyBinCount;
       const dataArray = new Uint8Array(bufferLength);
       analyser.current.getByteFrequencyData(dataArray);
       dispatch(setFrequencyData(Array.from(dataArray)));
-    });
+    }, 100);
   }, [dispatch]);
+
+  const stopAnalyserInterval = useCallback(() => {
+    if (interval.current) {
+      clearInterval(interval.current);
+    }
+  }, []);
 
   const resetTimeCounter = useCallback(() => {
     songTimeInSeconds.current = 0;
@@ -48,7 +58,9 @@ export const useAudioPlayerService = () => {
     (isPlaying: boolean) => {
       if (isPlaying && audio.current.paused) {
         audio.current.play();
-      } else {
+      }
+
+      if (!isPlaying && !audio.current.paused) {
         audio.current.pause();
       }
     },
@@ -78,19 +90,18 @@ export const useAudioPlayerService = () => {
       setPlaybackStateToPlay(false);
       disconnectTimeUpdateAudioEventListener();
       resetTimeCounter();
+      stopAnalyserInterval();
 
-      audio.current = new Audio(url);
-      audio.current.crossOrigin="anonymous"
-      
       // audio.current = new Audio(song);
-      context.current = new AudioContext();
+      audio.current = new Audio(url);
 
-      // audio.current.crossOrigin = 'anonymous';
+      audio.current.crossOrigin="anonymous"
 
       if (url) {
         setPlaybackStateToPlay(true);
         setupAudioAnalyser();
         connectTimeUpdateAudioEventListener();
+        startAnalyserInterval();
       }
     },
     [
@@ -99,8 +110,12 @@ export const useAudioPlayerService = () => {
       disconnectTimeUpdateAudioEventListener,
       resetTimeCounter,
       connectTimeUpdateAudioEventListener,
+      startAnalyserInterval,
+      stopAnalyserInterval
     ]
   );
+
+
 
   const setupAudioAnalyser = () => {
     const source = context.current.createMediaElementSource(audio.current);
