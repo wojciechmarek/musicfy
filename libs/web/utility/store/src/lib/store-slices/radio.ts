@@ -65,10 +65,10 @@ const radioState: RadioState = {
     },
     {
       id: 9,
-      title: 'Classic Rock 102.9 MGK',
-      description: 'Classic Radio (Greater Philadelphia Radio)',
-      cover: 'https://upload.wikimedia.org/wikipedia/en/a/a1/WMGK_102.9ClassicRock_logo.png',
-      url: 'http://playerservices.streamtheworld.com/api/livestream-redirect/WMGKFMAACIHR.aac',
+      title: 'Alt 104.5',
+      description: 'Alternative Rock Radio (Philadelphia)',
+      cover: 'https://upload.wikimedia.org/wikipedia/commons/3/35/WRFFNewLogo.png',
+      url: 'https://stream.revma.ihrhls.com/zc3401',
     },
   ],
 };
