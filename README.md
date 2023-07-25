@@ -2,6 +2,8 @@
 
 A simple audio player app, allowing the play some demo songs, internet radio stations and use the Spotify music collection (not ready yet).
 
+⚠️ Regarding the async `audio.play()` function implementation in the Chromium based browsers, the app does not work on: Chrome, Brave, Edge and Opera. Use Firefox instead !!1!
+
 ## Description
 
 The app's purpose is to learn how to use the Browser WebAudio API to play and apply audio effects on it, ~~get knowledge about Spotify API~~, and ~~Canvas API to generate visualizations~~.
