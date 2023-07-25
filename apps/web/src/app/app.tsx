@@ -1,17 +1,16 @@
 import { store } from '@musicfy/web/utility/store';
-import { Analytics } from '@vercel/analytics/react';
 import { Provider } from 'react-redux';
 import { RouterProvider } from 'react-router-dom';
 import { router } from '@musicfy/web/utility/routing';
+import LogRocket from 'logrocket';
 
 export function App() {
+  LogRocket.init('a6lahl/musicfy');
+
   return (
-    <>
-      <Analytics />
-      <Provider store={store}>
-        <RouterProvider router={router} />
-      </Provider>
-    </>
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
   );
 }
 
