@@ -1,4 +1,11 @@
-import { Description, EqButton, Knob, Power, VfdDisplay } from '@musicfy/web/ui';
+import {
+  Description,
+  EqButton,
+  Knob,
+  Power,
+  VfdDisplay,
+} from '@musicfy/web/ui';
+
 import {
   RootState,
   setBalance,
@@ -8,10 +15,12 @@ import {
   setIsMicrophoneSource,
   setIsMuted,
   setIsStereo,
+  setMicrophoneBooster,
   setMiddleBooster,
   setTrebleBooster,
   setVolume,
 } from '@musicfy/web/utility/store';
+
 import { useDispatch, useSelector } from 'react-redux';
 import {
   ButtonsContainer,
@@ -20,6 +29,61 @@ import {
   EqualizerContent,
   EqualizerTitle,
 } from './equalizer.styled';
+
+const frequencyBars = [
+  {
+    label: '32',
+    frequencyId: 5,
+  },
+  {
+    label: '64',
+    frequencyId: 15,
+  },
+  {
+    label: '128',
+    frequencyId: 35,
+  },
+  {
+    label: '256',
+    frequencyId: 70,
+  },
+  {
+    label: '512',
+    frequencyId: 135,
+  },
+  {
+    label: '1k',
+    frequencyId: 165,
+  },
+  {
+    label: '2k',
+    frequencyId: 195,
+  },
+  {
+    label: '4k',
+    frequencyId: 230,
+  },
+  {
+    label: '6k',
+    frequencyId: 275,
+  },
+  {
+    label: '8k',
+    frequencyId: 300,
+  },
+  {
+    label: '10k',
+    frequencyId: 340,
+  },
+  {
+    label: '12k',
+    frequencyId: 370,
+  },
+  {
+    label: '16k',
+    frequencyId: 400,
+  },
+];
 
 /* eslint-disable-next-line */
 export interface EqualizerProps {}
@@ -33,11 +97,28 @@ export function Equalizer(props: EqualizerProps) {
     balance: channelBalanceValue,
   } = useSelector((state: RootState) => state.equalizer);
 
-  const { treble: trebleValue, middle: middleValue, bass: bassValue } =
-    useSelector((state: RootState) => state.equalizer.boostTones);
+  const { source } = useSelector((state: RootState) => state.playback.audio);
+
+  const {
+    treble: trebleValue,
+    middle: middleValue,
+    bass: bassValue,
+  } = useSelector((state: RootState) => state.equalizer.boostTones);
 
   const { isMuted, level: volumeLevelValue } = useSelector(
     (state: RootState) => state.playback.volume
+  );
+
+  const { isRepeating, isShuffling } = useSelector(
+    (state: RootState) => state.playback.mode
+  );
+
+  const { isKaraoke, isMicrophoneSource, isStereo, microphoneBoost} = useSelector(
+    (state: RootState) => state.equalizer
+  );
+
+  const { leftChannel, rightChannel, frequencies } = useSelector(
+    (state: RootState) => state.playback.analysis
   );
 
   const dispatch = useDispatch();
@@ -57,11 +138,19 @@ export function Equalizer(props: EqualizerProps) {
   };
 
   const onEqKaraokeClick = () => {
+    if (isMicrophoneSourceEnabled)
     dispatch(setIsKaraoke(!isKaraokeEnabled));
   };
 
   const onEqMicrophoneClick = () => {
-    dispatch(setIsMicrophoneSource(!isMicrophoneSourceEnabled));
+    if (!isMicrophoneSourceEnabled) {
+      dispatch(setIsKaraoke(true));
+      dispatch(setMicrophoneBooster(10));
+      dispatch(setIsMicrophoneSource(true));
+    } else {
+      dispatch(setMicrophoneBooster(0));
+      dispatch(setIsMicrophoneSource(false));
+    }
   };
 
   const onEqResetClick = () => {
@@ -91,6 +180,10 @@ export function Equalizer(props: EqualizerProps) {
     dispatch(setBalance(value));
   };
 
+  const handleMicrophoneChange = (value: number) => {
+    dispatch(setMicrophoneBooster(value));
+  };
+
   return (
     <EqualizerContainer>
       <EqualizerContent>
@@ -115,8 +208,8 @@ export function Equalizer(props: EqualizerProps) {
           <ButtonsContainer className="buttons">
             <EqButton label="Stereo" handleOnClick={onEqStereoClick} />
             <EqButton label="Mute" handleOnClick={onEqMuteClick} />
-            <EqButton label="Karaoke" handleOnClick={onEqKaraokeClick} />
             <EqButton label="Mic" handleOnClick={onEqMicrophoneClick} />
+            <EqButton label="Karaoke" handleOnClick={onEqKaraokeClick} />
           </ButtonsContainer>
           <EqButton
             className="reset"
@@ -165,9 +258,26 @@ export function Equalizer(props: EqualizerProps) {
             name="Microphone"
             leftLabel="L"
             rightLabel="H"
+            value={microphoneBoost}
+            onChange={handleMicrophoneChange}
             isEnabled={isEqualizerEnabled && isMicrophoneSourceEnabled}
           />
-          <VfdDisplay className="vfd" isEnabled={isEqualizerEnabled}  />
+          <VfdDisplay
+            className="vfd"
+            isEnabled={isEqualizerEnabled}
+            audioSource={source}
+            isMuted={isMuted}
+            isRepeating={isRepeating}
+            isShuffling={isShuffling}
+            isMicrophoneSource={isMicrophoneSource}
+            leftChannel={leftChannel}
+            rightChannel={rightChannel}
+            isStereo={isStereo}
+            isKaraoke={isKaraoke}
+            frequencies={frequencies}
+            frequencyBars={frequencyBars}
+            
+          />
         </EqContainer>
       </EqualizerContent>
     </EqualizerContainer>

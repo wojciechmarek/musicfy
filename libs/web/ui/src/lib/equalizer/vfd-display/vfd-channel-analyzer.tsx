@@ -26,12 +26,12 @@ export const VfdChannelAnalyzer = (props: VfdChannelAnalyzerProps) => {
             index < 3 ? (
               <SpectrumBarRed
                 key={index}
-                isActive={isEnabled && left - 100 >= 100 - index * 10}
+                isActive={isEnabled && left - 50 >= 100 - index * 10}
               />
             ) : (
               <SpectrumBar
                 key={index}
-                isActive={isEnabled && left - 100 >= 100 - index * 10}
+                isActive={isEnabled && left - 50 >= 100 - index * 10}
               />
             )
           )}
@@ -57,12 +57,12 @@ export const VfdChannelAnalyzer = (props: VfdChannelAnalyzerProps) => {
             index < 3 ? (
               <SpectrumBarRed
                 key={index}
-                isActive={isEnabled && right - 100 >= 100 - index * 10}
+                isActive={isEnabled && right - 50 >= 100 - index * 10}
               />
             ) : (
               <SpectrumBar
                 key={index}
-                isActive={isEnabled && right - 100 >= 100 - index * 10}
+                isActive={isEnabled && right - 50 >= 100 - index * 10}
               />
             )
           )}

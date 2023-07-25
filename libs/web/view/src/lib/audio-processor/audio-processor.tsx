@@ -7,14 +7,14 @@ export function AudioProcessor() {
   const { seekToTime, isPlaying, url } = useSelector(
     (state: RootState) => state.playback.audio
   );
-  const { isMicrophoneSource, balance, isStereo, isKaraoke } = useSelector(
+  const { isMicrophoneSource, balance, isStereo, isKaraoke, microphoneBoost } = useSelector(
     (state: RootState) => state.equalizer
   );
   const { level, isMuted } = useSelector(
     (state: RootState) => state.playback.volume
   );
-  const { samples } = useSelector(
-    (state: RootState) => state.playback.analysis
+  const { bass, middle, treble } = useSelector(
+    (state: RootState) => state.equalizer.boostTones
   );
 
   const {
@@ -27,7 +27,11 @@ export function AudioProcessor() {
     setStereo,
     setKaraoke,
     setSeekToTime,
-    setSampleRate
+    setBass,
+    setMiddle,
+    setTreble,
+    setMicrophoneBoost,
+    killAudio,
   } = useAudioProcessor();
 
   // PLAY/PAUSE
@@ -75,10 +79,33 @@ export function AudioProcessor() {
     setKaraoke(isKaraoke);
   }, [isKaraoke, setKaraoke]);
 
-  // SAMPLE RATE
+  // BASS
   useEffect(() => {
-    setSampleRate(samples);
-  }, [samples, setSampleRate]);
+    setBass(bass);
+  }, [bass, setBass]);
+
+  // MIDDLE
+  useEffect(() => {
+    setMiddle(middle);
+  }, [middle, setMiddle]);
+
+  // TREBLE
+  useEffect(() => {
+    setTreble(treble);
+  }, [treble, setTreble]);
+
+  // MICROPHONE
+  useEffect(() => {
+    if (!isMicrophoneSource) {
+      return;
+    }
+    setMicrophoneBoost(microphoneBoost);
+  }, [microphoneBoost, setMicrophoneBoost, isMicrophoneSource]);
+
+  // KILL THE AUDIO CONTEXT
+  useEffect(() => {
+    // killAudio();
+  }, [killAudio]);
 
   return null;
-};
+}

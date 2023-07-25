@@ -1,4 +1,3 @@
-import { useSelector } from 'react-redux';
 import { VfdSpectrumAnalyzer } from './vfd-spectrum';
 import { VfdChannelAnalyzer } from './vfd-channel-analyzer';
 import {
@@ -8,59 +7,55 @@ import {
   VfdControls,
   VfdDisplayContainer,
 } from './vfd-display.styled';
-import { RootState } from '@musicfy/web/utility/store';
+import { AudioSource } from '@musicfy/web/utility/store';
 
 /* eslint-disable-next-line */
 export interface VfdDisplayProps {
   [key: string]: any;
   isEnabled: boolean;
+  audioSource: AudioSource;
+  isMuted: boolean;
+  isRepeating: boolean;
+  isShuffling: boolean;
+  isMicrophoneSource: boolean;
+  leftChannel: number;
+  rightChannel: number;
+  isStereo: boolean;
+  isKaraoke: boolean;
+  frequencies: number[];
+  frequencyBars: {
+    label: string;
+    frequencyId: number;
+  }[];
 }
 
-const frequenciesHeaders = [
-  '32',
-  '64',
-  '128',
-  '256',
-  '512',
-  '1k',
-  '2k',
-  '4k',
-  '8k',
-  '12k',
-  '16k',
-];
-
 export function VfdDisplay(props: VfdDisplayProps) {
-  const { isEnabled, ...rest } = props;
-
-  const { source } = useSelector((state: RootState) => state.playback.audio);
-
-  const { isMuted, level } = useSelector(
-    (state: RootState) => state.playback.volume
-  );
-
-  const { isRepeating, isShuffling } = useSelector(
-    (state: RootState) => state.playback.mode
-  );
-
-  const { isKaraoke, isMicrophoneSource, isStereo } = useSelector(
-    (state: RootState) => state.equalizer
-  );
-
-  const { leftChannel, rightChannel } = useSelector(
-    (state: RootState) => state.playback.analysis
-  );
+  const {
+    isEnabled,
+    audioSource,
+    isMuted,
+    isRepeating,
+    isShuffling,
+    isMicrophoneSource,
+    leftChannel,
+    rightChannel,
+    isStereo,
+    isKaraoke,
+    frequencies,
+    frequencyBars,
+    ...rest
+  } = props;
 
   return (
     <VfdDisplayContainer {...rest}>
       <VfdControls>
-        <VfdControl isActive={isEnabled && source === 'demo'}>
+        <VfdControl isActive={isEnabled && audioSource === AudioSource.DEMO}>
           TAPE/CD
         </VfdControl>
-        <VfdControl isActive={isEnabled && source === 'internet-radio'}>
+        <VfdControl isActive={isEnabled && audioSource === AudioSource.INTERNET_RADIO}>
           TUNER
         </VfdControl>
-        <VfdControl isActive={isEnabled && source === 'spotify'}>
+        <VfdControl isActive={isEnabled && audioSource === AudioSource.SPOTIFY}>
           AUX
         </VfdControl>
         <VfdControlRed isActive={isEnabled && isMicrophoneSource}>
@@ -69,8 +64,9 @@ export function VfdDisplay(props: VfdDisplayProps) {
       </VfdControls>
       <VfdAnalyzersRow>
         <VfdSpectrumAnalyzer
+          frequencies={frequencies}
           isEnabled={isEnabled}
-          headers={frequenciesHeaders}
+          frequencyBars={frequencyBars}
         />
         <VfdChannelAnalyzer
           left={leftChannel}
@@ -84,7 +80,7 @@ export function VfdDisplay(props: VfdDisplayProps) {
         <VfdControl isActive={isEnabled && isRepeating}>REPEAT</VfdControl>
         <VfdControl isActive={isEnabled && isShuffling}>SHUFFLE</VfdControl>
         <VfdControl isActive={isEnabled && isMuted}>MUTING</VfdControl>
-        <VfdControl isActive={isEnabled && isKaraoke}>KARAOKE</VfdControl>
+        <VfdControl isActive={isEnabled && isKaraoke && isMicrophoneSource}>KARAOKE</VfdControl>
       </VfdControls>
     </VfdDisplayContainer>
   );

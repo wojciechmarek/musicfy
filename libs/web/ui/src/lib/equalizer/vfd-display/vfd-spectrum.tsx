@@ -1,10 +1,11 @@
 import styled from '@emotion/styled';
-import { RootState } from '@musicfy/web/utility/store';
-import { useSelector } from 'react-redux';
-
 export interface VfdSpectrumAnalyzerProps {
   isEnabled: boolean;
-  headers: string[];
+  frequencies: number[];
+  frequencyBars: {
+    label: string;
+    frequencyId: number;
+  }[];
 }
 
 const SpectrumColumn = styled.div`
@@ -53,22 +54,19 @@ const VfdSpectrum = styled.div`
 `;
 
 export const VfdSpectrumAnalyzer = (props: VfdSpectrumAnalyzerProps) => {
-  const { vfdFrequencies } = useSelector(
-    (state: RootState) => state.playback.analysis
-  );
-
-  const { isEnabled, headers } = props;
+  const { isEnabled, frequencyBars, frequencies } = props;
+  
   return (
     <VfdSpectrum>
-      {headers.map((i, columnIndex) => (
-        <SpectrumColumn key={i}>
+      {frequencyBars.map((bar, columnIndex) => (
+        <SpectrumColumn key={bar.frequencyId}>
           {Array.from({ length: 12 }, (_, index) =>
             index < 3 ? (
               <SpectrumBarRed
                 key={index}
                 isActive={
                   isEnabled &&
-                  vfdFrequencies[columnIndex] - 100 - (55 - columnIndex * 5) >=
+                  frequencies[bar.frequencyId] - 100 - (55 - columnIndex * 5) >=
                     100 - index * 10
                 }
               />
@@ -77,7 +75,7 @@ export const VfdSpectrumAnalyzer = (props: VfdSpectrumAnalyzerProps) => {
                 key={index}
                 isActive={
                   isEnabled &&
-                  vfdFrequencies[columnIndex] - 100 - (55 - columnIndex * 5)>=
+                  frequencies[bar.frequencyId] - 100 - (55 - columnIndex * 5)>=
                     100 - index * 10
                 }
               />
@@ -85,7 +83,7 @@ export const VfdSpectrumAnalyzer = (props: VfdSpectrumAnalyzerProps) => {
           )}
           <SpectrumBar isActive={isEnabled} />
           <BarFrequencyDescription isActive={isEnabled}>
-            {i}
+            {bar.label}
           </BarFrequencyDescription>
         </SpectrumColumn>
       ))}

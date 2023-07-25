@@ -10,14 +10,16 @@ export interface EqualizerState {
   isKaraoke: boolean;
   balance: number;
   boostTones: Tones;
+  microphoneBoost: number;
 }
 
 const initialState: EqualizerState = {
-  isEnabled: false,
+  isEnabled: true,
   isStereo: true,
   isMicrophoneSource: false,
   isKaraoke: false,
   balance: 50,
+  microphoneBoost: 0,
   boostTones: {
     bass: 0,
     middle: 0,
@@ -53,6 +55,9 @@ export const equalizerSlice = createSlice({
     setTrebleBooster: (state, action: PayloadAction<number>) => {
       state.boostTones.treble = action.payload;
     },
+    setMicrophoneBooster: (state, action: PayloadAction<number>) => {
+      state.microphoneBoost = action.payload;
+    }
   },
 });
 
@@ -65,5 +70,6 @@ export const {
   setMiddleBooster,
   setTrebleBooster,
   setBalance,
+  setMicrophoneBooster,
 } = equalizerSlice.actions;
 export default equalizerSlice.reducer;
