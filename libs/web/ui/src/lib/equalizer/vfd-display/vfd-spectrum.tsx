@@ -53,7 +53,7 @@ const VfdSpectrum = styled.div`
 `;
 
 export const VfdSpectrumAnalyzer = (props: VfdSpectrumAnalyzerProps) => {
-  const { frequencies } = useSelector(
+  const { vfdFrequencies } = useSelector(
     (state: RootState) => state.playback.analysis
   );
 
@@ -68,7 +68,7 @@ export const VfdSpectrumAnalyzer = (props: VfdSpectrumAnalyzerProps) => {
                 key={index}
                 isActive={
                   isEnabled &&
-                  frequencies[columnIndex] - 100 - (55 - columnIndex * 5) >=
+                  vfdFrequencies[columnIndex] - 100 - (55 - columnIndex * 5) >=
                     100 - index * 10
                 }
               />
@@ -77,7 +77,7 @@ export const VfdSpectrumAnalyzer = (props: VfdSpectrumAnalyzerProps) => {
                 key={index}
                 isActive={
                   isEnabled &&
-                  frequencies[columnIndex] - 100 - (55 - columnIndex * 5)>=
+                  vfdFrequencies[columnIndex] - 100 - (55 - columnIndex * 5)>=
                     100 - index * 10
                 }
               />

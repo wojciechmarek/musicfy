@@ -46,16 +46,14 @@ export const MusicAuthor = styled.p`
   margin: 0;
 `;
 
-
 export function SongDetails(props: SongDetailsProps) {
   const { title, author, coverUrl } = props;
   return (
     <PlayerMusicInfo>
       <MusicThumbnail>
-        <MusicThumbnailImage
-          src={coverUrl}
-          alt="music thumbnail"
-        />
+        {coverUrl && (
+          <MusicThumbnailImage src={coverUrl} alt="music thumbnail" />
+        )}
       </MusicThumbnail>
       <MusicTitleAuthor>
         <MusicTitle>{title}</MusicTitle>

@@ -13,6 +13,9 @@ export function AudioProcessor() {
   const { level, isMuted } = useSelector(
     (state: RootState) => state.playback.volume
   );
+  const { samples } = useSelector(
+    (state: RootState) => state.playback.analysis
+  );
 
   const {
     setPlaybackStateToPlay,
@@ -24,6 +27,7 @@ export function AudioProcessor() {
     setStereo,
     setKaraoke,
     setSeekToTime,
+    setSampleRate
   } = useAudioProcessor();
 
   // PLAY/PAUSE
@@ -70,6 +74,11 @@ export function AudioProcessor() {
   useEffect(() => {
     setKaraoke(isKaraoke);
   }, [isKaraoke, setKaraoke]);
+
+  // SAMPLE RATE
+  useEffect(() => {
+    setSampleRate(samples);
+  }, [samples, setSampleRate]);
 
   return null;
 };

@@ -1,15 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
 import {
+  CanvasButtonsContainer,
   CanvasContainer,
-  CanvasEffects,
-  EffectTileButton,
+  CanvasButton,
   VisualizerContainer,
   VisualizerContent,
   VisualizerTitle,
 } from './visualizer.styled';
-import { useSelector } from 'react-redux';
-import { RootState } from '@musicfy/web/utility/store';
-import styled from '@emotion/styled';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState, setSamples } from '@musicfy/web/utility/store';
 
 /* eslint-disable-next-line */
 export interface VisualizerProps {}
@@ -23,8 +22,19 @@ const enum Effect {
   FRACTALS,
 }
 
+const enum Sample {
+  SAMPLE_64 = 64,
+  SAMPLE_128 = 128,
+  SAMPLE_256 = 256,
+  SAMPLE_512 = 512,
+  SAMPLE_1024 = 1024,
+  SAMPLE_2048 = 2048,
+}
+
 export function Visualizer(props: VisualizerProps) {
-  const { frequencies, bufferSize } = useSelector(
+  const dispatch = useDispatch();
+  
+  const { frequencies, bufferSize, samples } = useSelector(
     (state: RootState) => state.playback.analysis
   );
 
@@ -45,20 +55,24 @@ export function Visualizer(props: VisualizerProps) {
     canvasCtx.stroke();
   }
 
+  const handleOnSampleChange = (sample: Sample) => {
+    dispatch(setSamples(sample));
+  }
+
   useEffect(() => {
     switch (effect) {
       case Effect.BARS:
         if (canvasCtx && canvas.current) {
           canvasCtx.clearRect(0, 0, 400, 100);
-          const barWidth = (canvas.current.width / bufferSize) * 1;
+          const barWidth = (canvas.current.width / bufferSize) * 0.4;
 
           let x = 0;
 
           for (let i = 0; i < bufferSize; i++) {
             const barHeight = frequencies[i];
 
-            const r = barHeight + 25 * (i / bufferSize);
-            const g = 250 * (i / bufferSize);
+            const r = 255; //barHeight + 25 * (i / bufferSize);
+            const g = 250; // * (i / bufferSize);
             const b = 50;
 
             canvasCtx.fillStyle = `rgb(${r}, ${g}, ${b})`;
@@ -91,24 +105,73 @@ export function Visualizer(props: VisualizerProps) {
     <VisualizerContainer>
       <VisualizerContent>
         <VisualizerTitle>Audio Sound Visualizer</VisualizerTitle>
+        <CanvasButtonsContainer>
+          <CanvasButton
+            isActive={samples === Sample.SAMPLE_64}
+            onClick={() => handleOnSampleChange(Sample.SAMPLE_64)}
+          >
+            64 SAMPLES
+          </CanvasButton>
+          <CanvasButton
+            isActive={samples === Sample.SAMPLE_128}
+            onClick={() => handleOnSampleChange(Sample.SAMPLE_128)}
+          >
+            128
+          </CanvasButton>
+          <CanvasButton
+            isActive={samples === Sample.SAMPLE_256}
+            onClick={() => handleOnSampleChange(Sample.SAMPLE_256)}
+          >
+            256
+          </CanvasButton>
+          <CanvasButton
+            isActive={samples === Sample.SAMPLE_512}
+            onClick={() => handleOnSampleChange(Sample.SAMPLE_512)}
+          >
+            512
+          </CanvasButton>
+          <CanvasButton
+            isActive={samples === Sample.SAMPLE_1024}
+            onClick={() => handleOnSampleChange(Sample.SAMPLE_1024)}
+          >
+            1024
+          </CanvasButton>
+          <CanvasButton
+            isActive={samples === Sample.SAMPLE_2048}
+            onClick={() => handleOnSampleChange(Sample.SAMPLE_2048)}
+          >
+            2048
+          </CanvasButton>
+        </CanvasButtonsContainer>
         <CanvasContainer>
           <canvas ref={canvas} height={340} width={1000} />
         </CanvasContainer>
-        <CanvasEffects>
-          <EffectTileButton isActive={effect === Effect.OFF} onClick={() => setEffect(Effect.OFF)}>
+        <CanvasButtonsContainer>
+          <CanvasButton
+            isActive={effect === Effect.OFF}
+            onClick={() => setEffect(Effect.OFF)}
+          >
             OFF
-          </EffectTileButton>
-          <EffectTileButton isActive={effect === Effect.BARS} onClick={() => setEffect(Effect.BARS)}>
+          </CanvasButton>
+          <CanvasButton
+            isActive={effect === Effect.BARS}
+            onClick={() => setEffect(Effect.BARS)}
+          >
             BARS
-          </EffectTileButton>
-          <EffectTileButton>OSCILLATOR</EffectTileButton>
-          <EffectTileButton>WAVE</EffectTileButton>
-          <EffectTileButton>NOISE</EffectTileButton>
-          <EffectTileButton>FRACTALS</EffectTileButton>
+          </CanvasButton>
+          <CanvasButton
+            isActive={effect === Effect.OSCILLATOR}
+            onClick={() => setEffect(Effect.OSCILLATOR)}
+          >
+            OSCILLATOR
+          </CanvasButton>
+          <CanvasButton>WAVE</CanvasButton>
+          <CanvasButton>NOISE</CanvasButton>
+          <CanvasButton>FRACTALS</CanvasButton>
           {Array.from(Array(10).keys()).map((i) => (
-            <EffectTileButton key={i}>EFFECT #{i}</EffectTileButton>
+            <CanvasButton key={i}>EFFECT #{i}</CanvasButton>
           ))}
-        </CanvasEffects>
+        </CanvasButtonsContainer>
       </VisualizerContent>
     </VisualizerContainer>
   );

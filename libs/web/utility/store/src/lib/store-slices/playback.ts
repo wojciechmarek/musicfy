@@ -28,9 +28,11 @@ export interface PlaybackState {
   };
   track: Track,
   analysis: {
+    samples: number;
     leftChannel: number;
     rightChannel: number;
     frequencies: number[];
+    vfdFrequencies: number[];
     bufferSize: number;
   }
 }
@@ -59,9 +61,11 @@ const initialState: PlaybackState = {
     coverUrl: '',
   },
   analysis: {
+    samples: 1024,
     leftChannel: 0,
     rightChannel: 0,
     frequencies: [],
+    vfdFrequencies: [],
     bufferSize: 0,
   }
 };
@@ -114,8 +118,14 @@ export const playbackSlice = createSlice({
     setFrequencyData: (state, action: PayloadAction<number[]>) => {
       state.analysis.frequencies = action.payload;
     },
+    setVfdFrequencyData: (state, action: PayloadAction<number[]>) => {
+      state.analysis.vfdFrequencies = action.payload;
+    },
     setBufferSize: (state, action: PayloadAction<number>) => {
       state.analysis.bufferSize = action.payload;
+    },
+    setSamples: (state, action: PayloadAction<number>) => {
+      state.analysis.samples = action.payload;
     }
   },
 });
@@ -135,7 +145,9 @@ export const {
   setLeftChannel,
   setRightChannel,
   setFrequencyData,
+  setVfdFrequencyData,
   setBufferSize,
+  setSamples,
 } = playbackSlice.actions;
 
 export default playbackSlice.reducer;

@@ -1,5 +1,12 @@
 import { useDispatch } from 'react-redux';
-import { setBufferSize, setCurrentTime, setFrequencyData, setLeftChannel, setRightChannel } from '@musicfy/web/utility/store';
+import {
+  setBufferSize,
+  setCurrentTime,
+  setFrequencyData,
+  setLeftChannel,
+  setRightChannel,
+  setVfdFrequencyData,
+} from '@musicfy/web/utility/store';
 import { useCallback, useRef } from 'react';
 
 export const useAudioProcessor = () => {
@@ -14,6 +21,7 @@ export const useAudioProcessor = () => {
   const audio = useRef<HTMLAudioElement>(new Audio());
   const context = useRef(new window.AudioContext());
   const analyser = useRef(context.current.createAnalyser());
+  const vfdAnalyser = useRef(context.current.createAnalyser());
   const leftChannelAnalyser = useRef(context.current.createAnalyser());
   const rightChannelAnalyser = useRef(context.current.createAnalyser());
   const channelSplitter = useRef(context.current.createChannelSplitter(2));
@@ -22,7 +30,11 @@ export const useAudioProcessor = () => {
   const startAnalyserInterval = useCallback(() => {
     // -- CREATE DATA BUFFER AND DISPATCH DATA BUFFER LENGTH (for FREQUENCY) --
     const bufferLength = analyser.current.frequencyBinCount;
+    const vfdBufferLength = vfdAnalyser.current.frequencyBinCount;
+
     const dataArray = new Uint8Array(bufferLength);
+    const VfdDataArray = new Uint8Array(vfdBufferLength);
+
     dispatch(setBufferSize(bufferLength));
 
     // -- START DATA BUFFER AND DISPATCH DATA BUFFER (for CHANNELS) --
@@ -31,7 +43,6 @@ export const useAudioProcessor = () => {
 
     // -- START INTERVAL: 1sek/20ms = 50HZ REFRESH RATE --
     interval.current = setInterval(() => {
-
       // -- CALCULATE AND DISPATCH CURRENT PLAYBACK TIME --
       const songTime = audio.current.currentTime;
       const currentSongTimeInSeconds = Math.floor(songTime);
@@ -43,23 +54,34 @@ export const useAudioProcessor = () => {
 
       // -- CALCULATE AND DISPATCH FREQUENCY DATA --
       analyser.current.getByteFrequencyData(dataArray);
+      vfdAnalyser.current.getByteFrequencyData(VfdDataArray);
+
       dispatch(setFrequencyData(Array.from(dataArray)));
+      dispatch(setVfdFrequencyData(Array.from(VfdDataArray)));
 
       // -- CALCULATE AND DISPATCH SPLITTER CHANNELS DATA --
       leftChannelAnalyser.current.getByteFrequencyData(leftChannel);
       rightChannelAnalyser.current.getByteFrequencyData(rightChannel);
 
-      const leftChannelReducedValue = leftChannel.reduce((acc, curr) => acc + curr, 0);
-      const rightChannelReducedValue = rightChannel.reduce((acc, curr) => acc + curr, 0);
+      const leftChannelReducedValue = leftChannel.reduce(
+        (acc, curr) => acc + curr,
+        0
+      );
+      const rightChannelReducedValue = rightChannel.reduce(
+        (acc, curr) => acc + curr,
+        0
+      );
 
-      const leftChannelAverageValue = leftChannelReducedValue / leftChannel.length;
-      const rightChannelAverageValue = rightChannelReducedValue / rightChannel.length;
+      const leftChannelAverageValue =
+        leftChannelReducedValue / leftChannel.length;
+      const rightChannelAverageValue =
+        rightChannelReducedValue / rightChannel.length;
 
       const leftChannelValue = Math.floor(leftChannelAverageValue);
       const rightChannelValue = Math.floor(rightChannelAverageValue);
-      
+
       dispatch(setLeftChannel(leftChannelValue));
-      dispatch(setRightChannel(rightChannelValue));   
+      dispatch(setRightChannel(rightChannelValue));
     }, 20);
   }, [dispatch]);
 
@@ -111,7 +133,7 @@ export const useAudioProcessor = () => {
       stopAnalyserInterval();
 
       audio.current = new Audio(url);
-      audio.current.crossOrigin="anonymous"
+      audio.current.crossOrigin = 'anonymous';
 
       if (url) {
         setPlaybackStateToPlay(true);
@@ -124,7 +146,7 @@ export const useAudioProcessor = () => {
       setPlaybackStateToPlay,
       resetTimeCounter,
       startAnalyserInterval,
-      stopAnalyserInterval
+      stopAnalyserInterval,
     ]
   );
 
@@ -135,8 +157,14 @@ export const useAudioProcessor = () => {
     // -- SETUP FREQUENCY ANALYSER --
     analyser.current = context.current.createAnalyser();
     source.connect(analyser.current);
+    analyser.current.fftSize = 1024;
     analyser.current.connect(context.current.destination);
-    analyser.current.fftSize = 32;
+
+    // -- SETUP VFD FREQUENCY ANALYSER --
+    vfdAnalyser.current = context.current.createAnalyser();
+    source.connect(vfdAnalyser.current);
+    vfdAnalyser.current.fftSize = 32;
+    vfdAnalyser.current.connect(context.current.destination);
 
     // -- SETUP CHANNELS SPLITS --
     channelSplitter.current = context.current.createChannelSplitter(2);
@@ -144,13 +172,13 @@ export const useAudioProcessor = () => {
 
     // -- SETUP LEFT CHANNEL ANALYSER --
     channelSplitter.current.connect(leftChannelAnalyser.current, 0, 0);
-    leftChannelAnalyser.current.connect(context.current.destination);
     leftChannelAnalyser.current.fftSize = 32;
+    leftChannelAnalyser.current.connect(context.current.destination);
 
     // -- SETUP RIGHT CHANNEL ANALYSER --
     channelSplitter.current.connect(rightChannelAnalyser.current, 1, 0);
-    rightChannelAnalyser.current.connect(context.current.destination);
     rightChannelAnalyser.current.fftSize = 32;
+    rightChannelAnalyser.current.connect(context.current.destination);
 
     // -- SETUP AUDIO SOURCE --
     source.connect(context.current.destination);
@@ -169,6 +197,10 @@ export const useAudioProcessor = () => {
     }
   }, []);
 
+  const setSampleRate = useCallback((sampleRate: number) => {
+    analyser.current.fftSize = sampleRate;
+  }, []);
+
   const setBalance = useCallback((balance: number) => {
     console.log('change balance', balance);
   }, []);
@@ -183,9 +215,11 @@ export const useAudioProcessor = () => {
 
   const setSeekToTime = useCallback(
     (seekToTime: number) => {
+      const bufferLength = analyser.current.frequencyBinCount;
+      dispatch(setBufferSize(bufferLength));
       audio.current.currentTime = seekToTime;
     },
-    [audio]
+    [audio, dispatch]
   );
 
   return {
@@ -198,6 +232,6 @@ export const useAudioProcessor = () => {
     setStereo,
     setKaraoke,
     setSeekToTime,
-    resetTimeCounter,
+    setSampleRate
   };
 };

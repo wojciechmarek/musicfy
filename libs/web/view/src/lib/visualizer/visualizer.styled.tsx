@@ -27,7 +27,7 @@ export const CanvasContainer = styled.div`
   position: relative;
 `;
 
-export const CanvasEffects = styled.div`
+export const CanvasButtonsContainer = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -36,7 +36,7 @@ export const CanvasEffects = styled.div`
   overflow-x: auto;
 `;
 
-export const EffectTileButton = styled.button<{
+export const CanvasButton = styled.button<{
   isActive?: boolean;
 }>`
   background-color: ${(props) => (props.isActive ? '#2b31df' : '#2a2b30')};
@@ -44,12 +44,12 @@ export const EffectTileButton = styled.button<{
   color: white;
   padding: 0.5em 1em;
   border-radius: 0.5em;
-  cursor: pointer;
   transition: all 0.2s ease-in-out;
   font-weight: bold;
   border: none;
 
   &:hover {
+    cursor: pointer;
     background-color: ${(props) => (props.isActive ? '#4a4feb' : '#ffffff20')};
   }
 `;
