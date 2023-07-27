@@ -18,32 +18,36 @@ export const useAudioProcessor = () => {
 
   // ------ SOUND OBJECT, CONTEXT, GAINS, ANALYZERS -----------
   const audio = useRef<HTMLAudioElement>(new Audio());
-  const context = useRef(new window.AudioContext());
+  const context = useRef<AudioContext>();
 
-  const merger = useRef(context.current.createChannelMerger(2));
+  const merger = useRef<ChannelMergerNode>();
 
-  const microphoneGainNode = useRef(context.current.createGain());
+  const microphoneGainNode = useRef<GainNode>();
 
-  const bassBiquadFilter = useRef(context.current.createBiquadFilter());
-  const middleBiquadFilter = useRef(context.current.createBiquadFilter());
-  const trebleBiquadFilter = useRef(context.current.createBiquadFilter());
+  const bassBiquadFilter = useRef<BiquadFilterNode>();
+  const middleBiquadFilter = useRef<BiquadFilterNode>();
+  const trebleBiquadFilter = useRef<BiquadFilterNode>();
 
   // const stereoGainNode = useRef(context.current.createGain());
 
-  const leftChannelGainNode = useRef(context.current.createGain());
-  const rightChannelGainNode = useRef(context.current.createGain());
+  const leftChannelGainNode = useRef<GainNode>();
+  const rightChannelGainNode = useRef<GainNode>();
 
   // const karaokeGainNode = useRef(context.current.createGain());
 
-  const analyser = useRef(context.current.createAnalyser());
-  const leftChannelAnalyser = useRef(context.current.createAnalyser());
-  const rightChannelAnalyser = useRef(context.current.createAnalyser());
+  const analyser = useRef<AnalyserNode>();
+  const leftChannelAnalyser = useRef<AnalyserNode>();
+  const rightChannelAnalyser = useRef<AnalyserNode>();
 
-  const channelSplitter = useRef(context.current.createChannelSplitter(2));
+  const channelSplitter = useRef<ChannelSplitterNode>();
 
   // --------------- PRIVATE METHODS -----------------
   const startAnalyserInterval = useCallback(() => {
     // -- CREATE DATA BUFFER AND DISPATCH DATA BUFFER LENGTH (for FREQUENCY) --
+    if (!analyser.current) {
+      return;
+    }
+
     const bufferLength = analyser.current.frequencyBinCount;
     const dataArray = new Uint8Array(bufferLength);
     dispatch(setBufferSize(bufferLength));
@@ -54,7 +58,6 @@ export const useAudioProcessor = () => {
 
     // -- START INTERVAL: 1sek/20ms = 50HZ REFRESH RATE --
     interval.current = setInterval(() => {
-
       // -- CALCULATE AND DISPATCH CURRENT PLAYBACK TIME --
       const songTime = audio.current.currentTime;
       const currentSongTimeInSeconds = Math.floor(songTime);
@@ -65,12 +68,16 @@ export const useAudioProcessor = () => {
       }
 
       // -- CALCULATE AND DISPATCH FREQUENCY DATA --
-      analyser.current.getByteFrequencyData(dataArray);
-      dispatch(setFrequencyData(Array.from(dataArray)));
+      if (analyser.current) {
+        analyser.current.getByteFrequencyData(dataArray);
+        dispatch(setFrequencyData(Array.from(dataArray)));
+      }
 
       // -- CALCULATE AND DISPATCH SPLITTER CHANNELS DATA --
-      leftChannelAnalyser.current.getByteFrequencyData(leftChannel);
-      rightChannelAnalyser.current.getByteFrequencyData(rightChannel);
+      if (leftChannelAnalyser.current && rightChannelAnalyser.current) {
+        leftChannelAnalyser.current.getByteFrequencyData(leftChannel);
+        rightChannelAnalyser.current.getByteFrequencyData(rightChannel);
+      }
 
       const leftChannelReducedValue = leftChannel.reduce(
         (acc, curr) => acc + curr,
@@ -144,6 +151,8 @@ export const useAudioProcessor = () => {
       audio.current = new Audio(url);
       audio.current.crossOrigin = 'anonymous';
 
+      context.current = new AudioContext();
+
       if (url) {
         setPlaybackStateToPlay(true);
         setupAudioGainNodesAndAnalyzers();
@@ -160,22 +169,26 @@ export const useAudioProcessor = () => {
   );
 
   const setupAudioGainNodesAndAnalyzers = () => {
+    if (!context.current) {
+      return;
+    }
+
     //  SETUP AUDIO SOURCE
     const source = context.current.createMediaElementSource(audio.current);
 
     // BASS GAIN NODE
     bassBiquadFilter.current = context.current.createBiquadFilter();
-    bassBiquadFilter.current.type = "lowshelf"; 
+    bassBiquadFilter.current.type = 'lowshelf';
     source.connect(bassBiquadFilter.current);
-    
+
     // MIDDLE GAIN NODE
     middleBiquadFilter.current = context.current.createBiquadFilter();
-    middleBiquadFilter.current.type = "allpass";
+    middleBiquadFilter.current.type = 'peaking';
     bassBiquadFilter.current.connect(middleBiquadFilter.current);
-    
+
     // TREBLE GAIN NODE
     trebleBiquadFilter.current = context.current.createBiquadFilter();
-    trebleBiquadFilter.current.type = "highpass";
+    trebleBiquadFilter.current.type = 'highshelf';
     middleBiquadFilter.current.connect(trebleBiquadFilter.current);
 
     // FREQUENCY ANALYSER
@@ -190,20 +203,22 @@ export const useAudioProcessor = () => {
     // BALANCE GAIN NODES
     leftChannelGainNode.current = context.current.createGain();
     rightChannelGainNode.current = context.current.createGain();
-    
+
     // LEFT CHANNEL GAIN NODE CONNECT TO LEFT CHANNEL
     channelSplitter.current.connect(leftChannelGainNode.current, 0);
 
     // RIGHT CHANNEL GAIN NODE CONNECT TO RIGHT CHANNEL
     channelSplitter.current.connect(rightChannelGainNode.current, 1);
 
-    // LEFT CHANNEL ANALYSER CONNECT TO LEFT CHANNEL GAIN NODE
-    leftChannelGainNode.current.connect(leftChannelAnalyser.current);
-    leftChannelAnalyser.current.fftSize = 1024;
+    if (leftChannelAnalyser.current && rightChannelAnalyser.current) {
+      // LEFT CHANNEL ANALYSER CONNECT TO LEFT CHANNEL GAIN NODE
+      leftChannelGainNode.current.connect(leftChannelAnalyser.current);
+      leftChannelAnalyser.current.fftSize = 1024;
 
-    // RIGHT CHANNEL ANALYSER CONNECT TO RIGHT CHANNEL GAIN NODE
-    rightChannelGainNode.current.connect(rightChannelAnalyser.current);
-    rightChannelAnalyser.current.fftSize = 1024;
+      // RIGHT CHANNEL ANALYSER CONNECT TO RIGHT CHANNEL GAIN NODE
+      rightChannelGainNode.current.connect(rightChannelAnalyser.current);
+      rightChannelAnalyser.current.fftSize = 1024;
+    }
 
     // ----- MERGE TOGETHER AUDIO SPLIT SOURCES ------------
     merger.current = context.current.createChannelMerger(2);
@@ -217,41 +232,60 @@ export const useAudioProcessor = () => {
       window.navigator.mediaDevices
         .getUserMedia({ audio: true })
         .then((stream) => {
-          const source = context.current.createMediaStreamSource(stream);
-          source.connect(microphoneGainNode.current);
-          microphoneGainNode.current.connect(merger.current, 0, 0);
-          microphoneGainNode.current.connect(merger.current, 0, 1);
+          if (context.current && microphoneGainNode.current && merger.current) {
+            const source = context.current.createMediaStreamSource(stream);
+            source.connect(microphoneGainNode.current);
+            microphoneGainNode.current.connect(merger.current, 0, 0);
+            microphoneGainNode.current.connect(merger.current, 0, 1);
+          }
         })
         .catch((err) => {
           console.log(err);
         });
     } else {
-      microphoneGainNode.current.gain.value = 0;
-      leftChannelGainNode.current.gain.value = 1;
-      rightChannelGainNode.current.gain.value = 1;
+      if (microphoneGainNode.current && leftChannelGainNode.current && rightChannelGainNode.current) {
+        microphoneGainNode.current.gain.value = 0;
+        leftChannelGainNode.current.gain.value = 1;
+        rightChannelGainNode.current.gain.value = 1;
+      }
     }
   }, []);
 
   const setBalance = useCallback((balance: number) => {
+    if (!leftChannelGainNode.current || !rightChannelGainNode.current) {
+      return;
+    }
+
     leftChannelGainNode.current.gain.value = 1 - balance / 100;
     rightChannelGainNode.current.gain.value = balance / 100;
   }, []);
 
   const setStereo = useCallback((isStereo: boolean) => {
-    merger.current.disconnect();
+    if (
+      !merger.current ||
+      !leftChannelGainNode.current ||
+      !rightChannelGainNode.current ||
+      !context.current
+    ) {
+      return;
+    }
 
     if (isStereo) {
       leftChannelGainNode.current.connect(merger.current, 0, 0);
       rightChannelGainNode.current.connect(merger.current, 0, 1);
+      merger.current.connect(context.current.destination);
     } else {
       leftChannelGainNode.current.connect(merger.current, 0, 0);
       rightChannelGainNode.current.connect(merger.current, 0, 0);
+      merger.current.connect(context.current.destination);
     }
-
-    merger.current.connect(context.current.destination);
   }, []);
 
   const setKaraoke = useCallback((isKaraoke: boolean) => {
+    if (!leftChannelGainNode.current || !rightChannelGainNode.current) {
+      return;
+    }
+
     leftChannelGainNode.current.gain.value = isKaraoke ? 1 : 0;
     rightChannelGainNode.current.gain.value = isKaraoke ? 1 : 0;
   }, []);
@@ -261,13 +295,17 @@ export const useAudioProcessor = () => {
     audio.current.src = '';
     audio.current.load();
 
-    context.current.close();
+    context.current?.close();
 
     stopAnalyserInterval();
   }, [audio, stopAnalyserInterval]);
 
   const setSeekToTime = useCallback(
     (seekToTime: number) => {
+      if (!audio.current || !analyser.current) {
+        return;
+      }
+
       const bufferLength = analyser.current.frequencyBinCount;
       dispatch(setBufferSize(bufferLength));
       audio.current.currentTime = seekToTime;
@@ -276,19 +314,27 @@ export const useAudioProcessor = () => {
   );
 
   const setBass = useCallback((bass: number) => {
-    bassBiquadFilter.current.gain.value = bass;
+    if (bassBiquadFilter.current) {
+      bassBiquadFilter.current.gain.value = bass;
+    }
   }, []);
 
   const setMiddle = useCallback((middle: number) => {
-    middleBiquadFilter.current.gain.value = middle;
+    if (middleBiquadFilter.current) {
+      middleBiquadFilter.current.gain.value = middle;
+    }
   }, []);
 
   const setTreble = useCallback((treble: number) => {
-    trebleBiquadFilter.current.gain.value = treble;
+    if (trebleBiquadFilter.current) {
+      trebleBiquadFilter.current.gain.value = treble;
+    }
   }, []);
 
   const setMicrophoneBoost = useCallback((microphone: number) => {
-    microphoneGainNode.current.gain.value = microphone;
+    if (microphoneGainNode.current) {
+      microphoneGainNode.current.gain.value = microphone;
+    }
   }, []);
 
   return {

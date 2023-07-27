@@ -9,6 +9,7 @@ import {
 } from './visualizer.styled';
 import { useSelector } from 'react-redux';
 import { RootState } from '@musicfy/web/utility/store';
+import { useCanvasEffect } from './use-canvas-effect.hook';
 
 /* eslint-disable-next-line */
 export interface VisualizerProps {}
@@ -22,7 +23,7 @@ const enum Effect {
   FRACTALS,
 }
 
-export function Visualizer(props: VisualizerProps) {  
+export function Visualizer(props: VisualizerProps) {
   const { frequencies, bufferSize } = useSelector(
     (state: RootState) => state.playback.analysis
   );
@@ -35,82 +36,45 @@ export function Visualizer(props: VisualizerProps) {
 
   if (canvasCtx && canvas.current) {
     canvasCtx.clearRect(0, 0, canvas.current.width, canvas.current.height);
-    canvasCtx.fillStyle = 'rgb(200, 200, 200)';
-    canvasCtx.lineWidth = 1;
-    canvasCtx.strokeStyle = 'rgb(0, 0, 0)';
-    canvasCtx.beginPath();
-    canvasCtx.moveTo(0, 0);
-    canvasCtx.lineTo(100, 100);
-    canvasCtx.stroke();
   }
+
+  const {
+    offEffect,
+    barsEffect,
+    oscillatorEffect,
+    fractalsEffect,
+    waveEffect,
+    noiseEffect,
+  } = useCanvasEffect(canvasCtx, canvas.current, bufferSize);
 
   useEffect(() => {
     switch (effect) {
       case Effect.BARS:
-        if (canvasCtx && canvas.current) {
-          canvasCtx.clearRect(0, 0, 400, 100);
-          const barWidth = (canvas.current.width / bufferSize) * 0.5;
-
-          let x = 0;
-
-          for (let i = 0; i < bufferSize; i++) {
-            const barHeight = frequencies[i];
-
-            canvasCtx.fillStyle = "#666bef";
-            canvasCtx.fillRect(
-              x,
-              canvas.current.height - barHeight,
-              barWidth,
-              barHeight
-            );
-
-            x += barWidth + 1;
-          }
-        }
+        barsEffect(frequencies);
         break;
 
       case Effect.OSCILLATOR:
-        if (canvasCtx && canvas.current) {
-          canvasCtx.clearRect(0, 0, 400, 100);
-          
-          canvasCtx.lineWidth = 2;
-          canvasCtx.strokeStyle = "#666bef";
-          canvasCtx.beginPath();
+        oscillatorEffect(frequencies);
+        break;
 
-          const sliceWidth = canvas.current.width * 10.0 / bufferSize;
-          let x = 0;
+      case Effect.FRACTALS:
+        fractalsEffect(frequencies);
+        break;
 
-          for(let i = 0; i < bufferSize; i++) {
-            const v = frequencies[i] / 128.0;
-            const y = v * canvas.current.height / 2;
+      case Effect.WAVE:
+        waveEffect(frequencies);
+        break;
 
-            if(i === 0) {
-              canvasCtx.moveTo(x, y);
-            } else {
-              canvasCtx.lineTo(x, y);
-            }
-
-            x += sliceWidth;
-          }
-
-          canvasCtx.lineTo(canvas.current.width, canvas.current.height / 2);
-          canvasCtx.stroke();
-        }
+      case Effect.NOISE:
+        noiseEffect(frequencies);
         break;
 
       case Effect.OFF:
       default:
-        if (canvasCtx && canvas.current) {
-          canvasCtx.clearRect(
-            0,
-            0,
-            canvas.current.width,
-            canvas.current.height
-          );
-        }
+        offEffect();
         break;
     }
-  }, [canvasCtx, canvas, frequencies, bufferSize, effect]);
+  }, [frequencies, effect, oscillatorEffect, barsEffect, offEffect]);
 
   return (
     <VisualizerContainer>
@@ -138,9 +102,24 @@ export function Visualizer(props: VisualizerProps) {
           >
             OSCILLATOR
           </CanvasButton>
-          <CanvasButton>WAVE</CanvasButton>
-          <CanvasButton>NOISE</CanvasButton>
-          <CanvasButton>FRACTALS</CanvasButton>
+          <CanvasButton
+            isActive={effect === Effect.WAVE}
+            onClick={() => setEffect(Effect.WAVE)}
+          >
+            WAVE
+          </CanvasButton>
+          <CanvasButton
+            isActive={effect === Effect.NOISE}
+            onClick={() => setEffect(Effect.NOISE)}
+          >
+            NOISE
+          </CanvasButton>
+          <CanvasButton
+            isActive={effect === Effect.FRACTALS}
+            onClick={() => setEffect(Effect.FRACTALS)}
+          >
+            FRACTALS
+          </CanvasButton>
           {Array.from(Array(10).keys()).map((i) => (
             <CanvasButton key={i}>EFFECT #{i}</CanvasButton>
           ))}

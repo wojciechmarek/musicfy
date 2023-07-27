@@ -2,7 +2,7 @@
 
 A simple audio player app, allowing the play some demo songs, internet radio stations and use the Spotify music collection (not ready yet).
 
-⚠️ Regarding the async `audio.play()` function implementation in the Chromium based browsers, the app does not work on: Chrome, Brave, Edge and Opera. Use Firefox instead !!1!
+⚠️ Regarding the async `audio.play()` function implementation and the race conditions in the Chromium based browsers, the app might not work on: Chrome, Brave, Edge and Opera. Use Firefox instead !!1!
 
 ## Description
 
