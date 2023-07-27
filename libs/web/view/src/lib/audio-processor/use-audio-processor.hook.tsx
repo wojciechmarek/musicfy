@@ -28,12 +28,8 @@ export const useAudioProcessor = () => {
   const middleBiquadFilter = useRef<BiquadFilterNode>();
   const trebleBiquadFilter = useRef<BiquadFilterNode>();
 
-  // const stereoGainNode = useRef(context.current.createGain());
-
   const leftChannelGainNode = useRef<GainNode>();
   const rightChannelGainNode = useRef<GainNode>();
-
-  // const karaokeGainNode = useRef(context.current.createGain());
 
   const analyser = useRef<AnalyserNode>();
   const leftChannelAnalyser = useRef<AnalyserNode>();
@@ -243,7 +239,11 @@ export const useAudioProcessor = () => {
           console.log(err);
         });
     } else {
-      if (microphoneGainNode.current && leftChannelGainNode.current && rightChannelGainNode.current) {
+      if (
+        microphoneGainNode.current &&
+        leftChannelGainNode.current &&
+        rightChannelGainNode.current
+      ) {
         microphoneGainNode.current.gain.value = 0;
         leftChannelGainNode.current.gain.value = 1;
         rightChannelGainNode.current.gain.value = 1;
