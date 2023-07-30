@@ -39,11 +39,11 @@ export const useAudioProcessor = () => {
 
   // --------------- PRIVATE METHODS -----------------
   const startAnalyserInterval = useCallback(() => {
-    // -- CREATE DATA BUFFER AND DISPATCH DATA BUFFER LENGTH (for FREQUENCY) --
     if (!analyser.current) {
       return;
     }
-
+    
+    // -- CREATE DATA BUFFER AND DISPATCH DATA BUFFER LENGTH (for FREQUENCY) --
     const bufferLength = analyser.current.frequencyBinCount;
     const dataArray = new Uint8Array(bufferLength);
     dispatch(setBufferSize(bufferLength));
@@ -71,29 +71,30 @@ export const useAudioProcessor = () => {
 
       // -- CALCULATE AND DISPATCH SPLITTER CHANNELS DATA --
       if (leftChannelAnalyser.current && rightChannelAnalyser.current) {
+        
         leftChannelAnalyser.current.getByteFrequencyData(leftChannel);
         rightChannelAnalyser.current.getByteFrequencyData(rightChannel);
+
+        const leftChannelReducedValue = leftChannel.reduce(
+          (acc, curr) => acc + curr,
+          0
+        );
+        const rightChannelReducedValue = rightChannel.reduce(
+          (acc, curr) => acc + curr,
+          0
+        );
+  
+        const leftChannelAverageValue =
+          leftChannelReducedValue / leftChannel.length;
+        const rightChannelAverageValue =
+          rightChannelReducedValue / rightChannel.length;
+  
+        const leftChannelValue = Math.floor(leftChannelAverageValue);
+        const rightChannelValue = Math.floor(rightChannelAverageValue);
+  
+        dispatch(setLeftChannel(leftChannelValue));
+        dispatch(setRightChannel(rightChannelValue));
       }
-
-      const leftChannelReducedValue = leftChannel.reduce(
-        (acc, curr) => acc + curr,
-        0
-      );
-      const rightChannelReducedValue = rightChannel.reduce(
-        (acc, curr) => acc + curr,
-        0
-      );
-
-      const leftChannelAverageValue =
-        leftChannelReducedValue / leftChannel.length;
-      const rightChannelAverageValue =
-        rightChannelReducedValue / rightChannel.length;
-
-      const leftChannelValue = Math.floor(leftChannelAverageValue);
-      const rightChannelValue = Math.floor(rightChannelAverageValue);
-
-      dispatch(setLeftChannel(leftChannelValue));
-      dispatch(setRightChannel(rightChannelValue));
     }, 20);
   }, [dispatch]);
 
@@ -187,8 +188,12 @@ export const useAudioProcessor = () => {
     trebleBiquadFilter.current.type = 'highshelf';
     middleBiquadFilter.current.connect(trebleBiquadFilter.current);
 
-    // FREQUENCY ANALYSER
+    // CREATE ANALYSER
     analyser.current = context.current.createAnalyser();
+    leftChannelAnalyser.current = context.current.createAnalyser();
+    rightChannelAnalyser.current = context.current.createAnalyser();
+
+    // FREQUENCY ANALYSER
     trebleBiquadFilter.current.connect(analyser.current);
     analyser.current.fftSize = 1024;
 
@@ -205,6 +210,7 @@ export const useAudioProcessor = () => {
 
     // RIGHT CHANNEL GAIN NODE CONNECT TO RIGHT CHANNEL
     channelSplitter.current.connect(rightChannelGainNode.current, 1);
+
 
     if (leftChannelAnalyser.current && rightChannelAnalyser.current) {
       // LEFT CHANNEL ANALYSER CONNECT TO LEFT CHANNEL GAIN NODE
@@ -290,16 +296,6 @@ export const useAudioProcessor = () => {
     rightChannelGainNode.current.gain.value = isKaraoke ? 1 : 0;
   }, []);
 
-  const killAudio = useCallback(() => {
-    audio.current.pause();
-    audio.current.src = '';
-    audio.current.load();
-
-    context.current?.close();
-
-    stopAnalyserInterval();
-  }, [audio, stopAnalyserInterval]);
-
   const setSeekToTime = useCallback(
     (seekToTime: number) => {
       if (!audio.current || !analyser.current) {
@@ -351,6 +347,5 @@ export const useAudioProcessor = () => {
     setMiddle,
     setTreble,
     setMicrophoneBoost,
-    killAudio,
   };
 };

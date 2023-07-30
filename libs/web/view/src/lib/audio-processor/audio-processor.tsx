@@ -30,8 +30,7 @@ export function AudioProcessor() {
     setBass,
     setMiddle,
     setTreble,
-    setMicrophoneBoost,
-    killAudio,
+    setMicrophoneBoost
   } = useAudioProcessor();
 
   // PLAY/PAUSE
@@ -101,11 +100,6 @@ export function AudioProcessor() {
     }
     setMicrophoneBoost(microphoneBoost);
   }, [microphoneBoost, setMicrophoneBoost, isMicrophoneSource]);
-
-  // KILL THE AUDIO CONTEXT
-  useEffect(() => {
-    // killAudio();
-  }, [killAudio]);
 
   return null;
 }
