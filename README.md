@@ -70,9 +70,8 @@ On the other hand, there is also a `setInterval()` function inside the `startAna
 - 🧰 Frameworks: React, Redux Toolkit
 - 🛠️ Tools: yarn, eslint, prettier, conventional commits, react-router
 - 🎨 Styling: styled ui by emotion, lucide icons
-- 🧪 Testing: ~~cypress, jest~~
 - ☁️ Data source: 3 demo songs, internet radio stations, ~~Spotify API~~
-- 💎 Others: desktop-first approach, ~~progressive web app, atomic design~~
+- 💎 Others: desktop-first approach
 
 ## How to start
 
