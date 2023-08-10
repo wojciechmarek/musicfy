@@ -6,7 +6,7 @@ A simple audio player app, allowing the play of some demo songs, internet radio 
 
 ## Description
 
-The app aims to learn how to use the Browser WebAudio API to play and apply audio effects on it, ~~get knowledge about Spotify API~~, and ~~Canvas API to generate visualizations~~.
+The app aims to learn how to use the Browser WebAudio API to play and apply audio effects on it, Canvas API to generate visualizations ~~and get knowledge about Spotify API~~.
 
 ## Demo
 
