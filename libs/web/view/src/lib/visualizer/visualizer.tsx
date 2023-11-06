@@ -25,10 +25,12 @@ const enum Effect {
 
 export function Visualizer(props: VisualizerProps) {
   const { frequencies, bufferSize } = useSelector(
-    (state: RootState) => state.playback.analysis
+    (state: RootState) => state.playback.analysis,
   );
 
   const [effect, setEffect] = useState(Effect.BARS);
+
+  const canvasContainerRef = useRef<HTMLDivElement>(null);
 
   // Get a canvas defined with ID "oscilloscope"
   const canvas = useRef<HTMLCanvasElement>(null);
@@ -45,7 +47,12 @@ export function Visualizer(props: VisualizerProps) {
     fractalsEffect,
     waveEffect,
     noiseEffect,
-  } = useCanvasEffect(canvasCtx, canvas.current, bufferSize);
+  } = useCanvasEffect(
+    canvasContainerRef,
+    canvasCtx,
+    canvas.current,
+    bufferSize,
+  );
 
   useEffect(() => {
     switch (effect) {
@@ -74,14 +81,27 @@ export function Visualizer(props: VisualizerProps) {
         offEffect();
         break;
     }
-  }, [frequencies, effect, oscillatorEffect, barsEffect, offEffect]);
+  }, [
+    frequencies,
+    effect,
+    oscillatorEffect,
+    barsEffect,
+    offEffect,
+    waveEffect,
+    noiseEffect,
+    fractalsEffect,
+  ]);
 
   return (
     <VisualizerContainer>
       <VisualizerContent>
         <VisualizerTitle>Audio Sound Visualizer</VisualizerTitle>
-        <CanvasContainer>
-          <canvas ref={canvas} height={340} width={1000} />
+        <CanvasContainer ref={canvasContainerRef}>
+          <canvas
+            ref={canvas}
+            height={canvasContainerRef?.current?.clientHeight}
+            width={canvasContainerRef?.current?.clientWidth}
+          />
         </CanvasContainer>
         <CanvasButtonsContainer>
           <CanvasButton
@@ -120,9 +140,6 @@ export function Visualizer(props: VisualizerProps) {
           >
             FRACTALS
           </CanvasButton>
-          {Array.from(Array(10).keys()).map((i) => (
-            <CanvasButton key={i}>EFFECT #{i}</CanvasButton>
-          ))}
         </CanvasButtonsContainer>
       </VisualizerContent>
     </VisualizerContainer>
