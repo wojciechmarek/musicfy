@@ -5,25 +5,32 @@ import {
   ContentContainer,
   LayoutContainer,
   LayoutContent,
+  WrongResolutionContainer,
+  WrongResolutionText,
 } from './layout.styled';
 
 import { Outlet } from 'react-router-dom';
 
 /* eslint-disable-next-line */
-export interface LayoutProps {}
+export interface LayoutProps { }
 
 export function Layout(props: LayoutProps) {
   return (
-    <LayoutContainer>
-      <AudioProcessor />
-      <LayoutContent>
-        <Sidebar />
-        <ContentContainer>
-          <Outlet />
-        </ContentContainer>
-      </LayoutContent>
-      <Player />
-    </LayoutContainer>
+    <>
+      <WrongResolutionContainer>
+        <WrongResolutionText>Resolution is too small</WrongResolutionText>
+      </WrongResolutionContainer>
+      <LayoutContainer>
+        <AudioProcessor />
+        <LayoutContent>
+          <Sidebar />
+          <ContentContainer>
+            <Outlet />
+          </ContentContainer>
+        </LayoutContent>
+        <Player />
+      </LayoutContainer>
+    </>
   );
 }
 
