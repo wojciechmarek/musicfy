@@ -69,12 +69,16 @@ export const useCanvasEffect = (
       context.strokeStyle = '#666bef';
       context.beginPath();
 
-      const sliceWidth = (canvas.width * 2.0) / bufferSize;
+      const sliceWidth = (canvas.width * 2) / bufferSize;
       let x = 0;
 
       for (let i = 0; i < bufferSize; i++) {
-        const v = frequencies[256 - i] / 256.0;
-        const y = (v * canvas.height) / 2;
+        const v = frequencies[i] / 256.0;
+        const y = (v * canvas.height) / 1.5;
+
+        context.strokeStyle = `rgb(${frequencies[100] * i},${
+          frequencies[200]
+        },${frequencies[300] * 3 * i})`;
 
         if (i === 0) {
           context.moveTo(x, y);
@@ -85,7 +89,7 @@ export const useCanvasEffect = (
         x += sliceWidth;
       }
 
-      context.lineTo(canvas.width, canvas.height / 2);
+      context.lineTo(canvas.width, canvas.height);
       context.stroke();
     }
   };
@@ -100,9 +104,9 @@ export const useCanvasEffect = (
       for (let i = 0; i < bufferSize; i++) {
         const barHeight = canvasHeight;
 
-        const r = barHeight + 25 * (frequencies[i] / bufferSize);
-        const g = 250 * (frequencies[i] / bufferSize);
-        const b = (frequencies[i] / bufferSize) * 200;
+        const r = frequencies[i] < 100 ? 255 : 0;
+        const g = frequencies[i] >= 100 && frequencies[i] < 200 ? 255 : 0;
+        const b = frequencies[i] > 201 ? 255 : 0;
 
         context.fillStyle = `rgb(${r},${g},${b})`;
         context.fillRect(x, canvas.height - barHeight, barWidth, barHeight);
@@ -115,8 +119,6 @@ export const useCanvasEffect = (
   const noiseEffect = (frequencies: number[]) => {
     if (context && canvas) {
       context.clearRect(0, 0, canvasHeight, canvasWidth);
-      context.lineWidth = 10;
-
       context.beginPath();
 
       const sliceWidth = (canvas.width * 10.0) / bufferSize;
@@ -126,11 +128,11 @@ export const useCanvasEffect = (
         const v = frequencies[i] / 256.0;
         const y = (v * canvas.height) / 1;
 
-        const r = i + 25 * (i / bufferSize);
-        const g = 250 * (i / bufferSize);
-        const b = (i / bufferSize) * 50;
+        context.strokeStyle = `rgb(${frequencies[100] * i},${
+          frequencies[200]
+        },${frequencies[300] * i})`;
 
-        context.strokeStyle = `rgb(${r},${g},${b})`;
+        context.lineWidth = frequencies[i] / 5;
 
         if (i === 0) {
           context.moveTo(x, y);
