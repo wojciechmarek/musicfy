@@ -15,8 +15,11 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@musicfy/web/ui": ["libs/web/ui/src/index.ts"],
       "@musicfy/web/data-access": ["libs/web/data-access/src/index.ts"],
+      "@musicfy/web/ui": ["libs/web/ui/src/index.ts"],
+      "@musicfy/web/utility/constants": [
+        "libs/web/utility/constants/src/index.ts"
+      ],
       "@musicfy/web/utility/models": ["libs/web/utility/models/src/index.ts"],
       "@musicfy/web/utility/routing": ["libs/web/utility/routing/src/index.ts"],
       "@musicfy/web/utility/store": ["libs/web/utility/store/src/index.ts"],
