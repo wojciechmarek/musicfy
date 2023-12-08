@@ -1,7 +1,7 @@
 {
-  "name": "web-utility-constants",
+  "name": "web-constants",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/web/utility/constants/src",
+  "sourceRoot": "libs/web/constants/src",
   "projectType": "library",
   "tags": [],
   "targets": {
@@ -9,7 +9,7 @@
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["libs/web/utility/constants/**/*.{ts,tsx,js,jsx}"]
+        "lintFilePatterns": ["libs/web/constants/**/*.{ts,tsx,js,jsx}"]
       }
     },
     "build": {
@@ -30,7 +30,7 @@
     },
     "test": {
       "executor": "@nx/vite:test",
-      "outputs": ["coverage/libs/web/utility/constants"],
+      "outputs": ["coverage/libs/web/constants"],
       "options": {
         "passWithNoTests": true,
         "reportsDirectory": "../../../../coverage/libs/web/utility/constants"
