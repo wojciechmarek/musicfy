@@ -42,7 +42,7 @@ export const useAudioProcessor = () => {
     if (!analyser.current) {
       return;
     }
-    
+
     // -- CREATE DATA BUFFER AND DISPATCH DATA BUFFER LENGTH (for FREQUENCY) --
     const bufferLength = analyser.current.frequencyBinCount;
     const dataArray = new Uint8Array(bufferLength);
@@ -52,7 +52,7 @@ export const useAudioProcessor = () => {
     const leftChannel = new Uint8Array(bufferLength);
     const rightChannel = new Uint8Array(bufferLength);
 
-    // -- START INTERVAL: 1sek/20ms = 50HZ REFRESH RATE --
+    // -- START INTERVAL: 1sec/20ms = 50HZ REFRESH RATE --
     interval.current = setInterval(() => {
       // -- CALCULATE AND DISPATCH CURRENT PLAYBACK TIME --
       const songTime = audio.current.currentTime;
@@ -71,27 +71,26 @@ export const useAudioProcessor = () => {
 
       // -- CALCULATE AND DISPATCH SPLITTER CHANNELS DATA --
       if (leftChannelAnalyser.current && rightChannelAnalyser.current) {
-        
         leftChannelAnalyser.current.getByteFrequencyData(leftChannel);
         rightChannelAnalyser.current.getByteFrequencyData(rightChannel);
 
         const leftChannelReducedValue = leftChannel.reduce(
           (acc, curr) => acc + curr,
-          0
+          0,
         );
         const rightChannelReducedValue = rightChannel.reduce(
           (acc, curr) => acc + curr,
-          0
+          0,
         );
-  
+
         const leftChannelAverageValue =
           leftChannelReducedValue / leftChannel.length;
         const rightChannelAverageValue =
           rightChannelReducedValue / rightChannel.length;
-  
+
         const leftChannelValue = Math.floor(leftChannelAverageValue);
         const rightChannelValue = Math.floor(rightChannelAverageValue);
-  
+
         dispatch(setLeftChannel(leftChannelValue));
         dispatch(setRightChannel(rightChannelValue));
       }
@@ -118,21 +117,21 @@ export const useAudioProcessor = () => {
         audio.current.pause();
       }
     },
-    [audio]
+    [audio],
   );
 
   const setVolume = useCallback(
     (level: number) => {
       audio.current.volume = level / 100;
     },
-    [audio]
+    [audio],
   );
 
   const setMuted = useCallback(
     (isMuted: boolean) => {
       audio.current.muted = isMuted;
     },
-    [audio]
+    [audio],
   );
 
   const setNewAudioUrlAndStartPlay = useCallback(
@@ -162,7 +161,7 @@ export const useAudioProcessor = () => {
       resetTimeCounter,
       startAnalyserInterval,
       stopAnalyserInterval,
-    ]
+    ],
   );
 
   const setupAudioGainNodesAndAnalyzers = () => {
@@ -210,7 +209,6 @@ export const useAudioProcessor = () => {
 
     // RIGHT CHANNEL GAIN NODE CONNECT TO RIGHT CHANNEL
     channelSplitter.current.connect(rightChannelGainNode.current, 1);
-
 
     if (leftChannelAnalyser.current && rightChannelAnalyser.current) {
       // LEFT CHANNEL ANALYSER CONNECT TO LEFT CHANNEL GAIN NODE
@@ -306,7 +304,7 @@ export const useAudioProcessor = () => {
       dispatch(setBufferSize(bufferLength));
       audio.current.currentTime = seekToTime;
     },
-    [audio, dispatch]
+    [audio, dispatch],
   );
 
   const setBass = useCallback((bass: number) => {

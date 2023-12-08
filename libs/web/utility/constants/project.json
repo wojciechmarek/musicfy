@@ -1,7 +1,7 @@
 {
-  "name": "web-view",
-  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/web/view/src",
+  "name": "web-utility-constants",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/web/utility/constants/src",
   "projectType": "library",
   "tags": [],
   "targets": {
@@ -9,7 +9,7 @@
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["libs/web/view/**/*.{ts,tsx,js,jsx}"]
+        "lintFilePatterns": ["libs/web/utility/constants/**/*.{ts,tsx,js,jsx}"]
       }
     },
     "build": {
@@ -17,14 +17,7 @@
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
       "options": {
-        "outputPath": "dist/libs/web/view",
-        "assets": [
-          {
-            "input": "./apps/web/src/assets",
-            "glob": "**/*",
-            "output": "assets"
-          }
-        ]
+        "outputPath": "dist/libs/web/constants"
       },
       "configurations": {
         "development": {
@@ -37,10 +30,10 @@
     },
     "test": {
       "executor": "@nx/vite:test",
-      "outputs": ["coverage/libs/web/view"],
+      "outputs": ["coverage/libs/web/utility/constants"],
       "options": {
         "passWithNoTests": true,
-        "reportsDirectory": "../../../coverage/libs/web/view"
+        "reportsDirectory": "../../../../coverage/libs/web/utility/constants"
       }
     }
   }
