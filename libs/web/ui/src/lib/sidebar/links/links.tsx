@@ -1,6 +1,7 @@
 import { RootState } from '@musicfy/web/utility/store';
 import { Music4, Play } from 'lucide-react';
 import { useSelector } from 'react-redux';
+import { sideMenuLinks } from '@musicfy/web/utility/constants';
 
 import {
   LinkContent,
@@ -10,7 +11,6 @@ import {
   PlayingRedBox,
   SidebarNavigationLinks,
 } from './links.styled';
-import { sideMenuLinks } from '@musicfy/web/utility/constants';
 
 /* eslint-disable-next-line */
 export interface LinksProps {}
