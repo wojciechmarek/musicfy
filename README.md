@@ -14,9 +14,17 @@ A demo is available at [https://musicfy-omega.vercel.app/](https://musicfy-omega
 
 ## Screenshots
 
-The screenshots are outdated. To see the current state, please visit the demo site.
+### Radio stations
 
-![Screenshot](./screenshots/musicfy.png)
+![Radio](./screenshots/radio.png)
+
+### Visualizations
+
+![Visualizations](./screenshots/visualizer.png)
+
+### Equalizer
+
+![Equalizer](./screenshots/equalizer.png)
 
 ## Web Audio API
 

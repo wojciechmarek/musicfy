@@ -106,19 +106,18 @@ export function Equalizer(props: EqualizerProps) {
   } = useSelector((state: RootState) => state.equalizer.boostTones);
 
   const { isMuted, level: volumeLevelValue } = useSelector(
-    (state: RootState) => state.playback.volume
+    (state: RootState) => state.playback.volume,
   );
 
   const { isRepeating, isShuffling } = useSelector(
-    (state: RootState) => state.playback.mode
+    (state: RootState) => state.playback.mode,
   );
 
-  const { isKaraoke, isMicrophoneSource, isStereo, microphoneBoost} = useSelector(
-    (state: RootState) => state.equalizer
-  );
+  const { isKaraoke, isMicrophoneSource, isStereo, microphoneBoost } =
+    useSelector((state: RootState) => state.equalizer);
 
   const { leftChannel, rightChannel, frequencies } = useSelector(
-    (state: RootState) => state.playback.analysis
+    (state: RootState) => state.playback.analysis,
   );
 
   const dispatch = useDispatch();
@@ -138,8 +137,7 @@ export function Equalizer(props: EqualizerProps) {
   };
 
   const onEqKaraokeClick = () => {
-    if (isMicrophoneSourceEnabled)
-    dispatch(setIsKaraoke(!isKaraokeEnabled));
+    if (isMicrophoneSourceEnabled) dispatch(setIsKaraoke(!isKaraokeEnabled));
   };
 
   const onEqMicrophoneClick = () => {
@@ -187,7 +185,7 @@ export function Equalizer(props: EqualizerProps) {
   return (
     <EqualizerContainer>
       <EqualizerContent>
-        <EqualizerTitle>EQUALIZER Super Heavy Bass</EqualizerTitle>
+        <EqualizerTitle>Equalizer</EqualizerTitle>
         <EqContainer>
           <Power
             className="power"
@@ -276,7 +274,6 @@ export function Equalizer(props: EqualizerProps) {
             isKaraoke={isKaraoke}
             frequencies={frequencies}
             frequencyBars={frequencyBars}
-            
           />
         </EqContainer>
       </EqualizerContent>
