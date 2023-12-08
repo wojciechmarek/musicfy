@@ -22,9 +22,9 @@ export function Links(props: LinksProps) {
 
   return (
     <SidebarNavigationLinks>
-      {sideMenuLinks.map((link) =>
+      {sideMenuLinks.map((link, index) =>
         link.text === 'br' ? (
-          <NavigationSeparator key={link.text} />
+          <NavigationSeparator key={`${link.text}-${index}`} />
         ) : (
           <NavigationLink key={link.text}>
             <NavLinkStyle

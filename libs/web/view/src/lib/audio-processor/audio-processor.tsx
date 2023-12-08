@@ -5,16 +5,15 @@ import { useAudioProcessor } from './use-audio-processor.hook';
 
 export function AudioProcessor() {
   const { seekToTime, isPlaying, url } = useSelector(
-    (state: RootState) => state.playback.audio
+    (state: RootState) => state.playback.audio,
   );
-  const { isMicrophoneSource, balance, isStereo, isKaraoke, microphoneBoost } = useSelector(
-    (state: RootState) => state.equalizer
-  );
+  const { isMicrophoneSource, balance, isStereo, isKaraoke, microphoneBoost } =
+    useSelector((state: RootState) => state.equalizer);
   const { level, isMuted } = useSelector(
-    (state: RootState) => state.playback.volume
+    (state: RootState) => state.playback.volume,
   );
   const { bass, middle, treble } = useSelector(
-    (state: RootState) => state.equalizer.boostTones
+    (state: RootState) => state.equalizer.boostTones,
   );
 
   const {
@@ -30,7 +29,7 @@ export function AudioProcessor() {
     setBass,
     setMiddle,
     setTreble,
-    setMicrophoneBoost
+    setMicrophoneBoost,
   } = useAudioProcessor();
 
   // PLAY/PAUSE
