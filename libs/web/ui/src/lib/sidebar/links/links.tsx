@@ -1,7 +1,6 @@
 import { RootState } from '@musicfy/web/utility/store';
-import { Music4, Play } from 'lucide-react';
-import { useSelector } from 'react-redux';
 import { sideMenuLinks } from '@musicfy/web/utility/constants';
+import { useSelector } from 'react-redux';
 
 import {
   LinkContent,

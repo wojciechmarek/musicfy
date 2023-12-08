@@ -33,7 +33,7 @@
       "outputs": ["coverage/libs/web/constants"],
       "options": {
         "passWithNoTests": true,
-        "reportsDirectory": "../../../../coverage/libs/web/utility/constants"
+        "reportsDirectory": "../../../../coverage/libs/web/constants"
       }
     }
   }
