@@ -5,6 +5,6 @@ export class DemoSong {
     public artist: string,
     public duration: number,
     public cover: string,
-    public url: string
+    public url: string,
   ) {}
 }

@@ -22,7 +22,7 @@ export function DemoSongs(props: DemoSongsProps) {
   const trackId = useSelector((state: RootState) => state.playback.track.id);
   const demoSongs = useSelector((state: RootState) => state.demo.songs);
   const audioSource = useSelector(
-    (state: RootState) => state.playback.audio.source
+    (state: RootState) => state.playback.audio.source,
   );
 
   const dispatch = useDispatch();
@@ -57,8 +57,7 @@ export function DemoSongs(props: DemoSongsProps) {
               description={song.artist}
               coverUrl={song.cover}
               isPlaying={
-                audioSource === AudioSource.DEMO &&
-                trackId === song.id
+                audioSource === AudioSource.DEMO && trackId === song.id
               }
               onPlayClick={() => handleOnPlayClick(song.id)}
             />

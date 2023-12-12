@@ -95,7 +95,7 @@ export function Visualizer(props: VisualizerProps) {
   return (
     <VisualizerContainer>
       <VisualizerContent>
-        <VisualizerTitle>Audio Sound Visualizer</VisualizerTitle>
+        <VisualizerTitle>Visualizer</VisualizerTitle>
         <CanvasContainer ref={canvasContainerRef}>
           <canvas
             ref={canvas}

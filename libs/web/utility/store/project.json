@@ -17,14 +17,7 @@
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
       "options": {
-        "outputPath": "dist/libs/web/store",
-        "assets": [
-          {
-            "input": "./apps/web/src/assets",
-            "glob": "**/*",
-            "output": "assets"
-          }
-        ]
+        "outputPath": "dist/libs/web/store"
       },
       "configurations": {
         "development": {
