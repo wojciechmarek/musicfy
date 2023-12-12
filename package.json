@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "dev": "nx serve web",
-    "build": "nx build web"
+    "dev": "nx serve musicfy",
+    "build": "nx build musicfy"
   },
   "private": true,
   "dependencies": {
