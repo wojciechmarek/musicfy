@@ -50,9 +50,11 @@ export function VfdDisplay(props: VfdDisplayProps) {
     <VfdDisplayContainer {...rest}>
       <VfdControls>
         <VfdControl isActive={isEnabled && audioSource === AudioSource.DEMO}>
-          TAPE/CD
+          TAPE
         </VfdControl>
-        <VfdControl isActive={isEnabled && audioSource === AudioSource.INTERNET_RADIO}>
+        <VfdControl
+          isActive={isEnabled && audioSource === AudioSource.INTERNET_RADIO}
+        >
           TUNER
         </VfdControl>
         <VfdControl isActive={isEnabled && audioSource === AudioSource.SPOTIFY}>
@@ -80,7 +82,9 @@ export function VfdDisplay(props: VfdDisplayProps) {
         <VfdControl isActive={isEnabled && isRepeating}>REPEAT</VfdControl>
         <VfdControl isActive={isEnabled && isShuffling}>SHUFFLE</VfdControl>
         <VfdControl isActive={isEnabled && isMuted}>MUTING</VfdControl>
-        <VfdControl isActive={isEnabled && isKaraoke && isMicrophoneSource}>KARAOKE</VfdControl>
+        <VfdControl isActive={isEnabled && isKaraoke && isMicrophoneSource}>
+          KARAOKE
+        </VfdControl>
       </VfdControls>
     </VfdDisplayContainer>
   );
