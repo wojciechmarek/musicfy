@@ -2,8 +2,6 @@
 
 A simple audio player app, allowing the play of some demo songs, internet radio stations, and use the Spotify music collection (not ready yet).
 
-⚠️ Regarding the async `audio.play()` function implementation and the race conditions in the Chromium-based browsers, the app might not work on Chrome, Brave, Edge, and Opera. Use Firefox instead !!1!
-
 ## Description
 
 The app aims to learn how to use the Browser WebAudio API to play and apply audio effects on it, Canvas API to generate visualizations ~~and get knowledge about Spotify API~~.
@@ -11,6 +9,8 @@ The app aims to learn how to use the Browser WebAudio API to play and apply audi
 ## Demo
 
 A demo is available at [https://musicfy-omega.vercel.app/](https://musicfy-omega.vercel.app/).
+
+> ⚠️ Regarding the async `audio.play()` function implementation and the race conditions in the Chromium-based browsers, the app might not work on Chrome, Brave, Edge, and Opera. Use Firefox instead !!1!
 
 ## Screenshots
 
