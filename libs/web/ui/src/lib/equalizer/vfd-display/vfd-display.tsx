@@ -7,7 +7,8 @@ import {
   VfdControls,
   VfdDisplayContainer,
 } from './vfd-display.styled';
-import { AudioSource } from '@musicfy/web/utility/store';
+import { AudioSource, setBarsMode } from '@musicfy/web/utility/store';
+import { BarsMode } from '@musicfy/web/utility/models';
 
 /* eslint-disable-next-line */
 export interface VfdDisplayProps {
@@ -23,6 +24,7 @@ export interface VfdDisplayProps {
   isStereo: boolean;
   isKaraoke: boolean;
   frequencies: number[];
+  barsMode: BarsMode;
   frequencyBars: {
     label: string;
     frequencyId: number;
@@ -43,6 +45,7 @@ export function VfdDisplay(props: VfdDisplayProps) {
     isKaraoke,
     frequencies,
     frequencyBars,
+    barsMode,
     ...rest
   } = props;
 
@@ -74,6 +77,7 @@ export function VfdDisplay(props: VfdDisplayProps) {
           left={leftChannel}
           right={rightChannel}
           isEnabled={isEnabled}
+          barsMode={barsMode}
         />
       </VfdAnalyzersRow>
       <VfdControls>

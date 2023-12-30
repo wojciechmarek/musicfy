@@ -1,4 +1,4 @@
-import styled from "@emotion/styled";
+import styled from '@emotion/styled';
 
 export const EqualizerContainer = styled.div`
   background-color: #1a1b20;
@@ -64,6 +64,11 @@ export const EqContainer = styled.div`
     grid-row: 4 / span 1;
   }
 
+  .bars-mode {
+    grid-column: 9 / span 1;
+    grid-row: 3 / span 1;
+  }
+
   .tones {
     grid-column: 5 / span 3;
     grid-row: 3 / span 1;
@@ -94,4 +99,3 @@ export const EqContainer = styled.div`
     grid-row: 4 / span 1;
   }
 `;
-
