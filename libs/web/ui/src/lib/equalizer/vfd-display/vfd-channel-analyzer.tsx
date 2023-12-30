@@ -1,3 +1,4 @@
+import { BarsMode } from '@musicfy/web/utility/models';
 import {
   BarFrequencyDescription,
   DecibelColumn,
@@ -13,10 +14,24 @@ export interface VfdChannelAnalyzerProps {
   isEnabled: boolean;
   left: number;
   right: number;
+  barsMode: BarsMode;
 }
 
 export const VfdChannelAnalyzer = (props: VfdChannelAnalyzerProps) => {
-  const { isEnabled, left, right } = props;
+  const { isEnabled, left, right, barsMode } = props;
+
+  const isBarActive = (value: number, index: number) => {
+    switch (barsMode) {
+      case 'bars':
+        return value - 50 >= 100 - index * 10;
+
+      case 'fallingMaximum':
+        return false;
+
+      case 'pointer':
+        return (value - 50) / 7 === index;
+    }
+  };
 
   return (
     <VfdChannels>
@@ -26,14 +41,14 @@ export const VfdChannelAnalyzer = (props: VfdChannelAnalyzerProps) => {
             index < 3 ? (
               <SpectrumBarRed
                 key={index}
-                isActive={isEnabled && left - 50 >= 100 - index * 10}
+                isActive={isEnabled && isBarActive(left, index)}
               />
             ) : (
               <SpectrumBar
                 key={index}
-                isActive={isEnabled && left - 50 >= 100 - index * 10}
+                isActive={isEnabled && isBarActive(left, index)}
               />
-            )
+            ),
           )}
           <SpectrumBar isActive={isEnabled} />
           <BarFrequencyDescription isActive={isEnabled}>
@@ -57,14 +72,14 @@ export const VfdChannelAnalyzer = (props: VfdChannelAnalyzerProps) => {
             index < 3 ? (
               <SpectrumBarRed
                 key={index}
-                isActive={isEnabled && right - 50 >= 100 - index * 10}
+                isActive={isEnabled && isBarActive(right, index)}
               />
             ) : (
               <SpectrumBar
                 key={index}
-                isActive={isEnabled && right - 50 >= 100 - index * 10}
+                isActive={isEnabled && isBarActive(right, index)}
               />
-            )
+            ),
           )}
           <SpectrumBar isActive={isEnabled} />
           <BarFrequencyDescription isActive={isEnabled}>

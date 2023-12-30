@@ -9,6 +9,7 @@ import {
 import {
   RootState,
   setBalance,
+  setBarsMode,
   setBassBooster,
   setIsEnabled as setIsEqualizerEnabled,
   setIsKaraoke,
@@ -95,6 +96,7 @@ export function Equalizer(props: EqualizerProps) {
     isMicrophoneSource: isMicrophoneSourceEnabled,
     isKaraoke: isKaraokeEnabled,
     balance: channelBalanceValue,
+    barsMode: barsModeValue,
   } = useSelector((state: RootState) => state.equalizer);
 
   const { source } = useSelector((state: RootState) => state.playback.audio);
@@ -158,6 +160,22 @@ export function Equalizer(props: EqualizerProps) {
     dispatch(setBalance(50));
   };
 
+  const onEqBarsModeClick = () => {
+    switch (barsModeValue) {
+      case 'bars':
+        dispatch(setBarsMode('fallingMaximum'));
+        break;
+
+      case 'fallingMaximum':
+        dispatch(setBarsMode('pointer'));
+        break;
+
+      case 'pointer':
+        dispatch(setBarsMode('bars'));
+        break;
+    }
+  };
+
   const handleVolumeChange = (value: number) => {
     dispatch(setVolume(value));
   };
@@ -213,6 +231,11 @@ export function Equalizer(props: EqualizerProps) {
             className="reset"
             label="Reset"
             handleOnClick={onEqResetClick}
+          />
+          <EqButton
+            className="bars-mode"
+            label="BARS MODE"
+            handleOnClick={onEqBarsModeClick}
           />
           <Description label="TONES" className="tones" />
           <Knob
@@ -274,6 +297,7 @@ export function Equalizer(props: EqualizerProps) {
             isKaraoke={isKaraoke}
             frequencies={frequencies}
             frequencyBars={frequencyBars}
+            barsMode={barsModeValue}
           />
         </EqContainer>
       </EqualizerContent>

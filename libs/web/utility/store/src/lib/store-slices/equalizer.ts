@@ -1,7 +1,6 @@
-import { Tones } from 'libs/web/utility/models/src';
+import { BarsMode, Tones } from 'libs/web/utility/models/src';
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-
 
 export interface EqualizerState {
   isEnabled: boolean;
@@ -11,6 +10,7 @@ export interface EqualizerState {
   balance: number;
   boostTones: Tones;
   microphoneBoost: number;
+  barsMode: BarsMode;
 }
 
 const initialState: EqualizerState = {
@@ -20,6 +20,7 @@ const initialState: EqualizerState = {
   isKaraoke: false,
   balance: 50,
   microphoneBoost: 0,
+  barsMode: 'bars',
   boostTones: {
     bass: 0,
     middle: 0,
@@ -57,7 +58,10 @@ export const equalizerSlice = createSlice({
     },
     setMicrophoneBooster: (state, action: PayloadAction<number>) => {
       state.microphoneBoost = action.payload;
-    }
+    },
+    setBarsMode: (state, action: PayloadAction<BarsMode>) => {
+      state.barsMode = action.payload;
+    },
   },
 });
 
@@ -71,5 +75,6 @@ export const {
   setTrebleBooster,
   setBalance,
   setMicrophoneBooster,
+  setBarsMode,
 } = equalizerSlice.actions;
 export default equalizerSlice.reducer;
