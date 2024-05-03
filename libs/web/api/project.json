@@ -1,7 +1,7 @@
 {
-  "name": "web-data-access",
+  "name": "web-api",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/web/data-access/src",
+  "sourceRoot": "libs/web/api/src",
   "projectType": "library",
   "tags": [],
   "targets": {
@@ -9,7 +9,7 @@
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["libs/web/data-access/**/*.{ts,tsx,js,jsx}"]
+        "lintFilePatterns": ["libs/web/api/**/*.{ts,tsx,js,jsx}"]
       }
     },
     "build": {
@@ -17,7 +17,7 @@
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
       "options": {
-        "outputPath": "dist/libs/web/data-access"
+        "outputPath": "dist/libs/web/api"
       },
       "configurations": {
         "development": {
@@ -30,10 +30,10 @@
     },
     "test": {
       "executor": "@nx/vite:test",
-      "outputs": ["coverage/libs/web/data-access"],
+      "outputs": ["coverage/libs/web/api"],
       "options": {
         "passWithNoTests": true,
-        "reportsDirectory": "../../../coverage/libs/web/data-access"
+        "reportsDirectory": "../../../coverage/libs/web/api"
       }
     }
   }

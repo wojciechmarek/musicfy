@@ -15,7 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@musicfy/web/data-access": ["libs/web/data-access/src/index.ts"],
+      "@musicfy/web/api": ["libs/web/api/src/index.ts"],
       "@musicfy/web/ui": ["libs/web/ui/src/index.ts"],
       "@musicfy/web/utility/constants": [
         "libs/web/utility/constants/src/index.ts"

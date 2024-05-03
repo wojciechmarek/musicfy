@@ -1,5 +1,5 @@
 {
-  "name": "@musicfy/web/data-access",
+  "name": "@musicfy/web/api",
   "version": "0.0.1",
   "main": "./index.js",
   "types": "./index.d.ts",
