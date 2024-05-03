@@ -37,8 +37,8 @@
         }
       }
     },
-    "preview": {
-      "executor": "@nx/vite:preview-server",
+    "previews": {
+      "executor": "@nx/vite:previews-server",
       "defaultConfiguration": "development",
       "options": {
         "buildTarget": "musicfy:build"

@@ -2470,9 +2470,9 @@
   dependencies:
     tinyspy "^2.1.0"
 
-"@vitest/ui@^0.31.0":
+"@vitest/components@^0.31.0":
   version "0.31.4"
-  resolved "https://registry.yarnpkg.com/@vitest/ui/-/ui-0.31.4.tgz#465a4762d7937e3322fe66f94c2378bacfeba1ac"
+  resolved "https://registry.yarnpkg.com/@vitest/components/-/components-0.31.4.tgz#465a4762d7937e3322fe66f94c2378bacfeba1ac"
   integrity sha512-sKM16ITX6HrNFF+lNZ2AQAen4/6Bx2i6KlBfIvkUjcTgc5YII/j2ltcX14oCUv4EA0OTWGQuGhO3zDoAsTENGA==
   dependencies:
     "@vitest/utils" "0.31.4"
@@ -4751,7 +4751,7 @@ http-cache-semantics@^4.0.0:
 http-proxy-agent@^5.0.0:
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/http-proxy-agent/-/http-proxy-agent-5.0.0.tgz#5129800203520d434f142bc78ff3c170800f2b43"
-  integrity sha512-n2hY8YdoRE1i7r6M0w9DIw5GgZN0G25P8zLCRQ8rjXtTU3vsNFBI/vWK/UIeE6g5MUUz6avwAPXmL6Fy9D/90w==
+  integrity sha512-n2hY8YdoRE1i7r6M0w9DIw5GgZN0G25P8zLCRQ8rjXtTU3vsNFBI/vWK/componentseE6g5MUUz6avwAPXmL6Fy9D/90w==
   dependencies:
     "@tootallnate/once" "2"
     agent-base "6"
