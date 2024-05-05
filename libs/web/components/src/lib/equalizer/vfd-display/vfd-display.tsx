@@ -1,5 +1,3 @@
-import { VfdSpectrumAnalyzer } from './vfd-spectrum';
-import { VfdChannelAnalyzer } from './vfd-channel-analyzer';
 import {
   VfdAnalyzersRow,
   VfdControl,
@@ -7,8 +5,9 @@ import {
   VfdControls,
   VfdDisplayContainer,
 } from './vfd-display.styled';
-import { AudioSource, setBarsMode } from '@musicfy/web/utils/store';
+import { AudioSource } from '@musicfy/web/utils/store';
 import { BarsMode } from '@musicfy/web/utils/models';
+import { VfdChannelAnalyzer, VfdSpectrumAnalyzer } from './components';
 
 /* eslint-disable-next-line */
 export interface VfdDisplayProps {
