@@ -29,12 +29,19 @@ export function Spotify(props: SpotifyProps) {
     dispatch(setSearchPhrase(phrase));
   };
 
+  const handleOnLogOffButtonClick = () => {
+    alert("Log off");
+  }
+
   return (
     <HomeContainer>
       {!isSpotifyAccessActive && <WarningMessage />}
       <HomeContent>
         <SearchBar
+          isNavigationButtonsVisible={true}
+          buttonLabel='Log off'
           handleSearchInputChange={(e) => handleSearchInputChange(e)}
+          handleButtonClick={handleOnLogOffButtonClick}
         />
         {isSearchActive ? (
           <HomeSearchResultsviews>search</HomeSearchResultsviews>

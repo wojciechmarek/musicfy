@@ -1,6 +1,6 @@
-import { RadioStation } from 'libs/web/utils/models/src';
-import { createSlice } from '@reduxjs/toolkit';
-import { radioStations } from '../data/radio-stations';
+import { RadioStation } from '@musicfy/web/utils/models';
+import { radioStations } from '@musicfy/web/utils/constants';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 export interface RadioState {
   stations: RadioStation[];
@@ -13,7 +13,11 @@ const radioState: RadioState = {
 export const radioSlice = createSlice({
   name: 'radio',
   initialState: radioState,
-  reducers: {}
+  reducers: {
+    setLocalStorage: (state, action: PayloadAction<RadioStation[]>) => {
+      state.stations = action.payload;
+    },
+  }
 });
 
 export default radioSlice.reducer;

@@ -1,6 +1,6 @@
-import { DemoSong } from 'libs/web/utils/models/src';
+import { DemoSong } from '@musicfy/web/utils/models';
+import { demoSongs } from '@musicfy/web/utils/constants';
 import { createSlice } from '@reduxjs/toolkit';
-import { demoSongs } from '../data/demo-songs';
 
 export interface DemoState {
   songs: DemoSong[];

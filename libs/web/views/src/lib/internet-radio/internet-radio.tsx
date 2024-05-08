@@ -1,4 +1,4 @@
-import { AudioTile } from '@musicfy/web/components';
+import { AudioTile, SearchBar } from '@musicfy/web/components';
 import {
   AudioSource,
   RootState,
@@ -15,6 +15,7 @@ import {
   Header,
   RadioContainer,
   RadioContent,
+  SearchAndManageContainer,
 } from './internet-radio.styled';
 import { Track } from '@musicfy/web/utils/models';
 
@@ -50,10 +51,18 @@ export function InternetRadio(props: InternetRadioProps) {
     }
   };
 
+  const handleOnSearchStationButtonClick = (phrase: string) => {
+    const url = `https://fmstream.org/index.php?s=${phrase}`;
+    window.open(url);
+  }
+
   return (
     <RadioContainer>
       <RadioContent>
         <Header>Internet radio</Header>
+        <SearchAndManageContainer>
+          <SearchBar buttonLabel='Search a station' handleButtonClick={handleOnSearchStationButtonClick}></SearchBar>
+        </SearchAndManageContainer>
         <Content>
           {radioStations.map((station) => (
             <AudioTile

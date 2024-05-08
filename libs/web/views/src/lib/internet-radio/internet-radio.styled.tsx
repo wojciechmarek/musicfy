@@ -18,6 +18,8 @@ export const Header = styled.h1`
   margin-top: 0.75em;
 `;
 
+export const SearchAndManageContainer = styled.div``;
+
 export const Content = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
