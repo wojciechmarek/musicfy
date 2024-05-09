@@ -1,13 +1,8 @@
 import { Track } from 'libs/web/utils/models/src';
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-
-export const enum AudioSource {
-  DEMO = 'demo',
-  INTERNET_RADIO = 'internet-radio',
-  SPOTIFY = 'spotify',
-}
-
+import { AudioSource } from '@musicfy/web/utils/models';
+ 
 export interface PlaybackState {
   audio: {
     isPlaying: boolean;

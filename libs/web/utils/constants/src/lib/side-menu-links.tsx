@@ -1,4 +1,4 @@
-import { AudioSource } from '@musicfy/web/utils/store';
+import { AudioSource } from '@musicfy/web/utils/models';
 import { Disc3, PlaySquare, Radio, Settings, Sliders, Tv2 } from 'lucide-react';
 
 export const sideMenuLinks = [
