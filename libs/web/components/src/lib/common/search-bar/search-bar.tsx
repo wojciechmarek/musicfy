@@ -6,6 +6,7 @@ import { HomeBar, LogoutButton, NavigationButton, NavigationButtons, NavigationL
 export interface SearchBarProps {
   isNavigationButtonsVisible?: boolean;
   buttonLabel?: string;
+  inputPlaceholder?: string;
   handleSearchInputChange?: (phrase: string) => void;
   handleButtonClick?: (phrase: string) => void;
 }
@@ -14,6 +15,7 @@ export function SearchBar(props: SearchBarProps) {
   const {
     isNavigationButtonsVisible = false,
     buttonLabel = "Button's label",
+    inputPlaceholder = "Input's placeholder",
     handleSearchInputChange,
     handleButtonClick,
   } = props;
@@ -52,7 +54,7 @@ export function SearchBar(props: SearchBarProps) {
         </SearchBarIcon>
         <SearchInput
           type="text"
-          placeholder="Search music"
+          placeholder={inputPlaceholder}
           value={searchPhrase}
           onChange={(e) => onInputChange(e.target.value)}
         />

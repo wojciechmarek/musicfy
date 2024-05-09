@@ -52,6 +52,9 @@ export function InternetRadio(props: InternetRadioProps) {
   };
 
   const handleOnSearchStationButtonClick = (phrase: string) => {
+    if (!phrase) {
+      return;
+    }
     const url = `https://fmstream.org/index.php?s=${phrase}`;
     window.open(url);
   }
@@ -60,9 +63,7 @@ export function InternetRadio(props: InternetRadioProps) {
     <RadioContainer>
       <RadioContent>
         <Header>Internet radio</Header>
-        <SearchAndManageContainer>
-          <SearchBar buttonLabel='Search a station' handleButtonClick={handleOnSearchStationButtonClick}></SearchBar>
-        </SearchAndManageContainer>
+        <SearchBar buttonLabel='Search a station' inputPlaceholder='Search a radio station' handleButtonClick={handleOnSearchStationButtonClick}></SearchBar>
         <Content>
           {radioStations.map((station) => (
             <AudioTile
