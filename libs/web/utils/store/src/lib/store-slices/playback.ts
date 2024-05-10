@@ -12,8 +12,8 @@ export interface PlaybackState {
     source: AudioSource;
   };
   mode: {
-    isShuffling: boolean;
-    isRepeating: boolean;
+    isShuffleEnabled: boolean;
+    isRepeatEnabled: boolean;
   };
   volume: {
     level: number;
@@ -37,8 +37,8 @@ const initialState: PlaybackState = {
     source: AudioSource.DEMO,
   },
   mode: {
-    isShuffling: false,
-    isRepeating: false,
+    isShuffleEnabled: false,
+    isRepeatEnabled: false,
   },
   volume: {
     level: 34,
@@ -75,13 +75,13 @@ export const playbackSlice = createSlice({
     setSeekToTime: (state, action: PayloadAction<number>) => {
       state.audio.seekToTime = action.payload;
     },
-    setIsShuffling: (state, action: PayloadAction<boolean>) => {
-      state.mode.isShuffling = action.payload;
-      state.mode.isRepeating = false;
+    setisShuffleEnabled: (state, action: PayloadAction<boolean>) => {
+      state.mode.isShuffleEnabled = action.payload;
+      state.mode.isRepeatEnabled = false;
     },
-    setIsRepeating: (state, action: PayloadAction<boolean>) => {
-      state.mode.isRepeating = action.payload;
-      state.mode.isShuffling = false;
+    setisRepeatEnabled: (state, action: PayloadAction<boolean>) => {
+      state.mode.isRepeatEnabled = action.payload;
+      state.mode.isShuffleEnabled = false;
     },
     setIsMuted: (state, action: PayloadAction<boolean>) => {
       state.volume.isMuted = action.payload;
@@ -119,8 +119,8 @@ export const {
   setSeekToTime,
   setIsMuted,
   setVolume,
-  setIsShuffling,
-  setIsRepeating,
+  setisShuffleEnabled,
+  setisRepeatEnabled,
   setTrack,
   setTrackDuration,
   setAudioSource,

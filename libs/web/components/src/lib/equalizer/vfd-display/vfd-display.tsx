@@ -5,7 +5,7 @@ import {
   VfdControls,
   VfdDisplayContainer,
 } from './vfd-display.styled';
-import { AudioSource } from '@musicfy/web/utils/store';
+import { AudioSource } from '@musicfy/web/utils/models';
 import { BarsMode } from '@musicfy/web/utils/models';
 import { VfdChannelAnalyzer, VfdSpectrumAnalyzer } from './components';
 
@@ -15,13 +15,13 @@ export interface VfdDisplayProps {
   isEnabled: boolean;
   audioSource: AudioSource;
   isMuted: boolean;
-  isRepeating: boolean;
-  isShuffling: boolean;
-  isMicrophoneSource: boolean;
+  isRepeatEnabled: boolean;
+  isShuffleEnabled: boolean;
+  isMicrophoneEnabled: boolean;
   leftChannel: number;
   rightChannel: number;
-  isStereo: boolean;
-  isKaraoke: boolean;
+  isStereoEnabled: boolean;
+  isKaraokeEnabled: boolean;
   frequencies: number[];
   barsMode: BarsMode;
   frequencyBars: {
@@ -35,13 +35,13 @@ export function VfdDisplay(props: VfdDisplayProps) {
     isEnabled,
     audioSource,
     isMuted,
-    isRepeating,
-    isShuffling,
-    isMicrophoneSource,
+    isRepeatEnabled,
+    isShuffleEnabled,
+    isMicrophoneEnabled,
     leftChannel,
     rightChannel,
-    isStereo,
-    isKaraoke,
+    isStereoEnabled,
+    isKaraokeEnabled,
     frequencies,
     frequencyBars,
     barsMode,
@@ -62,7 +62,7 @@ export function VfdDisplay(props: VfdDisplayProps) {
         <VfdControl isActive={isEnabled && audioSource === AudioSource.SPOTIFY}>
           AUX
         </VfdControl>
-        <VfdControlRed isActive={isEnabled && isMicrophoneSource}>
+        <VfdControlRed isActive={isEnabled && isMicrophoneEnabled}>
           MIC
         </VfdControlRed>
       </VfdControls>
@@ -81,11 +81,11 @@ export function VfdDisplay(props: VfdDisplayProps) {
       </VfdAnalyzersRow>
       <VfdControls>
         <VfdControl isActive={isEnabled}>Hi-Fi</VfdControl>
-        <VfdControl isActive={isEnabled && isStereo}>STEREO</VfdControl>
-        <VfdControl isActive={isEnabled && isRepeating}>REPEAT</VfdControl>
-        <VfdControl isActive={isEnabled && isShuffling}>SHUFFLE</VfdControl>
+        <VfdControl isActive={isEnabled && isStereoEnabled}>STEREO</VfdControl>
+        <VfdControl isActive={isEnabled && isRepeatEnabled}>REPEAT</VfdControl>
+        <VfdControl isActive={isEnabled && isShuffleEnabled}>SHUFFLE</VfdControl>
         <VfdControl isActive={isEnabled && isMuted}>MUTING</VfdControl>
-        <VfdControl isActive={isEnabled && isKaraoke && isMicrophoneSource}>
+        <VfdControl isActive={isEnabled && isKaraokeEnabled && isMicrophoneEnabled}>
           KARAOKE
         </VfdControl>
       </VfdControls>

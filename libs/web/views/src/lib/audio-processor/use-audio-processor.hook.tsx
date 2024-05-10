@@ -227,8 +227,8 @@ export const useAudioProcessor = () => {
     merger.current.connect(context.current.destination);
   };
 
-  const setMicrophoneSource = useCallback((isMicrophoneSource: boolean) => {
-    if (isMicrophoneSource) {
+  const setMicrophoneSource = useCallback((isMicrophoneEnabled: boolean) => {
+    if (isMicrophoneEnabled) {
       window.navigator.mediaDevices
         .getUserMedia({ audio: true })
         .then((stream) => {
@@ -264,7 +264,7 @@ export const useAudioProcessor = () => {
     rightChannelGainNode.current.gain.value = balance / 100;
   }, []);
 
-  const setStereo = useCallback((isStereo: boolean) => {
+  const setStereo = useCallback((isStereoEnabled: boolean) => {
     if (
       !merger.current ||
       !leftChannelGainNode.current ||
@@ -274,7 +274,7 @@ export const useAudioProcessor = () => {
       return;
     }
 
-    if (isStereo) {
+    if (isStereoEnabled) {
       leftChannelGainNode.current.connect(merger.current, 0, 0);
       rightChannelGainNode.current.connect(merger.current, 0, 1);
       merger.current.connect(context.current.destination);
@@ -285,13 +285,13 @@ export const useAudioProcessor = () => {
     }
   }, []);
 
-  const setKaraoke = useCallback((isKaraoke: boolean) => {
+  const setKaraoke = useCallback((isKaraokeEnabled: boolean) => {
     if (!leftChannelGainNode.current || !rightChannelGainNode.current) {
       return;
     }
 
-    leftChannelGainNode.current.gain.value = isKaraoke ? 1 : 0;
-    rightChannelGainNode.current.gain.value = isKaraoke ? 1 : 0;
+    leftChannelGainNode.current.gain.value = isKaraokeEnabled ? 1 : 0;
+    rightChannelGainNode.current.gain.value = isKaraokeEnabled ? 1 : 0;
   }, []);
 
   const setSeekToTime = useCallback(

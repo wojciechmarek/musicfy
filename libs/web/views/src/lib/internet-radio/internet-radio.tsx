@@ -4,8 +4,8 @@ import {
   RootState,
   setAudioSource,
   setIsPlaying,
-  setIsRepeating,
-  setIsShuffling,
+  setisRepeatEnabled,
+  setisShuffleEnabled,
   setTrack,
   setUrl,
 } from '@musicfy/web/utils/store';
@@ -45,8 +45,8 @@ export function InternetRadio(props: InternetRadioProps) {
       dispatch(setUrl(radioToPlay.url));
       dispatch(setIsPlaying(true));
       dispatch(setAudioSource(AudioSource.INTERNET_RADIO));
-      dispatch(setIsShuffling(false));
-      dispatch(setIsRepeating(false));
+      dispatch(setisShuffleEnabled(false));
+      dispatch(setisRepeatEnabled(false));
       dispatch(setTrack(track));
     }
   };
