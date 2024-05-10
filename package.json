@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "nx serve musicfy",
-    "build": "nx build musicfy"
+    "build": "nx build musicfy --skip-nx-cache"
   },
   "private": true,
   "dependencies": {
