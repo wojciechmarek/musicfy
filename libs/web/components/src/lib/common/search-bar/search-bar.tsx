@@ -57,6 +57,10 @@ export function SearchBar(props: SearchBarProps) {
           placeholder={inputPlaceholder}
           value={searchPhrase}
           onChange={(e) => onInputChange(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter")
+              onButtonClick();
+            }}
         />
         {searchPhrase.length > 0 && (
           <SearchBarIcon onClick={() => onInputClear()}>

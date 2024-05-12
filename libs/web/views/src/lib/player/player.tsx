@@ -19,8 +19,8 @@ import {
   RootState,
   setIsMuted,
   setVolume,
-  setisRepeatEnabled,
-  setisShuffleEnabled,
+  setIsRepeatEnabled,
+  setIsShuffleEnabled,
   setIsPlaying,
   setSeekToTime,
 } from '@musicfy/web/utils/store';
@@ -70,14 +70,14 @@ export function Player(props: PlayerProps) {
     switch (buttonType) {
       case PlayerShuffleButtonAction.Repeat:
         isRepeatEnabled
-          ? dispatch(setisRepeatEnabled(false))
-          : dispatch(setisRepeatEnabled(true));
+          ? dispatch(setIsRepeatEnabled(false))
+          : dispatch(setIsRepeatEnabled(true));
         break;
 
       case PlayerShuffleButtonAction.Shuffle:
         isShuffleEnabled
-          ? dispatch(setisShuffleEnabled(false))
-          : dispatch(setisShuffleEnabled(true));
+          ? dispatch(setIsShuffleEnabled(false))
+          : dispatch(setIsShuffleEnabled(true));
         break;
 
       default:

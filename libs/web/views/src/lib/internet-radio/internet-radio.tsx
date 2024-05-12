@@ -3,8 +3,8 @@ import {
   RootState,
   setAudioSource,
   setIsPlaying,
-  setisRepeatEnabled,
-  setisShuffleEnabled,
+  setIsRepeatEnabled,
+  setIsShuffleEnabled,
   setTrack,
   setUrl,
 } from '@musicfy/web/utils/store';
@@ -26,10 +26,16 @@ export function InternetRadio(props: InternetRadioProps) {
     (state: RootState) => state.playback.audio.source
   );
   const trackId = useSelector((state: RootState) => state.playback.track.id);
+  const isPlaying = useSelector((state: RootState) => state.playback.audio.isPlaying);
 
   const dispatch = useDispatch();
 
   const handleOnPlayClick = (id: number) => {
+    if (audioSource === AudioSource.INTERNET_RADIO && trackId === id && isPlaying) {
+      dispatch(setIsPlaying(false));
+      return;
+    }
+
     const radioToPlay = radioStations.find((radio) => radio.id === id);
     if (radioToPlay) {
       const track: Track = {
@@ -43,8 +49,8 @@ export function InternetRadio(props: InternetRadioProps) {
       dispatch(setUrl(radioToPlay.url));
       dispatch(setIsPlaying(true));
       dispatch(setAudioSource(AudioSource.INTERNET_RADIO));
-      dispatch(setisShuffleEnabled(false));
-      dispatch(setisRepeatEnabled(false));
+      dispatch(setIsShuffleEnabled(false));
+      dispatch(setIsRepeatEnabled(false));
       dispatch(setTrack(track));
     }
   };
@@ -61,7 +67,7 @@ export function InternetRadio(props: InternetRadioProps) {
     <RadioContainer>
       <RadioContent>
         <Header>Internet radio</Header>
-        <SearchBar buttonLabel='Search a station' inputPlaceholder='Search a radio station' handleButtonClick={handleOnSearchStationButtonClick}></SearchBar>
+        <SearchBar buttonLabel='Search' inputPlaceholder='Search a radio station' handleButtonClick={handleOnSearchStationButtonClick}></SearchBar>
         <Content>
           {radioStations.map((station) => (
             <AudioTile
@@ -72,7 +78,8 @@ export function InternetRadio(props: InternetRadioProps) {
               coverUrl={station.cover}
               isPlaying={
                 audioSource === AudioSource.INTERNET_RADIO &&
-                trackId === station.id
+                trackId === station.id &&
+                isPlaying
               }
               onPlayClick={() => handleOnPlayClick(station.id)}
             />
