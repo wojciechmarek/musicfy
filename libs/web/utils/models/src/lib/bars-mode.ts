@@ -1,1 +1,1 @@
-export type BarsMode = 'bars' | 'pointer' | 'fallingMaximum';
+export type BarsMode = 'bars' | 'pointer' | 'off';

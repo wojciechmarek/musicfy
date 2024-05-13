@@ -1,3 +1,4 @@
+import { BarsMode } from "@musicfy/web/utils/models";
 import { BarFrequencyDescription, SpectrumBar, SpectrumBarRed, SpectrumColumn, VfdSpectrum } from "./vfd-spectrum.styled";
 
 export interface VfdSpectrumAnalyzerProps {
@@ -7,10 +8,25 @@ export interface VfdSpectrumAnalyzerProps {
     label: string;
     frequencyId: number;
   }[];
+  barsMode: BarsMode;
 }
 
 export const VfdSpectrumAnalyzer = (props: VfdSpectrumAnalyzerProps) => {
-  const { isEnabled, frequencyBars, frequencies } = props;
+  const { isEnabled, frequencyBars, frequencies, barsMode } = props;
+
+  const isBarActive = (value: number, index: number) => {
+    switch (barsMode) {
+      case 'bars':
+        return value - 100 - (55 - index * 5) >= 100 - index * 10
+  
+      case 'pointer':
+        return value - 100 - (55 - index * 5) >= 100 - index * 10 &&
+        !(value - 100 - (55 - (index-1) * 5) >= 100 - (index-1) * 10);
+      
+      case 'off':
+        return false;
+    }
+  };
   
   return (
     <VfdSpectrum>
@@ -22,8 +38,7 @@ export const VfdSpectrumAnalyzer = (props: VfdSpectrumAnalyzerProps) => {
                 key={index}
                 isActive={
                   isEnabled &&
-                  frequencies[bar.frequencyId] - 100 - (55 - columnIndex * 5) >=
-                    100 - index * 10
+                  isBarActive(frequencies[bar.frequencyId], index)
                 }
               />
             ) : (
@@ -31,13 +46,12 @@ export const VfdSpectrumAnalyzer = (props: VfdSpectrumAnalyzerProps) => {
                 key={index}
                 isActive={
                   isEnabled &&
-                  frequencies[bar.frequencyId] - 100 - (55 - columnIndex * 5)>=
-                    100 - index * 10
+                  isBarActive(frequencies[bar.frequencyId], index)
                 }
               />
             )
           )}
-          <SpectrumBar isActive={isEnabled} />
+          <SpectrumBar isActive={isEnabled && barsMode === "bars"} />
           <BarFrequencyDescription isActive={isEnabled}>
             {bar.label}
           </BarFrequencyDescription>

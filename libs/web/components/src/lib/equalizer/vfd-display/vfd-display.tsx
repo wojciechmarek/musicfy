@@ -71,6 +71,7 @@ export function VfdDisplay(props: VfdDisplayProps) {
           frequencies={frequencies}
           isEnabled={isEnabled}
           frequencyBars={frequencyBars}
+          barsMode={barsMode}
         />
         <VfdChannelAnalyzer
           left={leftChannel}
