@@ -1,6 +1,5 @@
 import { AudioTile, SearchBar } from '@musicfy/web/components';
 import {
-  AudioSource,
   RootState,
   setAudioSource,
   setIsPlaying,
@@ -15,9 +14,8 @@ import {
   Header,
   RadioContainer,
   RadioContent,
-  SearchAndManageContainer,
 } from './internet-radio.styled';
-import { Track } from '@musicfy/web/utils/models';
+import { AudioSource, Track } from '@musicfy/web/utils/models';
 
 /* eslint-disable-next-line */
 export interface InternetRadioProps {}

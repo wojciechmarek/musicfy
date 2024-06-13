@@ -1,5 +1,4 @@
 import {
-  AudioSource,
   RootState,
   setAudioSource,
   setTrack,
@@ -13,7 +12,7 @@ import {
   Header,
 } from './demo-songs.styled';
 import { AudioTile } from '@musicfy/web/components';
-import { Track } from '@musicfy/web/utils/models';
+import { AudioSource, Track } from '@musicfy/web/utils/models';
 
 /* eslint-disable-next-line */
 export interface DemoSongsProps {}

@@ -23,8 +23,8 @@ import {
   setisShuffleEnabled,
   setIsPlaying,
   setSeekToTime,
-  AudioSource,
 } from '@musicfy/web/utils/store';
+import { AudioSource } from '@musicfy/web/utils/models';
 
 /* eslint-disable-next-line */
 export interface PlayerProps {}
