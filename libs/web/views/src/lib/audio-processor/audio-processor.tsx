@@ -7,7 +7,7 @@ export function AudioProcessor() {
   const { seekToTime, isPlaying, url } = useSelector(
     (state: RootState) => state.playback.audio,
   );
-  const { isMicrophoneSource, balance, isStereo, isKaraoke, microphoneBoost } =
+  const { isMicrophoneEnabled, balance, isStereoEnabled, isKaraokeEnabled, microphoneBoost } =
     useSelector((state: RootState) => state.equalizer);
   const { level, isMuted } = useSelector(
     (state: RootState) => state.playback.volume,
@@ -59,8 +59,8 @@ export function AudioProcessor() {
 
   // MICROPHONE
   useEffect(() => {
-    setMicrophoneSource(isMicrophoneSource);
-  }, [isMicrophoneSource, setMicrophoneSource]);
+    setMicrophoneSource(isMicrophoneEnabled);
+  }, [isMicrophoneEnabled, setMicrophoneSource]);
 
   // BALANCE
   useEffect(() => {
@@ -69,13 +69,13 @@ export function AudioProcessor() {
 
   // STEREO
   useEffect(() => {
-    setStereo(isStereo);
-  }, [isStereo, setStereo]);
+    setStereo(isStereoEnabled);
+  }, [isStereoEnabled, setStereo]);
 
   // KARAOKE
   useEffect(() => {
-    setKaraoke(isKaraoke);
-  }, [isKaraoke, setKaraoke]);
+    setKaraoke(isKaraokeEnabled);
+  }, [isKaraokeEnabled, setKaraoke]);
 
   // BASS
   useEffect(() => {
@@ -94,11 +94,11 @@ export function AudioProcessor() {
 
   // MICROPHONE
   useEffect(() => {
-    if (!isMicrophoneSource) {
+    if (!isMicrophoneEnabled) {
       return;
     }
     setMicrophoneBoost(microphoneBoost);
-  }, [microphoneBoost, setMicrophoneBoost, isMicrophoneSource]);
+  }, [microphoneBoost, setMicrophoneBoost, isMicrophoneEnabled]);
 
   return null;
 }

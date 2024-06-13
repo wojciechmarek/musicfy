@@ -19,8 +19,8 @@ import {
   RootState,
   setIsMuted,
   setVolume,
-  setIsRepeating,
-  setIsShuffling,
+  setisRepeatEnabled,
+  setisShuffleEnabled,
   setIsPlaying,
   setSeekToTime,
   AudioSource,
@@ -35,7 +35,7 @@ export function Player(props: PlayerProps) {
     (state: RootState) => state.playback.volume
   );
 
-  const { isRepeating, isShuffling } = useSelector(
+  const { isRepeatEnabled, isShuffleEnabled } = useSelector(
     (state: RootState) => state.playback.mode
   );
 
@@ -69,15 +69,15 @@ export function Player(props: PlayerProps) {
   const handleShuffleButtonClick = (buttonType: PlayerShuffleButtonAction) => {
     switch (buttonType) {
       case PlayerShuffleButtonAction.Repeat:
-        isRepeating
-          ? dispatch(setIsRepeating(false))
-          : dispatch(setIsRepeating(true));
+        isRepeatEnabled
+          ? dispatch(setisRepeatEnabled(false))
+          : dispatch(setisRepeatEnabled(true));
         break;
 
       case PlayerShuffleButtonAction.Shuffle:
-        isShuffling
-          ? dispatch(setIsShuffling(false))
-          : dispatch(setIsShuffling(true));
+        isShuffleEnabled
+          ? dispatch(setisShuffleEnabled(false))
+          : dispatch(setisShuffleEnabled(true));
         break;
 
       default:
@@ -107,8 +107,8 @@ export function Player(props: PlayerProps) {
           />
           <ShuffleButtons
             isDisabled={source === AudioSource.INTERNET_RADIO}
-            isRepeatActive={isRepeating}
-            isShuffleActive={isShuffling}
+            isRepeatActive={isRepeatEnabled}
+            isShuffleActive={isShuffleEnabled}
             onClick={(e) => handleShuffleButtonClick(e)}
           />
         </PlayerMusicInfoAndProgressContainer>

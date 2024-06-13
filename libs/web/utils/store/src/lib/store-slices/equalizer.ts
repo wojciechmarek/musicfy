@@ -4,9 +4,9 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 
 export interface EqualizerState {
   isEnabled: boolean;
-  isStereo: boolean;
-  isMicrophoneSource: boolean;
-  isKaraoke: boolean;
+  isStereoEnabled: boolean;
+  isMicrophoneEnabled: boolean;
+  isKaraokeEnabled: boolean;
   balance: number;
   boostTones: Tones;
   microphoneBoost: number;
@@ -15,9 +15,9 @@ export interface EqualizerState {
 
 const initialState: EqualizerState = {
   isEnabled: true,
-  isStereo: true,
-  isMicrophoneSource: false,
-  isKaraoke: false,
+  isStereoEnabled: true,
+  isMicrophoneEnabled: false,
+  isKaraokeEnabled: false,
   balance: 50,
   microphoneBoost: 0,
   barsMode: 'bars',
@@ -35,17 +35,17 @@ export const equalizerSlice = createSlice({
     setIsEnabled: (state, action: PayloadAction<boolean>) => {
       state.isEnabled = action.payload;
     },
-    setIsStereo: (state, action: PayloadAction<boolean>) => {
-      state.isStereo = action.payload;
+    setisStereoEnabled: (state, action: PayloadAction<boolean>) => {
+      state.isStereoEnabled = action.payload;
     },
-    setIsKaraoke: (state, action: PayloadAction<boolean>) => {
-      state.isKaraoke = action.payload;
+    setisKaraokeEnabled: (state, action: PayloadAction<boolean>) => {
+      state.isKaraokeEnabled = action.payload;
     },
     setBalance: (state, action: PayloadAction<number>) => {
       state.balance = action.payload;
     },
-    setIsMicrophoneSource: (state, action: PayloadAction<boolean>) => {
-      state.isMicrophoneSource = action.payload;
+    setisMicrophoneEnabled: (state, action: PayloadAction<boolean>) => {
+      state.isMicrophoneEnabled = action.payload;
     },
     setBassBooster: (state, action: PayloadAction<number>) => {
       state.boostTones.bass = action.payload;
@@ -67,9 +67,9 @@ export const equalizerSlice = createSlice({
 
 export const {
   setIsEnabled,
-  setIsStereo,
-  setIsKaraoke,
-  setIsMicrophoneSource,
+  setisStereoEnabled,
+  setisKaraokeEnabled,
+  setisMicrophoneEnabled,
   setBassBooster,
   setMiddleBooster,
   setTrebleBooster,

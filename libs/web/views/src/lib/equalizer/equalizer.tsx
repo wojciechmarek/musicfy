@@ -12,10 +12,10 @@ import {
   setBarsMode,
   setBassBooster,
   setIsEnabled as setIsEqualizerEnabled,
-  setIsKaraoke,
-  setIsMicrophoneSource,
+  setisKaraokeEnabled,
+  setisMicrophoneEnabled,
   setIsMuted,
-  setIsStereo,
+  setisStereoEnabled,
   setMicrophoneBooster,
   setMiddleBooster,
   setTrebleBooster,
@@ -38,9 +38,9 @@ export interface EqualizerProps {}
 export function Equalizer(props: EqualizerProps) {
   const {
     isEnabled: isEqualizerEnabled,
-    isStereo: isStereoEnabled,
-    isMicrophoneSource: isMicrophoneSourceEnabled,
-    isKaraoke: isKaraokeEnabled,
+    isStereoEnabled: isStereoEnabledEnabled,
+    isMicrophoneEnabled: isMicrophoneEnabledEnabled,
+    isKaraokeEnabled: isKaraokeEnabledEnabled,
     balance: channelBalanceValue,
     barsMode: barsModeValue,
   } = useSelector((state: RootState) => state.equalizer);
@@ -57,11 +57,11 @@ export function Equalizer(props: EqualizerProps) {
     (state: RootState) => state.playback.volume,
   );
 
-  const { isRepeating, isShuffling } = useSelector(
+  const { isRepeatEnabled, isShuffleEnabled } = useSelector(
     (state: RootState) => state.playback.mode,
   );
 
-  const { isKaraoke, isMicrophoneSource, isStereo, microphoneBoost } =
+  const { isKaraokeEnabled, isMicrophoneEnabled, isStereoEnabled, microphoneBoost } =
     useSelector((state: RootState) => state.equalizer);
 
   const { leftChannel, rightChannel, frequencies } = useSelector(
@@ -77,7 +77,7 @@ export function Equalizer(props: EqualizerProps) {
   };
 
   const onEqStereoClick = () => {
-    dispatch(setIsStereo(!isStereoEnabled));
+    dispatch(setisStereoEnabled(!isStereoEnabledEnabled));
   };
 
   const onEqMuteClick = () => {
@@ -85,17 +85,17 @@ export function Equalizer(props: EqualizerProps) {
   };
 
   const onEqKaraokeClick = () => {
-    if (isMicrophoneSourceEnabled) dispatch(setIsKaraoke(!isKaraokeEnabled));
+    if (isMicrophoneEnabledEnabled) dispatch(setisKaraokeEnabled(!isKaraokeEnabledEnabled));
   };
 
   const onEqMicrophoneClick = () => {
-    if (!isMicrophoneSourceEnabled) {
-      dispatch(setIsKaraoke(true));
+    if (!isMicrophoneEnabledEnabled) {
+      dispatch(setisKaraokeEnabled(true));
       dispatch(setMicrophoneBooster(10));
-      dispatch(setIsMicrophoneSource(true));
+      dispatch(setisMicrophoneEnabled(true));
     } else {
       dispatch(setMicrophoneBooster(0));
-      dispatch(setIsMicrophoneSource(false));
+      dispatch(setisMicrophoneEnabled(false));
     }
   };
 
@@ -227,20 +227,20 @@ export function Equalizer(props: EqualizerProps) {
             rightLabel="H"
             value={microphoneBoost}
             onChange={handleMicrophoneChange}
-            isEnabled={isEqualizerEnabled && isMicrophoneSourceEnabled}
+            isEnabled={isEqualizerEnabled && isMicrophoneEnabledEnabled}
           />
           <VfdDisplay
             className="vfd"
             isEnabled={isEqualizerEnabled}
             audioSource={source}
             isMuted={isMuted}
-            isRepeating={isRepeating}
-            isShuffling={isShuffling}
-            isMicrophoneSource={isMicrophoneSource}
+            isRepeatEnabled={isRepeatEnabled}
+            isShuffleEnabled={isShuffleEnabled}
+            isMicrophoneEnabled={isMicrophoneEnabled}
             leftChannel={leftChannel}
             rightChannel={rightChannel}
-            isStereo={isStereo}
-            isKaraoke={isKaraoke}
+            isStereoEnabled={isStereoEnabled}
+            isKaraokeEnabled={isKaraokeEnabled}
             frequencies={frequencies}
             frequencyBars={vfdFrequencyBars}
             barsMode={barsModeValue}
