@@ -1,6 +1,4 @@
-import { DemoSong } from '@musicfy/web/utils/models';
-
-export const demoSongs: DemoSong[] = [
+export const demoSongs = [
   {
     id: 1,
     title: 'Waterfall',

@@ -40,6 +40,7 @@ export function Spotify(props: SpotifyProps) {
         <SearchBar
           isNavigationButtonsVisible={true}
           buttonLabel='Log off'
+          inputPlaceholder='Search a song'
           handleSearchInputChange={(e) => handleSearchInputChange(e)}
           handleButtonClick={handleOnLogOffButtonClick}
         />

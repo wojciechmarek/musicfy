@@ -1,6 +1,4 @@
-import { RadioStation } from '@musicfy/web/utils/models';
-
-export const radioStations: RadioStation[] = [
+export const radioStations = [
   {
     id: 1,
     title: 'RFM FM',

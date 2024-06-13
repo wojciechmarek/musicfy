@@ -4,6 +4,7 @@ export const HomeBar = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 1em 0 0.25em;
+  gap: 0.5em
 `;
 
 export const NavigationButtons = styled.div`
@@ -19,7 +20,7 @@ export const NavigationButton = styled.button`
   padding: 0.5em;
   transition: all 0.2s ease-in-out;
   color: #fff;
-  border-radius: 0.5em;
+  border-radius: 0.25em;
 
   &:hover {
     background-color: #2a2b32;
@@ -30,7 +31,6 @@ export const NavigationSearch = styled.div`
   display: flex;
   align-items: center;
   flex-grow: 1;
-  margin: 0 0.5em;
   background-color: #2a2b32;
   border-radius: 0.5em;
 `;
@@ -77,8 +77,6 @@ export const LogoutButton = styled.button`
   font-size: 1em;
   height: 100%;
   padding: 0 1.25em;
-  transition: all 0.2s ease-in-out;
-  margin-right: 0.5em;
   transition: all 0.2s ease-in-out;
   color: #fff;
   border-radius: 0.5em;
