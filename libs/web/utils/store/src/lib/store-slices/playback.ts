@@ -75,11 +75,11 @@ export const playbackSlice = createSlice({
     setSeekToTime: (state, action: PayloadAction<number>) => {
       state.audio.seekToTime = action.payload;
     },
-    setisShuffleEnabled: (state, action: PayloadAction<boolean>) => {
+    setIsShuffleEnabled: (state, action: PayloadAction<boolean>) => {
       state.mode.isShuffleEnabled = action.payload;
       state.mode.isRepeatEnabled = false;
     },
-    setisRepeatEnabled: (state, action: PayloadAction<boolean>) => {
+    setIsRepeatEnabled: (state, action: PayloadAction<boolean>) => {
       state.mode.isRepeatEnabled = action.payload;
       state.mode.isShuffleEnabled = false;
     },
@@ -119,8 +119,8 @@ export const {
   setSeekToTime,
   setIsMuted,
   setVolume,
-  setisShuffleEnabled,
-  setisRepeatEnabled,
+  setIsShuffleEnabled,
+  setIsRepeatEnabled,
   setTrack,
   setTrackDuration,
   setAudioSource,

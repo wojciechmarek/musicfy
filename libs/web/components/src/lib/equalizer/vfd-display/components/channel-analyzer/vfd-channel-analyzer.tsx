@@ -24,12 +24,12 @@ export const VfdChannelAnalyzer = (props: VfdChannelAnalyzerProps) => {
     switch (barsMode) {
       case 'bars':
         return value - 50 >= 100 - index * 10;
-
-      case 'fallingMaximum':
-        return false;
-
+  
       case 'pointer':
-        return (value - 50) / 7 === index;
+        return (value - 50 >= 100 - index * 10) && !(value - 50 >= 100 - (index-1) * 10);
+      
+      case 'off':
+        return false;
     }
   };
 
@@ -50,7 +50,7 @@ export const VfdChannelAnalyzer = (props: VfdChannelAnalyzerProps) => {
               />
             ),
           )}
-          <SpectrumBar isActive={isEnabled} />
+          <SpectrumBar isActive={isEnabled && barsMode === "bars"} />
           <BarFrequencyDescription isActive={isEnabled}>
             LEFT
           </BarFrequencyDescription>
@@ -81,7 +81,7 @@ export const VfdChannelAnalyzer = (props: VfdChannelAnalyzerProps) => {
               />
             ),
           )}
-          <SpectrumBar isActive={isEnabled} />
+          <SpectrumBar isActive={isEnabled && barsMode === "bars"} />
           <BarFrequencyDescription isActive={isEnabled}>
             RIGHT
           </BarFrequencyDescription>

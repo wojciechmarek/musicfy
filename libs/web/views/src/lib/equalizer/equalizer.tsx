@@ -104,19 +104,20 @@ export function Equalizer(props: EqualizerProps) {
     dispatch(setMiddleBooster(0));
     dispatch(setBassBooster(0));
     dispatch(setBalance(50));
+    dispatch(setBarsMode("bars"));
   };
 
   const onEqBarsModeClick = () => {
     switch (barsModeValue) {
       case 'bars':
-        dispatch(setBarsMode('fallingMaximum'));
-        break;
-
-      case 'fallingMaximum':
         dispatch(setBarsMode('pointer'));
         break;
 
       case 'pointer':
+        dispatch(setBarsMode('off'));
+        break;
+
+      case 'off':
         dispatch(setBarsMode('bars'));
         break;
     }
@@ -174,6 +175,7 @@ export function Equalizer(props: EqualizerProps) {
             <EqButton label="Karaoke" handleOnClick={onEqKaraokeClick} />
           </ButtonsContainer>
           <EqButton
+            title="Resets knobs and display"
             className="reset"
             label="Reset"
             handleOnClick={onEqResetClick}
