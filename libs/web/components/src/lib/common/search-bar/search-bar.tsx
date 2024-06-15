@@ -16,8 +16,9 @@ export interface SearchBarProps {
   isNavigationButtonsVisible?: boolean;
   buttonLabel?: string;
   inputPlaceholder?: string;
-  handleSearchInputChange?: (phrase: string) => void;
-  handleButtonClick?: (phrase: string) => void;
+  onSearchInputChange?: (phrase: string) => void;
+  onButtonClick?: (phrase: string) => void;
+  onClearClick?: () => void;
 }
 
 export function SearchBar(props: SearchBarProps) {
@@ -25,24 +26,26 @@ export function SearchBar(props: SearchBarProps) {
     isNavigationButtonsVisible = false,
     buttonLabel = "Button's label",
     inputPlaceholder = "Input's placeholder",
-    handleSearchInputChange,
-    handleButtonClick,
+    onSearchInputChange,
+    onButtonClick,
+    onClearClick,
   } = props;
 
   const [searchPhrase, setSearchPhrase] = useState('');
 
-  const onInputChange = (phrase: string) => {
+  const handleInputChange = (phrase: string) => {
     setSearchPhrase(phrase);
-    handleSearchInputChange?.(phrase);
+    onSearchInputChange?.(phrase);
   };
 
-  const onButtonClick = () => {
-    handleButtonClick?.(searchPhrase);
+  const handleButtonClick = () => {
+    onButtonClick?.(searchPhrase);
   };
 
-  const onInputClear = () => {
-    handleSearchInputChange?.('');
+  const handleInputClear = () => {
+    onSearchInputChange?.('');
     setSearchPhrase('');
+    onClearClick?.();
   };
 
   return (
@@ -65,19 +68,20 @@ export function SearchBar(props: SearchBarProps) {
           type="text"
           placeholder={inputPlaceholder}
           value={searchPhrase}
-          onChange={(e) => onInputChange(e.target.value)}
+          onChange={(e) => handleInputChange(e.target.value)}
           onKeyDown={(e) => {
-            if (e.key === 'Enter') onButtonClick();
+            if (e.key === 'Enter') handleButtonClick();
+            if (e.key === 'Escape') handleInputClear();
           }}
         />
         {searchPhrase.length > 0 && (
-          <SearchBarIcon onClick={() => onInputClear()}>
+          <SearchBarIcon onClick={() => handleInputClear()}>
             <X />
           </SearchBarIcon>
         )}
       </NavigationSearch>
       <NavigationLogout>
-        <LogoutButton onClick={onButtonClick}>{buttonLabel}</LogoutButton>
+        <LogoutButton onClick={handleButtonClick}>{buttonLabel}</LogoutButton>
       </NavigationLogout>
     </HomeBar>
   );

@@ -2,6 +2,7 @@ import {
   Mood,
   Recommendations,
   SearchBar,
+  SearchResult,
   Trending,
   WarningMessage,
 } from '@musicfy/web/components';
@@ -14,13 +15,14 @@ import {
   HomeSearchResultsviews,
   PopularAndMoodContainer,
 } from './spotify.styled';
+import axios from 'axios';
 
 /* eslint-disable-next-line */
 export interface SpotifyProps {}
 
 export function Spotify(props: SpotifyProps) {
   const { isSpotifyAccessActive, isSearchActive } = useSelector(
-    (state: RootState) => state.spotify
+    (state: RootState) => state.spotify,
   );
 
   const dispatch = useDispatch();
@@ -29,9 +31,34 @@ export function Spotify(props: SpotifyProps) {
     dispatch(setSearchPhrase(phrase));
   };
 
-  const handleOnLogOffButtonClick = () => {
-    alert("Log off");
-  }
+  const handleSearchButtonClick = async (phrase: string) => {
+    dispatch(setSearchPhrase(phrase));
+    // const options = {
+    //   method: 'GET',
+    //   url: import.meta.env.VITE_SPOTIFY_RAPID_API_URL,
+    //   params: {
+    //     q: phrase,
+    //     type: 'multi',
+    //     offset: '0',
+    //     limit: '10',
+    //     numberOfTopResults: '5',
+    //   },
+    //   headers: {
+    //     'x-rapidapi-key': import.meta.env.VITE_SPOTIFY_X_RAPID_API_KEY,
+    //     'x-rapidapi-host': import.meta.env.VITE_SPOTIFY_X_RAPID_API_HOST,
+    //   },
+    // };
+    // try {
+    //   const response = await axios.request(options);
+    //   console.log(response.data);
+    // } catch (error) {
+    //   console.error(error);
+    // }
+  };
+
+  const handleClearSearchClick = () => {
+    dispatch(setSearchPhrase(''));
+  };
 
   return (
     <HomeContainer>
@@ -39,13 +66,13 @@ export function Spotify(props: SpotifyProps) {
       <HomeContent>
         <SearchBar
           isNavigationButtonsVisible={true}
-          buttonLabel='Search'
-          inputPlaceholder='Search a song'
-          handleSearchInputChange={(e) => handleSearchInputChange(e)}
-          handleButtonClick={handleOnLogOffButtonClick}
+          buttonLabel="Search"
+          inputPlaceholder="Search a song"
+          onButtonClick={handleSearchButtonClick}
+          onClearClick={handleClearSearchClick}
         />
         {isSearchActive ? (
-          <HomeSearchResultsviews>search</HomeSearchResultsviews>
+          <SearchResult></SearchResult>
         ) : (
           <HomeRegularviews>
             <Recommendations />

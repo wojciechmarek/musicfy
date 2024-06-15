@@ -36,6 +36,10 @@ const MessageTitle = styled.h1`
 const MessageText = styled.p`
   color: var(--font-color);
   margin: 0;
+
+  a {
+    color: var(--font-color);
+  }
 `;
 
 const MessageTextRed = styled.p`
@@ -71,8 +75,15 @@ export function WarningMessage(props: WarningMessageProps) {
           <strong>valid API key</strong> in the settings page.
         </MessageText>
         <MessageText>
-          You can generate an API key in the spotify developer dashboard or from
-          RapidAPI (https://rapidapi.com/).
+          This application is configured to the RapidAPI endpoints to reach the
+          Spotify services.{' '}
+          <a
+            href="https://rapidapi.com/Glavier/api/spotify23"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Get your API key from here.
+          </a>
         </MessageText>
         <MessageText>
           <strong>DISCLAIMER:</strong> If you just edit the API key without
