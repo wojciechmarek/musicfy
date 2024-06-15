@@ -1,4 +1,4 @@
-import styled from "@emotion/styled";
+import styled from '@emotion/styled';
 
 export const EqKnob = styled.div`
   display: flex;
@@ -11,7 +11,7 @@ export const EqKnob = styled.div`
 export const EqKnobLabel = styled.p<{
   isLarge?: boolean;
 }>`
-  color: white;
+  color: var(--font-accent-color);
   font-size: 0.75em;
   font-weight: bold;
   text-transform: uppercase;
@@ -24,7 +24,6 @@ export const EqKnobLabel = styled.p<{
   &:nth-of-type(2) {
     margin-top: ${(props) => (props.isLarge ? '0.5em' : '0.25em')};
   }
-
 `;
 
 export const EqKnobControl = styled.div`
@@ -57,7 +56,7 @@ export const EqKnobRevolveControl = styled.div<{
   border-radius: 50%;
   background-color: #272a35;
   z-index: 1;
-  
+
   cursor: ns-resize;
   transform: rotate(${(props) => props.rotate}deg);
 `;
@@ -74,4 +73,3 @@ export const EqKnobRevolvePointer = styled.div<{
   position: relative;
   top: -1px;
 `;
-

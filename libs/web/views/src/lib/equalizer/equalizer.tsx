@@ -61,8 +61,12 @@ export function Equalizer(props: EqualizerProps) {
     (state: RootState) => state.playback.mode,
   );
 
-  const { isKaraokeEnabled, isMicrophoneEnabled, isStereoEnabled, microphoneBoost } =
-    useSelector((state: RootState) => state.equalizer);
+  const {
+    isKaraokeEnabled,
+    isMicrophoneEnabled,
+    isStereoEnabled,
+    microphoneBoost,
+  } = useSelector((state: RootState) => state.equalizer);
 
   const { leftChannel, rightChannel, frequencies } = useSelector(
     (state: RootState) => state.playback.analysis,
@@ -85,7 +89,8 @@ export function Equalizer(props: EqualizerProps) {
   };
 
   const onEqKaraokeClick = () => {
-    if (isMicrophoneEnabledEnabled) dispatch(setisKaraokeEnabled(!isKaraokeEnabledEnabled));
+    if (isMicrophoneEnabledEnabled)
+      dispatch(setisKaraokeEnabled(!isKaraokeEnabledEnabled));
   };
 
   const onEqMicrophoneClick = () => {
@@ -104,7 +109,7 @@ export function Equalizer(props: EqualizerProps) {
     dispatch(setMiddleBooster(0));
     dispatch(setBassBooster(0));
     dispatch(setBalance(50));
-    dispatch(setBarsMode("bars"));
+    dispatch(setBarsMode('bars'));
   };
 
   const onEqBarsModeClick = () => {

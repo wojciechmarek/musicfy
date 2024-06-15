@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 export interface NotFoundProps {}
 
 const NotFoundContainer = styled.div`
-  background-color: #1a1b20;
+  background-color: var(--background-color);
   height: 100vh;
 `;
 
@@ -19,7 +19,7 @@ const NotFoundContent = styled.div`
 const NotFoundText = styled.h1`
   font-size: 10em;
   font-weight: bold;
-  color: #fff;
+  color: var(--font-color);
   text-align: center;
   position: absolute;
   top: 50%;
@@ -41,7 +41,7 @@ const NotFoundText = styled.h1`
 
 const NavLinkStyle = styled(Link)`
   display: flex;
-  color: white;
+  color: var(--font-color);
   font-weight: bold;
   text-decoration: none;
   padding: 1em 1.5em;

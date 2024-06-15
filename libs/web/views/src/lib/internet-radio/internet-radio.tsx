@@ -1,4 +1,4 @@
-import { AudioTile, SearchBar } from '@musicfy/web/components';
+import { AddAudioTile, AudioTile, SearchBar } from '@musicfy/web/components';
 import {
   RootState,
   setAudioSource,
@@ -15,28 +15,36 @@ import {
   RadioContainer,
   RadioContent,
 } from './internet-radio.styled';
-import { AudioSource, Track } from '@musicfy/web/utils/models';
+import { AudioSource, RadioStation, Track } from '@musicfy/web/utils/models';
 
 /* eslint-disable-next-line */
 export interface InternetRadioProps {}
 
 export function InternetRadio(props: InternetRadioProps) {
-  const radioStations = useSelector((state: RootState) => state.radio.stations);
+  const { stations, searchEngineUrl } = useSelector(
+    (state: RootState) => state.radio,
+  );
   const audioSource = useSelector(
-    (state: RootState) => state.playback.audio.source
+    (state: RootState) => state.playback.audio.source,
   );
   const trackId = useSelector((state: RootState) => state.playback.track.id);
-  const isPlaying = useSelector((state: RootState) => state.playback.audio.isPlaying);
+  const isPlaying = useSelector(
+    (state: RootState) => state.playback.audio.isPlaying,
+  );
 
   const dispatch = useDispatch();
 
   const handleOnPlayClick = (id: number) => {
-    if (audioSource === AudioSource.INTERNET_RADIO && trackId === id && isPlaying) {
+    if (
+      audioSource === AudioSource.INTERNET_RADIO &&
+      trackId === id &&
+      isPlaying
+    ) {
       dispatch(setIsPlaying(false));
       return;
     }
 
-    const radioToPlay = radioStations.find((radio) => radio.id === id);
+    const radioToPlay = stations.find((radio) => radio.id === id);
     if (radioToPlay) {
       const track: Track = {
         id: radioToPlay.id,
@@ -59,17 +67,25 @@ export function InternetRadio(props: InternetRadioProps) {
     if (!phrase) {
       return;
     }
-    const url = `https://fmstream.org/index.php?s=${phrase}`;
-    window.open(url);
-  }
+
+    window.open(searchEngineUrl + phrase);
+  };
+
+  const handleOnAddAudioClick = () => {
+    alert('add');
+  };
 
   return (
     <RadioContainer>
       <RadioContent>
         <Header>Internet radio</Header>
-        <SearchBar buttonLabel='Search' inputPlaceholder='Search a radio station' handleButtonClick={handleOnSearchStationButtonClick}></SearchBar>
+        <SearchBar
+          buttonLabel="Search"
+          inputPlaceholder="Search a radio station"
+          handleButtonClick={handleOnSearchStationButtonClick}
+        ></SearchBar>
         <Content>
-          {radioStations.map((station) => (
+          {stations.map((station) => (
             <AudioTile
               id={station.id}
               key={station.id}
@@ -84,6 +100,10 @@ export function InternetRadio(props: InternetRadioProps) {
               onPlayClick={() => handleOnPlayClick(station.id)}
             />
           ))}
+          <AddAudioTile
+            title="Add a new radio station"
+            onAddClick={handleOnAddAudioClick}
+          />
         </Content>
       </RadioContent>
     </RadioContainer>

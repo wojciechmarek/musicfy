@@ -6,7 +6,8 @@
   },
   "files": [
     "../../../node_modules/@nx/react/typings/cssmodule.d.ts",
-    "../../../node_modules/@nx/react/typings/image.d.ts"
+    "../../../node_modules/@nx/react/typings/image.d.ts",
+    "./src/lib/settings/Settings.1.tsx"
   ],
   "exclude": [
     "**/*.spec.ts",

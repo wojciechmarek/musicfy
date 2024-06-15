@@ -35,13 +35,13 @@ export const MusicTitleAuthor = styled.div`
 `;
 
 export const MusicTitle = styled.p`
-  color: white;
+  color: var(--font-accent-color);
   font-weight: bold;
   margin: 0;
 `;
 
 export const MusicAuthor = styled.p`
-  color: white;
+  color: var(--font-accent-color);
   font-size: 0.8em;
   margin: 0;
 `;

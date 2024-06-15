@@ -1,13 +1,12 @@
 import styled from '@emotion/styled';
 
 export const AudioTileContainer = styled.div`
-  background-color: #2a2b30;
+  background-color: var(--tile-background-color);
   border-radius: 0.5em;
   padding: 1em;
-  color: white;
+  color: var(--font-color);
   display: flex;
   justify-content: space-between;
-  cursor: pointer;
   transition: all 0.2s ease-in-out;
 `;
 
@@ -52,6 +51,7 @@ export const AudioTileInfoPlaying = styled.p`
   border-radius: 0.5em;
   font-weight: bold;
   width: fit-content;
+  color: var(--font-accent-color);
 
   span {
     margin-left: 0.5em;
@@ -64,19 +64,21 @@ export const AudioTilePlay = styled.div`
   justify-content: end;
 `;
 
-export const PlayIconButton = styled.div`
+export const PlayIconButton = styled.button`
+  border: none;
+  cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #2b31df;
+  background-color: var(--accent-color);
+  color: var(--font-accent-color);
   border-radius: 50%;
   width: 3em;
   height: 3em;
-  transition: background-color 0.2s ease-in-out;
   position: relative;
 
   &:hover {
-    background-color: #4a4feb;
+    background-color: var(--accent-hover-color);
   }
 
   .icon {

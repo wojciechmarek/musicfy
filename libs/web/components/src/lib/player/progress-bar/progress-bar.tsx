@@ -18,7 +18,7 @@ const PlayerMusicProgress = styled.div`
 `;
 
 const MusicCurrentTime = styled.p`
-  color: white;
+  color: var(--font-accent-color);
 `;
 
 const MusicProgress = styled.input<{
@@ -35,33 +35,39 @@ const MusicProgress = styled.input<{
 `;
 
 const MusicTotalTime = styled.p`
-  color: white;
+  color: var(--font-accent-color);
 `;
 
 export function ProgressBar(props: ProgressBarProps) {
   const { currentTime, totalTime, isRadio, handleProgressBarChange } = props;
-  const [timeForm, setTimeForm] = useState("");
+  const [timeForm, setTimeForm] = useState('');
 
-  let totalTimeFormatted = "";
+  let totalTimeFormatted = '';
   if (isRadio) {
-    totalTimeFormatted = "🔴 LIVE";
+    totalTimeFormatted = '🔴 LIVE';
   } else {
     const totalTimeForm = new Date(totalTime * 1000);
-    totalTimeFormatted = `${totalTimeForm.getMinutes() < 10 ? "0" + totalTimeForm.getMinutes() : totalTimeForm.getMinutes()}:${
-      totalTimeForm.getSeconds() < 10 ? "0" + totalTimeForm.getSeconds() : totalTimeForm.getSeconds()
-    }`
+    totalTimeFormatted = `${
+      totalTimeForm.getMinutes() < 10
+        ? '0' + totalTimeForm.getMinutes()
+        : totalTimeForm.getMinutes()
+    }:${
+      totalTimeForm.getSeconds() < 10
+        ? '0' + totalTimeForm.getSeconds()
+        : totalTimeForm.getSeconds()
+    }`;
   }
 
   const onProgressBarChange = (e: InputHTMLAttributes<HTMLInputElement>) => {
     const progress = Number.parseInt(e.currentTarget.value);
     handleProgressBarChange(progress);
-  }
+  };
 
   useEffect(() => {
     const time = new Date(currentTime * 1000);
-    const timeForm = `${time.getMinutes() < 10 ? "0" + time.getMinutes() : time.getMinutes()}:${
-      time.getSeconds() < 10 ? "0" + time.getSeconds() : time.getSeconds()
-    }`
+    const timeForm = `${
+      time.getMinutes() < 10 ? '0' + time.getMinutes() : time.getMinutes()
+    }:${time.getSeconds() < 10 ? '0' + time.getSeconds() : time.getSeconds()}`;
     setTimeForm(timeForm);
   }, [currentTime, totalTime]);
 

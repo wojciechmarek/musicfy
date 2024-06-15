@@ -24,17 +24,17 @@ const MessageBox = styled.div`
   align-items: center;
   gap: 1em;
   padding: 2em;
-  background-color: #2a2b30;
+  background-color: var(--tile-background-color);
   border-radius: 0.5em;
 `;
 
 const MessageTitle = styled.h1`
-  color: white;
+  color: var(--font-color);
   margin: 0;
 `;
 
 const MessageText = styled.p`
-  color: white;
+  color: var(--font-color);
   margin: 0;
 `;
 
@@ -46,17 +46,15 @@ const MessageTextRed = styled.p`
 
 const MessageLink = styled(Link)`
   margin-top: 1em;
-  color: white;
+  background-color: var(--tile-button-color);
+  color: var(--font-color);
   text-decoration: none;
   font-weight: bold;
-  transition: color 0.2s ease-in-out;
-  background-color: #1a1b20;
   padding: 0.5em 1em;
   border-radius: 0.5em;
-  transition: background-color 0.2s ease-in-out;
 
   &:hover {
-    background-color: #1a1b2077;
+    background-color: var(--tile-button-hover-color);
   }
 `;
 

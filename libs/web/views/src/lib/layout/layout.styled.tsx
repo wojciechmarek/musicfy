@@ -1,7 +1,9 @@
 import styled from '@emotion/styled';
 
+export const ThemeWrapper = styled.div``;
+
 export const LayoutContainer = styled.div`
-  color: #fff;
+  color: var(--font-color);
   width: 100%;
   height: 100vh;
 
@@ -13,7 +15,6 @@ export const LayoutContent = styled.div`
   flex: 1;
   display: flex;
   height: calc(100vh - 5em);
-
 `;
 
 export const ContentContainer = styled.div`
@@ -22,7 +23,7 @@ export const ContentContainer = styled.div`
 
 export const WrongResolutionContainer = styled.div`
   position: absolute;
-  background-color: #0a0a0a;
+  background-color: var(--background-color);
   width: 100%;
   height: 100vh;
   place-items: center;
@@ -37,5 +38,5 @@ export const WrongResolutionContainer = styled.div`
 export const WrongResolutionText = styled.p`
   font-size: 2em;
   font-weight: bold;
-  color: #fff;
+  color: var(--font-color);
 `;

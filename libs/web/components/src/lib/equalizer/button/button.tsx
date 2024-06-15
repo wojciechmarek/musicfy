@@ -17,7 +17,7 @@ const EqButtonContainer = styled.div`
 
 const EqPowerButton = styled.button`
   background-color: #19181e;
-  color: white;
+  color: var(--font-accent-color);
   border: none;
   border-radius: 0.5em;
   padding: 0.5em 1em;
@@ -27,9 +27,8 @@ const EqPowerButton = styled.button`
   transition: background-color 0.2s ease-in-out;
 `;
 
-
 const EqPowerLabel = styled.p`
-  color: white;
+  color: var(--font-accent-color);
   font-size: 0.75em;
   text-transform: uppercase;
   text-align: center;
