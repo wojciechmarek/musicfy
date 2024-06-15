@@ -13,8 +13,8 @@ const spotifyState: SpotifyState = {
   accessApiUrl: import.meta.env.VITE_SPOTIFY_RAPID_API_URL,
   accessApiKey: import.meta.env.VITE_SPOTIFY_X_RAPID_API_KEY,
   accessApiHost: import.meta.env.VITE_SPOTIFY_X_RAPID_API_HOST,
-  isSpotifyAccessActive: true,
-  isSearchActive: true,
+  isSpotifyAccessActive: false,
+  isSearchActive: false,
   searchPhrase: '',
 };
 
