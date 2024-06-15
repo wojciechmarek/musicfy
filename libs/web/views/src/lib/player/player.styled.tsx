@@ -1,4 +1,4 @@
-import styled from "@emotion/styled";
+import styled from '@emotion/styled';
 
 export const PlayerContainer = styled.div`
   height: 5em;
@@ -40,15 +40,13 @@ export const VolumeBar = styled.input<{
   cursor: ${(props) => (props.isDisabled ? 'default' : 'pointer')};
   opacity: ${(props) => (props.isDisabled ? 0.3 : 1)};
   pointer-events: ${(props) => (props.isDisabled ? 'none' : 'all')};
-
-  
 `;
 
 export const VolumeBarCurrent = styled.div<{
   progress: number;
 }>`
   height: 100%;
-  background-color: #2b31df;
+  background-color: var(--accent-color);
   width: ${(props) => props.progress}%;
   border-radius: 1em;
   box-shadow: 0 0 10px #2b31df;

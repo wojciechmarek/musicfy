@@ -1,14 +1,18 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 export interface SpotifyState {
+  accessApiUrl: string;
   accessApiKey: string;
+  accessApiHost: string;
   isSpotifyAccessActive: boolean;
   isSearchActive: boolean;
   searchPhrase: string;
 }
 
 const spotifyState: SpotifyState = {
-  accessApiKey: 'NO_API_KEY',
+  accessApiUrl: import.meta.env.VITE_SPOTIFY_RAPID_API_URL,
+  accessApiKey: import.meta.env.VITE_SPOTIFY_X_RAPID_API_KEY,
+  accessApiHost: import.meta.env.VITE_SPOTIFY_X_RAPID_API_HOST,
   isSpotifyAccessActive: false,
   isSearchActive: false,
   searchPhrase: '',
@@ -18,8 +22,16 @@ export const spotifySlice = createSlice({
   name: 'spotify',
   initialState: spotifyState,
   reducers: {
-    setAccessApiKey: (state, action) => {
+    setAccessApiUrl: (state, action: PayloadAction<string>) => {
+      state.accessApiUrl = action.payload;
+      state.isSpotifyAccessActive = true;
+    },
+    setAccessApiKey: (state, action: PayloadAction<string>) => {
       state.accessApiKey = action.payload;
+      state.isSpotifyAccessActive = true;
+    },
+    setAccessApiHost: (state, action: PayloadAction<string>) => {
+      state.accessApiHost = action.payload;
       state.isSpotifyAccessActive = true;
     },
     setSearchPhrase: (state, action: PayloadAction<string>) => {
@@ -30,10 +42,15 @@ export const spotifySlice = createSlice({
       } else {
         state.isSearchActive = true;
       }
-    }
-  }
+    },
+  },
 });
 
-export const { setAccessApiKey, setSearchPhrase } = spotifySlice.actions;
+export const {
+  setAccessApiUrl,
+  setAccessApiKey,
+  setAccessApiHost,
+  setSearchPhrase,
+} = spotifySlice.actions;
 
 export default spotifySlice.reducer;

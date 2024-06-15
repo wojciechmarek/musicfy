@@ -1,7 +1,7 @@
-import styled from "@emotion/styled";
+import styled from '@emotion/styled';
 
 export const HomeContainer = styled.div`
-  background-color: #1a1b20;
+  background-color: var(--background-color);
   height: 100%;
 `;
 
@@ -35,4 +35,3 @@ export const HomeRegularviews = styled.div`
   gap: 1em;
   width: 100%;
 `;
-

@@ -9,14 +9,14 @@ const DescriptionContainer = styled.div`
   display: flex;
   align-items: end;
   justify-content: center;
-  color: #fff;
+  color: var(--font-accent-color);
   padding: 0 1em;
 `;
 
 const HorizontalLine = styled.div`
   width: 100%;
   height: 1px;
-  background-color: #fff;
+  background-color: var(--font-accent-color);
   margin: 0.5em 0;
 `;
 

@@ -1,8 +1,5 @@
 import styled from '@emotion/styled';
-import { setIsPlaying } from 'libs/web/utils/store/src';
 import { FastForward, Pause, Play, Rewind } from 'lucide-react';
-import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
 
 /* eslint-disable-next-line */
 
@@ -15,7 +12,7 @@ export enum PlayerNavigationButtonAction {
 export interface PlayButtonsProps {
   isPlaying: boolean;
   isNavigationDisabled: boolean;
-  onClick: (actp: PlayerNavigationButtonAction) => void;
+  onClick: (action: PlayerNavigationButtonAction) => void;
 }
 
 const PlayerNavigationButtons = styled.div`
@@ -30,7 +27,7 @@ const NavigationButton = styled.button<{
 }>`
   background-color: transparent;
   border: none;
-  color: white;
+  color: var(--font-accent-color);
   font-size: 1.5em;
   padding: 0.5em;
   gap: 0.5em;
@@ -45,7 +42,7 @@ const NavigationButton = styled.button<{
   }
 
   &.play-pause__button {
-    background-color: #2b31df;
+    background-color: var(--accent-color);
     box-shadow: 0 0 10px #2b31df;
     border-radius: 50%;
 
@@ -60,29 +57,8 @@ const NavigationButton = styled.button<{
   }
 `;
 
-
 export function PlayButtons(props: PlayButtonsProps) {
   const { isPlaying, isNavigationDisabled, onClick } = props;
-
-  const [isAudioPlaying, setIsAudioPlaying] = useState(isPlaying);
-
-  const dispatch = useDispatch();
-
-  const onPlayPauseClick = () => {
-    if (!isAudioPlaying) {
-      dispatch(setIsPlaying(true));
-      setIsAudioPlaying(true);
-      onClick(PlayerNavigationButtonAction.Play);
-    } else {
-      dispatch(setIsPlaying(false));
-      setIsAudioPlaying(false);
-      onClick(PlayerNavigationButtonAction.Pause);
-    }
-  };
-
-  useEffect(() => {
-    setIsAudioPlaying(isPlaying);
-  }, [isPlaying]);
 
   return (
     <PlayerNavigationButtons>
@@ -94,9 +70,15 @@ export function PlayButtons(props: PlayButtonsProps) {
       </NavigationButton>
       <NavigationButton
         className="play-pause__button"
-        onClick={onPlayPauseClick}
+        onClick={() =>
+          onClick(
+            isPlaying
+              ? PlayerNavigationButtonAction.Pause
+              : PlayerNavigationButtonAction.Play,
+          )
+        }
       >
-          {isAudioPlaying ? <Pause /> : <Play className="play__icon"/>}
+        {isPlaying ? <Pause /> : <Play className="play__icon" />}
       </NavigationButton>
       <NavigationButton
         isDisabled={isNavigationDisabled}

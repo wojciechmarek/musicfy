@@ -39,14 +39,12 @@ const PopularElement = styled.li`
   align-items: center;
   justify-items: center;
   border-radius: 0.5em;
-  background-color: #2a2b32;
+  background-color: var(--tile-background-color);
   padding: 0.25em 1em;
   width: 100%;
 
-  transition: background-color 0.2s ease-in-out;
-
   &:hover {
-    background-color: #3a3b42;
+    background-color: var(--tile-button-hover-color);
   }
 `;
 
@@ -89,7 +87,7 @@ const RowPlayButton = styled.button`
   margin-left: 1.25em;
   background-color: transparent;
   border: none;
-  color: #fff;
+  color: var(--font-color);
   cursor: pointer;
 `;
 
@@ -109,10 +107,7 @@ export function Trending(props: PopularProps) {
           {trending.map((item) => (
             <PopularElement key={item.id}>
               <RowImage>
-                <img
-                  src={item.image}
-                  alt="Album cover"
-                />
+                <img src={item.image} alt="Album cover" />
               </RowImage>
               <RowNumber>{item.id + 1}</RowNumber>
               <RowTitle>{item.title}</RowTitle>

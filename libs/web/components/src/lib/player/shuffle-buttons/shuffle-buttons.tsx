@@ -29,7 +29,7 @@ const NavigationButton = styled.button<{
 }>`
   background-color: ${(props) => (props.isEnabled ? '#2b31df' : 'transparent')};
   border: none;
-  color: white;
+  color: var(--font-accent-color);
   font-size: 1.5em;
   padding: 0.5em;
   gap: 0.5em;
@@ -58,7 +58,7 @@ export function ShuffleButtons(props: ShuffleButtonsProps) {
       >
         <Repeat />
       </NavigationButton>
-      
+
       <NavigationButton
         isDisabled={isDisabled}
         isEnabled={isShuffleActive}

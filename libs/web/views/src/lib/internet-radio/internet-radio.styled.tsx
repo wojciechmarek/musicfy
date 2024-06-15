@@ -1,21 +1,21 @@
 import styled from '@emotion/styled';
 
 export const RadioContainer = styled.div`
-  background-color: #1a1b20;
+  background-color: var(--background-color);
   height: 100%;
 `;
 
 export const RadioContent = styled.div`
   height: 100%;
   max-width: 1200px;
+  padding: 1em;
   margin: 0 auto;
-  padding: 0.5em 1em 1.5em;
   overflow-y: auto;
 `;
 
 export const Header = styled.h1`
-  color: white;
-  margin-top: 0.75em;
+  color: var(--font-color);
+  margin-top: 0.5em;
 `;
 
 export const SearchAndManageContainer = styled.div``;

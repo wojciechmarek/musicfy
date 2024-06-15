@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 
 export const DemoContainer = styled.div`
-  background-color: #1a1b20;
+  background-color: var(--background-color);
   height: 100%;
 `;
 
@@ -9,12 +9,13 @@ export const DemoContent = styled.div`
   height: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0.5em 1em 0;
+  padding: 1em;
+  overflow-y: auto;
 `;
 
 export const Header = styled.h1`
-  color: white;
-  margin-top: 0.75em;
+  color: var(--font-color);
+  margin-top: 0.5em;
 `;
 
 export const Content = styled.div`
@@ -32,7 +33,7 @@ export const Song = styled.div`
   background-color: #2a2b30;
   border-radius: 0.5em;
   padding: 1em;
-  color: white;
+  color: var(--font-color);
   display: flex;
   justify-content: space-between;
   cursor: pointer;
@@ -69,19 +70,17 @@ export const SongInfoDuration = styled.p`
   color: #a0a0a0;
 `;
 
-
-
 export const SongPlay = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: end;
 `;
 
-export const PlayIconButton = styled.div` 
+export const PlayIconButton = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #2b31df;
+  background-color: var(--accent-color);
   border-radius: 50%;
   width: 3em;
   height: 3em;
@@ -96,6 +95,4 @@ export const PlayIconButton = styled.div`
     position: relative;
     left: 0.125em;
   }
-
 `;
-

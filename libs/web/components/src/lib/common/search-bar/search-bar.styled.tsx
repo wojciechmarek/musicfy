@@ -1,10 +1,10 @@
-import styled from "@emotion/styled";
+import styled from '@emotion/styled';
 
 export const HomeBar = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 1em 0 0.25em;
-  gap: 0.5em
+  gap: 0.5em;
 `;
 
 export const NavigationButtons = styled.div`
@@ -13,32 +13,31 @@ export const NavigationButtons = styled.div`
 `;
 
 export const NavigationButton = styled.button`
-  background-color: transparent;
   border: none;
   cursor: pointer;
   font-size: 1.5em;
   padding: 0.5em;
-  transition: all 0.2s ease-in-out;
-  color: #fff;
   border-radius: 0.25em;
+  color: var(--font-color);
+  background-color: var(--tile-background-color);
 
   &:hover {
-    background-color: #2a2b32;
+    background-color: var(--tile-button-hover-color);
   }
 `;
 
 export const NavigationSearch = styled.div`
+  background-color: var(--tile-background-color);
   display: flex;
   align-items: center;
   flex-grow: 1;
-  background-color: #2a2b32;
   border-radius: 0.5em;
 `;
 
 export const SearchBarIcon = styled.div`
   display: flex;
   align-items: center;
-  color: #fff;
+  color: var(--font-color);
   font-size: 1.5em;
   padding: 0.5em 0.75em;
 
@@ -51,16 +50,15 @@ export const SearchInput = styled.input`
   background-color: transparent;
   border: none;
   border-bottom: 1px solid #fff;
-  color: #fff;
+  color: var(--font-color);
   font-size: 1em;
-  transition: all 0.2s ease-in-out;
   width: 100%;
   border: none;
   height: 100%;
   padding-left: 0.5em;
 
   &:hover {
-    background-color: #2a2b32;
+    background-color: var(--tile-button-hover-color);
   }
 `;
 
@@ -70,18 +68,17 @@ export const NavigationLogout = styled.div`
 `;
 
 export const LogoutButton = styled.button`
-  background-color: transparent;
+  background-color: var(--tile-background-color);
   border: none;
-  color: #fff;
+  color: var(--font-color);
   cursor: pointer;
   font-size: 1em;
   height: 100%;
   padding: 0 1.25em;
-  transition: all 0.2s ease-in-out;
-  color: #fff;
+  color: var(--font-color);
   border-radius: 0.5em;
 
   &:hover {
-    background-color: #2a2b32;
+    background-color: var(--tile-button-hover-color);
   }
 `;

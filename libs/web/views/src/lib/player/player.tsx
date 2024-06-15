@@ -1,5 +1,6 @@
 import {
   PlayButtons,
+  PlayerNavigationButtonAction,
   PlayerShuffleButtonAction,
   ProgressBar,
   ShuffleButtons,
@@ -32,18 +33,20 @@ export interface PlayerProps {}
 export function Player(props: PlayerProps) {
   const dispatch = useDispatch();
   const { isMuted, level } = useSelector(
-    (state: RootState) => state.playback.volume
+    (state: RootState) => state.playback.volume,
   );
 
   const { isRepeatEnabled, isShuffleEnabled } = useSelector(
-    (state: RootState) => state.playback.mode
+    (state: RootState) => state.playback.mode,
   );
 
   const { isPlaying, currentTime, source } = useSelector(
-    (state: RootState) => state.playback.audio
+    (state: RootState) => state.playback.audio,
   );
 
-  const { duration, coverUrl, artist, title } = useSelector((state: RootState) => state.playback.track);
+  const { duration, coverUrl, artist, title } = useSelector(
+    (state: RootState) => state.playback.track,
+  );
 
   const handleMuteButtonClick = () => {
     if (isMuted) {
@@ -56,14 +59,6 @@ export function Player(props: PlayerProps) {
   const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseInt(e.target.value);
     dispatch(setVolume(value));
-  };
-
-  const stop = () => {
-    dispatch(setIsPlaying(false));
-  };
-
-  const play = () => {
-    dispatch(setIsPlaying(true));
   };
 
   const handleShuffleButtonClick = (buttonType: PlayerShuffleButtonAction) => {
@@ -89,6 +84,28 @@ export function Player(props: PlayerProps) {
     dispatch(setSeekToTime(value));
   };
 
+  const handleOnPlayerNavigationButtonsClick = (
+    action: PlayerNavigationButtonAction,
+  ) => {
+    switch (action) {
+      case PlayerNavigationButtonAction.Play:
+        dispatch(setIsPlaying(true));
+        break;
+
+      case PlayerNavigationButtonAction.Pause:
+        dispatch(setIsPlaying(false));
+        break;
+
+      case PlayerNavigationButtonAction.Rewind:
+        // TODO: handle
+        break;
+
+      case PlayerNavigationButtonAction.FastForward:
+        // TODO: handle
+        break;
+    }
+  };
+
   return (
     <PlayerContainer>
       <PlayerContent>
@@ -97,7 +114,7 @@ export function Player(props: PlayerProps) {
           <PlayButtons
             isNavigationDisabled={source === AudioSource.INTERNET_RADIO}
             isPlaying={isPlaying}
-            onClick={() => (isPlaying ? stop() : play())}
+            onClick={handleOnPlayerNavigationButtonsClick}
           />
           <ProgressBar
             isRadio={source === AudioSource.INTERNET_RADIO}
@@ -129,4 +146,4 @@ export function Player(props: PlayerProps) {
       </PlayerContent>
     </PlayerContainer>
   );
-};
+}

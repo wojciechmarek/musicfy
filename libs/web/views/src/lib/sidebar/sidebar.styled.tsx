@@ -2,7 +2,9 @@ import styled from '@emotion/styled';
 
 export const SidebarLayout = styled.div`
   width: 20em;
-  background-color: #19181e;
+  background-color: var(--side-background-color);
+  overflow-y: auto;
+  padding-bottom: 1em;
 `;
 
 export const SidebarContainer = styled.div`

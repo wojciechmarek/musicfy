@@ -1,6 +1,15 @@
 import { ChevronLeft, ChevronRight, Search, X } from 'lucide-react';
 import { useState } from 'react';
-import { HomeBar, LogoutButton, NavigationButton, NavigationButtons, NavigationLogout, NavigationSearch, SearchBarIcon, SearchInput } from './search-bar.styled';
+import {
+  HomeBar,
+  LogoutButton,
+  NavigationButton,
+  NavigationButtons,
+  NavigationLogout,
+  NavigationSearch,
+  SearchBarIcon,
+  SearchInput,
+} from './search-bar.styled';
 
 /* eslint-disable-next-line */
 export interface SearchBarProps {
@@ -58,9 +67,8 @@ export function SearchBar(props: SearchBarProps) {
           value={searchPhrase}
           onChange={(e) => onInputChange(e.target.value)}
           onKeyDown={(e) => {
-            if (e.key === "Enter")
-              onButtonClick();
-            }}
+            if (e.key === 'Enter') onButtonClick();
+          }}
         />
         {searchPhrase.length > 0 && (
           <SearchBarIcon onClick={() => onInputClear()}>

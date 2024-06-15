@@ -1,5 +1,5 @@
 export const enum AudioSource {
-    DEMO = 'demo',
-    INTERNET_RADIO = 'internet-radio',
-    SPOTIFY = 'spotify',
-  }
+  DEMO = 'demo',
+  INTERNET_RADIO = 'internet-radio',
+  SPOTIFY = 'spotify',
+}

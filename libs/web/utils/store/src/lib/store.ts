@@ -5,6 +5,7 @@ import equalizerReducer from './store-slices/equalizer';
 import demoReducer from './store-slices/demo';
 import radioReducer from './store-slices/radio';
 import spotifySlice from './store-slices/spotify';
+import themeSlice from './store-slices/theme';
 
 export const store = configureStore({
   reducer: {
@@ -14,6 +15,7 @@ export const store = configureStore({
     demo: demoReducer,
     radio: radioReducer,
     spotify: spotifySlice,
+    theme: themeSlice,
   },
 });
 

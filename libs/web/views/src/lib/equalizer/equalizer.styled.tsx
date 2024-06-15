@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 
 export const EqualizerContainer = styled.div`
-  background-color: #1a1b20;
+  background-color: var(--background-color);
   height: 100%;
 `;
 
@@ -9,12 +9,13 @@ export const EqualizerContent = styled.div`
   height: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0.5em 1em 0;
+  padding: 1em;
+  overflow-y: auto;
 `;
 
 export const EqualizerTitle = styled.h1`
-  color: white;
-  margin-top: 0.75em;
+  color: var(--font-color);
+  margin-top: 0.5em;
 `;
 
 export const ButtonsContainer = styled.div`
@@ -30,7 +31,7 @@ export const EqContainer = styled.div`
   gap: 0.75em;
   width: 100%;
   height: 30em;
-  background-color: #272a35;
+  background-color: var(--equalizer-background-color);
   border-radius: 0.5em;
   padding: 0.75em;
 

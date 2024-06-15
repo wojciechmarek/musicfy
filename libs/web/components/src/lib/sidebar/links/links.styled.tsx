@@ -24,43 +24,43 @@ export const NavigationLink = styled.li`
 
   a {
     display: flex;
-    color: white;
+    color: var(--font-color);
     text-decoration: none;
     height: 100%;
   }
 `;
 
 export const NavigationSeparator = styled.hr`
-  border: 1px solid #2a2b32;
+  border: 1px solid var(--tile-background-color);
   width: 100%;
 `;
 
 export const NavLinkStyle = styled(NavLink)`
   display: flex;
   justify-content: space-between;
-  color: white;
+  color: var(--font-color);
   text-decoration: none;
   height: 100%;
   width: 100%;
   padding: 1em 1.5em;
   cursor: pointer;
   border-radius: 0.5em;
-  transition: background-color 0.2s ease-in-out;
 
   p {
     cursor: pointer;
   }
 
   &:hover {
-    background-color: #2a2b32;
+    background-color: var(--tile-button-hover-color);
   }
 
   &.active {
-    background-color: #2b31df;
+    color: var(--font-accent-color);
+    background-color: var(--accent-color);
     box-shadow: 0 0 10px #2b31df;
 
     &:hover {
-      background-color: #4a4feb;
+      background-color: var(--accent-hover-color);
     }
   }
 `;

@@ -19,7 +19,7 @@ const EqPower = styled.div`
 
 const EqPowerButton = styled.button`
   background-color: #19181e;
-  color: white;
+  color: var(--font-accent-color);
   border: none;
   border-radius: 0.5em;
   padding: 0.5em 1em;
@@ -39,7 +39,7 @@ const EqPowerIndicator = styled.div<{ isActive: boolean }>`
 `;
 
 const EqPowerLabel = styled.p`
-  color: white;
+  color: var(--font-accent-color);
   font-size: 0.75em;
   text-transform: uppercase;
   text-align: center;

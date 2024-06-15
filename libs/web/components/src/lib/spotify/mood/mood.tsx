@@ -39,9 +39,8 @@ const MoodElement = styled.div`
   border-radius: 0.5em;
   height: auto;
   height: 9em;
-  background-color: #2a2b32;
+  background-color: var(--tile-background-color);
   cursor: pointer;
-  transition: background-color 0.2s ease-in-out;
 
   &:hover:nth-of-type(1) {
     background-color: #2736a8;

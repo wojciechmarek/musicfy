@@ -49,3 +49,54 @@ h6 {
 #__next {
   isolation: isolate;
 }
+
+[data-theme='dark'] {
+  --font-color: #fafafa;
+  --font-accent-color: #fafafa;
+
+  --background-color: #181a20;
+  --side-background-color: #24272e;
+  --tile-background-color: #2a2f37;
+
+  --tile-button-color: #181a20;
+  --tile-button-hover-color: #484f5c;
+
+  --accent-color: #3b40df;
+  --accent-hover-color: #6365e5;
+
+  --equalizer-background-color: #272a35;
+}
+
+[data-theme='light'] {
+  --font-color: #0a0a0a;
+  --font-accent-color: #fafafa;
+
+  --background-color: #f8f9fa;
+  --side-background-color: #e9ecef;
+  --tile-background-color: #dee2e6;
+
+  --tile-button-color: #f8f9fa;
+  --tile-button-hover-color: #aaadb2;
+
+  --accent-color: #3b40df;
+  --accent-hover-color: #2a2ea3;
+
+  --equalizer-background-color: #272a35;
+}
+
+[data-theme='blue'] {
+  --font-color: #fafafa;
+  --font-accent-color: #fafafa;
+
+  --background-color: #001233;
+  --side-background-color: #001845;
+  --tile-background-color: #002855;
+
+  --tile-button-color: #001233;
+  --tile-button-hover-color: #134298;
+
+  --accent-color: #3b40df;
+  --accent-hover-color: #6365e5;
+
+  --equalizer-background-color: #272a35;
+}
