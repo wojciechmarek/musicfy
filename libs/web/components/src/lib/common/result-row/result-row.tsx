@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
-import { Heart } from 'lucide-react';
-import { PlayIconButton } from '../../../../common/play-icon-button/play-icon-button';
 import { useState } from 'react';
+import { HeartLikeButton } from '../heart-like-button/heart-like-button';
+import { PlayIconButton } from '../play-icon-button/play-icon-button';
 
 type Props = {
   imageUrl: string;
@@ -9,7 +9,7 @@ type Props = {
   description: string;
 };
 
-export const Result = styled.div`
+const Result = styled.div`
   background-color: var(--tile-background-color);
   height: 5em;
   border-radius: 0.5em;
@@ -18,46 +18,33 @@ export const Result = styled.div`
   align-items: center;
 `;
 
-export const ImageContainer = styled.div`
+const ImageContainer = styled.div`
   height: 64px;
   width: 64px;
 `;
 
-export const Image = styled.img`
+const Image = styled.img`
   height: 100%;
 `;
 
-export const InformationContainer = styled.div`
+const InformationContainer = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;
   margin-left: 1em;
 `;
 
-export const Title = styled.h3``;
+const Title = styled.h3``;
 
-export const Description = styled.p``;
+const Description = styled.p``;
 
-export const ButtonsContainer = styled.div`
+const ButtonsContainer = styled.div`
   display: flex;
   gap: 1.5em;
   margin-right: 1em;
 `;
 
-export const IconButton = styled.button<{ isLiked?: boolean }>`
-  border-style: none;
-  background-color: transparent;
-  cursor: pointer;
-
-  .icon {
-    fill: ${(props) =>
-      props.isLiked ? 'red' : 'var(--tile-button-hover-color)'};
-    stroke: ${(props) =>
-      props.isLiked ? 'red' : 'var(--tile-button-hover-color)'};
-  }
-`;
-
-export const PlaybackButton = styled.button`
+const PlaybackButton = styled.button`
   border-style: none;
   color: var(--font-color);
   background-color: var(--accent-color);
@@ -83,10 +70,8 @@ export const ResultRow = (props: Props) => {
         <Description>{description}</Description>
       </InformationContainer>
       <ButtonsContainer>
-        <IconButton onClick={handleOnLikeClick} isLiked={isLiked}>
-          <Heart className="icon" />
-        </IconButton>
-        <PlayIconButton isPlaying={false} onClick={() => alert(12)} />
+        <HeartLikeButton isLiked={isLiked} onClick={handleOnLikeClick} />
+        <PlayIconButton isPlaying={false} onClick={() => console.log('play')} />
       </ButtonsContainer>
     </Result>
   );

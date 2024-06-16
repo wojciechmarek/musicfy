@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
-import { CategoryChip, Item, ResultList } from './components';
-import { SectionTitle } from '../../common';
+import { Item, ResultList } from '../../common';
+import { CategoryChip } from './components';
 
 type Props = {
   result: any;
@@ -33,26 +33,6 @@ export const SearchResult = (props: Props) => {
     'Spotify users',
   ];
 
-  const songs = [
-    {
-      title: 'Perfect',
-      description: 'Ed Sheeran',
-      imageUrl:
-        'https://i.scdn.co/image/ab67616d00004851cad4832cb7b5844343278daa',
-    },
-    {
-      title: 'Perfect',
-      description: 'Ed Sheeran',
-      imageUrl:
-        'https://i.scdn.co/image/ab67616d00004851cad4832cb7b5844343278daa',
-    },
-    {
-      title: 'Perfect',
-      description: 'Ed Sheeran',
-      imageUrl:
-        'https://i.scdn.co/image/ab67616d00004851cad4832cb7b5844343278daa',
-    },
-  ];
   return (
     <SearchResultContent>
       <CategoryChips>
@@ -61,8 +41,8 @@ export const SearchResult = (props: Props) => {
         ))}
       </CategoryChips>
       <ResultsContainer>
-        <SectionTitle title="Songs" />
         <ResultList
+          title="Songs"
           items={[
             ...result.tracks.items.slice(0, 5).map(
               (track: any) =>
@@ -79,8 +59,8 @@ export const SearchResult = (props: Props) => {
         ></ResultList>
       </ResultsContainer>
       <ResultsContainer>
-        <SectionTitle title="Artists" />
         <ResultList
+          title="Artists"
           items={[
             ...result.artists.items.slice(0, 5).map(
               (artist: any) =>
@@ -95,8 +75,8 @@ export const SearchResult = (props: Props) => {
       </ResultsContainer>
 
       <ResultsContainer>
-        <SectionTitle title="Albums" />
         <ResultList
+          title="Albums"
           items={[
             ...result.albums.items.slice(0, 5).map(
               (item: any) =>
