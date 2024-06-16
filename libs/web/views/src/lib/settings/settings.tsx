@@ -3,10 +3,10 @@ import {
   setAccessApiHost,
   setAccessApiKey,
   setAccessApiUrl,
+  setAutoTheme,
   setSearchEngineUrl,
   setThemeMode,
 } from '@musicfy/web/utils/store';
-import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   EntryText,
@@ -16,8 +16,9 @@ import {
   SettingsList,
   SettingsTitle,
 } from './settings.styled';
-import { ThemeMode } from '@musicfy/web/utils/models';
 import { ThemeSelector, ValueEditor } from '@musicfy/web/components';
+import { ThemeMode } from '@musicfy/web/utils/models';
+import { useCallback, useEffect } from 'react';
 
 /* eslint-disable-next-line */
 export interface SettingsProps {}
@@ -28,7 +29,52 @@ export function Settings(props: SettingsProps) {
     (state: RootState) => state.spotify,
   );
   const { searchEngineUrl } = useSelector((state: RootState) => state.radio);
-  const { theme } = useSelector((state: RootState) => state.theme);
+  const { theme, isAutoThemeEnabled } = useSelector(
+    (state: RootState) => state.theme,
+  );
+
+  const handleOnThemeChange = (theme: ThemeMode) => {
+    dispatch(setAutoTheme(false));
+    dispatch(setThemeMode(theme));
+
+    window
+      .matchMedia('(prefers-color-scheme: dark)')
+      .removeEventListener('change', ({ matches }) => {
+        if (matches) {
+          dispatch(setThemeMode('dark'));
+        } else {
+          dispatch(setThemeMode('light'));
+        }
+      });
+  };
+
+  const handleOnAutoThemeClick = () => {
+    dispatch(setAutoTheme(true));
+
+    window
+      .matchMedia('(prefers-color-scheme: dark)')
+      .addEventListener('change', ({ matches }) => {
+        if (matches) {
+          dispatch(setThemeMode('dark'));
+        } else {
+          dispatch(setThemeMode('light'));
+        }
+      });
+
+    detectCurrentThemeAndChangeTheme();
+  };
+
+  const detectCurrentThemeAndChangeTheme = useCallback(() => {
+    if (
+      window.matchMedia &&
+      window.matchMedia('(prefers-color-scheme: dark)').matches
+    ) {
+      dispatch(setThemeMode('dark'));
+      return;
+    }
+
+    dispatch(setThemeMode('light'));
+  }, [dispatch]);
 
   const settings = [
     {
@@ -71,12 +117,20 @@ export function Settings(props: SettingsProps) {
       title: 'Theme',
       component: (
         <ThemeSelector
-          onThemeChange={(e) => dispatch(setThemeMode(e))}
           theme={theme}
+          isAutoThemeEnabled={isAutoThemeEnabled}
+          onThemeChange={handleOnThemeChange}
+          onAutoThemeClick={handleOnAutoThemeClick}
         />
       ),
     },
   ];
+
+  useEffect(() => {
+    if (isAutoThemeEnabled) {
+      detectCurrentThemeAndChangeTheme();
+    }
+  }, [isAutoThemeEnabled, detectCurrentThemeAndChangeTheme]);
 
   return (
     <SettingsContainer>

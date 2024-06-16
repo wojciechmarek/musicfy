@@ -2,7 +2,7 @@ import { AudioSource } from '@musicfy/web/utils/models';
 import {
   Disc3,
   Heart,
-  PlaySquare,
+  AudioLines,
   Radio,
   Settings,
   Sliders,
@@ -23,7 +23,7 @@ export const sideMenuLinks = [
     id: AudioSource.INTERNET_RADIO,
   },
   {
-    icon: <PlaySquare />,
+    icon: <AudioLines />,
     text: 'Spotify',
     path: '/spotify',
     id: AudioSource.SPOTIFY,

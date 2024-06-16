@@ -6,7 +6,8 @@
   },
   "files": [
     "../../../../node_modules/@nx/react/typings/cssmodule.d.ts",
-    "../../../../node_modules/@nx/react/typings/image.d.ts"
+    "../../../../node_modules/@nx/react/typings/image.d.ts",
+    "./src/lib/store-slices/themeSlice.ts"
   ],
   "exclude": [
     "**/*.spec.ts",
@@ -18,5 +19,12 @@
     "**/*.spec.jsx",
     "**/*.test.jsx"
   ],
-  "include": ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx", "../constants/src/lib/radio-stations.ts", "../constants/src/lib/demo-songs.ts"]
+  "include": [
+    "**/*.js",
+    "**/*.jsx",
+    "**/*.ts",
+    "**/*.tsx",
+    "../constants/src/lib/radio-stations.ts",
+    "../constants/src/lib/demo-songs.ts"
+  ]
 }

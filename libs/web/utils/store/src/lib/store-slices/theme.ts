@@ -3,10 +3,12 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 export interface ThemeState {
   theme: ThemeMode;
+  isAutoThemeEnabled: boolean;
 }
 
 const themeState: ThemeState = {
   theme: 'dark',
+  isAutoThemeEnabled: false,
 };
 
 export const themeSlice = createSlice({
@@ -14,24 +16,14 @@ export const themeSlice = createSlice({
   initialState: themeState,
   reducers: {
     setThemeMode: (state, action: PayloadAction<ThemeMode>) => {
-      if (action.payload === 'system') {
-        if (
-          window.matchMedia &&
-          window.matchMedia('(prefers-color-scheme: dark)').matches
-        ) {
-          state.theme = 'dark';
-          return;
-        }
-
-        state.theme = 'light';
-        return;
-      }
-
       state.theme = action.payload;
+    },
+    setAutoTheme: (state, action: PayloadAction<boolean>) => {
+      state.isAutoThemeEnabled = action.payload;
     },
   },
 });
 
-export const { setThemeMode } = themeSlice.actions;
+export const { setThemeMode, setAutoTheme } = themeSlice.actions;
 
 export default themeSlice.reducer;
