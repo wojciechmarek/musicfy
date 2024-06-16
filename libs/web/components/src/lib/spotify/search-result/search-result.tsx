@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { ResultList, SectionTitle } from '../../common';
+import { Item, ResultList } from '../../common';
 import { CategoryChip } from './components';
 
 type Props = {
