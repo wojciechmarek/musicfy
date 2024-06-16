@@ -11,7 +11,7 @@ import {
   DemoContent,
   Header,
 } from './demo-songs.styled';
-import { AudioTile } from '@musicfy/web/components';
+import { AddAudioTile, AudioTile } from '@musicfy/web/components';
 import { AudioSource, Track } from '@musicfy/web/utils/models';
 
 /* eslint-disable-next-line */
@@ -43,6 +43,12 @@ export function DemoSongs(props: DemoSongsProps) {
     }
   };
 
+  const handleAddLocalFileClick = () => {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.click();
+  };
+
   return (
     <DemoContainer>
       <DemoContent>
@@ -61,6 +67,10 @@ export function DemoSongs(props: DemoSongsProps) {
               onPlayClick={() => handleOnPlayClick(song.id)}
             />
           ))}
+          <AddAudioTile
+            title="Open a local file"
+            onAddClick={handleAddLocalFileClick}
+          />
         </Content>
       </DemoContent>
     </DemoContainer>

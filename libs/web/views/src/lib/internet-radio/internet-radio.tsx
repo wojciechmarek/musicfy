@@ -1,88 +1,49 @@
-import { AddAudioTile, AudioTile, SearchBar } from '@musicfy/web/components';
 import {
-  RootState,
-  setAudioSource,
-  setIsPlaying,
-  setIsRepeatEnabled,
-  setIsShuffleEnabled,
-  setTrack,
-  setUrl,
-} from '@musicfy/web/utils/store';
-import { useDispatch, useSelector } from 'react-redux';
+  AddAudioTile,
+  AudioTile,
+  ModalWindow,
+  NewStationModal,
+  SearchBar,
+} from '@musicfy/web/components';
 import {
   Content,
   Header,
   RadioContainer,
   RadioContent,
 } from './internet-radio.styled';
-import { AudioSource, RadioStation, Track } from '@musicfy/web/utils/models';
+import { AudioSource } from '@musicfy/web/utils/models';
+import { useNewStation } from './hooks/use-new-station.hook';
+import { usePlayback } from './hooks/use-playback.hook';
 
 /* eslint-disable-next-line */
 export interface InternetRadioProps {}
 
 export function InternetRadio(props: InternetRadioProps) {
-  const { stations, searchEngineUrl } = useSelector(
-    (state: RootState) => state.radio,
-  );
-  const audioSource = useSelector(
-    (state: RootState) => state.playback.audio.source,
-  );
-  const trackId = useSelector((state: RootState) => state.playback.track.id);
-  const isPlaying = useSelector(
-    (state: RootState) => state.playback.audio.isPlaying,
-  );
+  const { stations, source, isPlaying, trackId, handleOnPlaybackClick } =
+    usePlayback();
 
-  const dispatch = useDispatch();
-
-  const handleOnPlayClick = (id: number) => {
-    if (
-      audioSource === AudioSource.INTERNET_RADIO &&
-      trackId === id &&
-      isPlaying
-    ) {
-      dispatch(setIsPlaying(false));
-      return;
-    }
-
-    const radioToPlay = stations.find((radio) => radio.id === id);
-    if (radioToPlay) {
-      const track: Track = {
-        id: radioToPlay.id,
-        title: radioToPlay.title,
-        artist: radioToPlay.description,
-        coverUrl: radioToPlay.cover,
-        duration: 0,
-      };
-
-      dispatch(setUrl(radioToPlay.url));
-      dispatch(setIsPlaying(true));
-      dispatch(setAudioSource(AudioSource.INTERNET_RADIO));
-      dispatch(setIsShuffleEnabled(false));
-      dispatch(setIsRepeatEnabled(false));
-      dispatch(setTrack(track));
-    }
-  };
-
-  const handleOnSearchStationButtonClick = (phrase: string) => {
-    if (!phrase) {
-      return;
-    }
-
-    window.open(searchEngineUrl + phrase);
-  };
-
-  const handleOnAddAudioClick = () => {
-    alert('add');
-  };
+  const {
+    isAddNewStationModalVisible,
+    handleOnAddAudioClick,
+    handleOnAddNewStationClick,
+    handleOnCancelNewStationClick,
+    handleOnSearchStationClick,
+  } = useNewStation();
 
   return (
     <RadioContainer>
+      <ModalWindow isVisible={isAddNewStationModalVisible}>
+        <NewStationModal
+          onAddClick={handleOnAddNewStationClick}
+          onCancelClick={handleOnCancelNewStationClick}
+        />
+      </ModalWindow>
       <RadioContent>
         <Header>Internet radio</Header>
         <SearchBar
           buttonLabel="Search"
           inputPlaceholder="Search a radio station"
-          handleButtonClick={handleOnSearchStationButtonClick}
+          onButtonClick={handleOnSearchStationClick}
         ></SearchBar>
         <Content>
           {stations.map((station) => (
@@ -93,11 +54,11 @@ export function InternetRadio(props: InternetRadioProps) {
               description={station.description}
               coverUrl={station.cover}
               isPlaying={
-                audioSource === AudioSource.INTERNET_RADIO &&
+                source === AudioSource.INTERNET_RADIO &&
                 trackId === station.id &&
                 isPlaying
               }
-              onPlayClick={() => handleOnPlayClick(station.id)}
+              onPlayClick={() => handleOnPlaybackClick(station.id)}
             />
           ))}
           <AddAudioTile

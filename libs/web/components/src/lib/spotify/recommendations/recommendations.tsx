@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import { RootState } from 'libs/web/utils/store/src';
 import { Play } from 'lucide-react';
 import { useSelector } from 'react-redux';
+import { SectionTitle } from '../../common';
 
 /* eslint-disable-next-line */
 export interface RecommendationsProps {}
@@ -10,12 +11,6 @@ const RecommendationsContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-`;
-
-const RecommendationsHeader = styled.h1`
-  font-size: 1.5rem;
-  font-weight: bold;
-  margin: 1em 0 0.5em;
 `;
 
 const RecommendationContent = styled.div`
@@ -78,12 +73,12 @@ const TileSubtitle = styled.p`
 
 export function Recommendations(props: RecommendationsProps) {
   const { recommendations } = useSelector(
-    (state: RootState) => state.suggestions
+    (state: RootState) => state.suggestions,
   );
 
   return (
     <RecommendationsContainer>
-      <RecommendationsHeader>Today's recommendations</RecommendationsHeader>
+      <SectionTitle title="Today's recommendations" />
       <RecommendationContent>
         <RecommendationList>
           {recommendations.map((item) => (
@@ -93,7 +88,6 @@ export function Recommendations(props: RecommendationsProps) {
                 <TilePlayIcon>
                   <Play size={24} />
                 </TilePlayIcon>
-
               </TileImageContainer>
               <TileTitle>{item.title}</TileTitle>
               <TileSubtitle>{item.artist}</TileSubtitle>

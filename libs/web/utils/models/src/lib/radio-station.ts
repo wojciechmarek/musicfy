@@ -4,6 +4,6 @@ export class RadioStation {
     public title: string,
     public description: string,
     public cover: string,
-    public url: string
+    public url: string,
   ) {}
 }

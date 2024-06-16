@@ -7,5 +7,5 @@ export const AddAudioTileContainer = styled.div`
   color: var(--font-color);
   display: flex;
   justify-content: center;
-  transition: all 0.2s ease-in-out;
+  height: 4.5em;
 `;

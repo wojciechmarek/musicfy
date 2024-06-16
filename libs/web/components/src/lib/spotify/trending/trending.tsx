@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import { RootState } from 'libs/web/utils/store/src';
 import { Play, PlayCircle } from 'lucide-react';
 import { useSelector } from 'react-redux';
+import { SectionTitle } from '../../common';
 
 /* eslint-disable-next-line */
 export interface PopularProps {}
@@ -11,12 +12,6 @@ const PopularContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-`;
-
-const PopularHeader = styled.h1`
-  font-size: 1.5rem;
-  font-weight: bold;
-  margin: 1em 0 0.5em;
 `;
 
 const PopularContent = styled.div`
@@ -96,12 +91,7 @@ export function Trending(props: PopularProps) {
 
   return (
     <PopularContainer>
-      <PopularHeader>
-        Trending in Poland{' '}
-        <span role="img" aria-label="Poland">
-          🇵🇱
-        </span>
-      </PopularHeader>
+      <SectionTitle title="Trending in Poland 🇵🇱" />
       <PopularContent>
         <PopularList>
           {trending.map((item) => (
