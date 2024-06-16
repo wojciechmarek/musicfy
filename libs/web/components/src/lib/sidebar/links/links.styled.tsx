@@ -19,7 +19,7 @@ export const NavigationLink = styled.li`
 
   p {
     font-weight: bold;
-    margin-left: 1em;
+    margin-left: 0.25em;
   }
 
   a {

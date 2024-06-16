@@ -68,12 +68,9 @@ export function WarningMessage(props: WarningMessageProps) {
       <MessageBox>
         <MessageTitle>Warning</MessageTitle>
         <MessageTextRed>
-          This audio source is NOT READY yet, use demo songs or internet radio!
+          This audio source needs to provide the API key. Update it's value in
+          the Settings tab (X RAPID API key).
         </MessageTextRed>
-        <MessageText>
-          To use the Spotify features you need to provide a{' '}
-          <strong>valid API key</strong> in the settings page.
-        </MessageText>
         <MessageText>
           This application is configured to the RapidAPI endpoints to reach the
           Spotify services.{' '}
@@ -84,11 +81,6 @@ export function WarningMessage(props: WarningMessageProps) {
           >
             Get your API key from here.
           </a>
-        </MessageText>
-        <MessageText>
-          <strong>DISCLAIMER:</strong> If you just edit the API key without
-          providing a valid one, the Spotify features will be unlocked but they
-          will not work properly.
         </MessageText>
         <MessageLink to="/settings">Go to settings</MessageLink>
       </MessageBox>

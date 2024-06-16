@@ -1,1 +1,1 @@
-export type ThemeMode = 'system' | 'light' | 'dark' | 'blue';
+export type ThemeMode = 'light' | 'dark' | 'blue';
