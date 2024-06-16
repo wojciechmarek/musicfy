@@ -53,7 +53,6 @@ export const SearchResult = (props: Props) => {
         'https://i.scdn.co/image/ab67616d00004851cad4832cb7b5844343278daa',
     },
   ];
-
   return (
     <SearchResultContent>
       <CategoryChips>
