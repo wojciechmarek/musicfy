@@ -7,6 +7,7 @@ import {
   Spotify,
   Visualizer,
   Settings,
+  Favorite,
 } from '@musicfy/web/views';
 import { createBrowserRouter } from 'react-router-dom';
 
@@ -27,6 +28,10 @@ export const router = createBrowserRouter([
       {
         path: '/spotify',
         element: <Spotify />,
+      },
+      {
+        path: '/favorite',
+        element: <Favorite />,
       },
       {
         path: '/equalizer',

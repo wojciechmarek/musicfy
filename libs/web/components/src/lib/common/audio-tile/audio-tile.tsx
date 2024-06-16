@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { PlayIconButton } from '../play-icon-button/play-icon-button';
 import {
   AudioTileContainer,
@@ -9,6 +10,7 @@ import {
   AudioTileInfoTitle,
   AudioTilePlay,
 } from './audio-tile.styled';
+import { HeartLikeButton } from '..';
 
 /* eslint-disable-next-line */
 export interface AudioTileProps {
@@ -22,6 +24,13 @@ export interface AudioTileProps {
 
 export function AudioTile(props: AudioTileProps) {
   const { coverUrl, title, description, isPlaying, id, onPlayClick } = props;
+
+  const [isLiked, setIsLiked] = useState(false);
+
+  const handleOnLikeClick = () => {
+    setIsLiked(!isLiked);
+  };
+
   return (
     <AudioTileContainer>
       <AudioTileImage>
@@ -38,6 +47,7 @@ export function AudioTile(props: AudioTileProps) {
         )}
       </AudioTileInfo>
       <AudioTilePlay>
+        <HeartLikeButton isLiked={isLiked} onClick={handleOnLikeClick} />
         <PlayIconButton isPlaying={isPlaying} onClick={() => onPlayClick(id)} />
       </AudioTilePlay>
     </AudioTileContainer>
