@@ -16,6 +16,7 @@ import {
   PopularAndMoodContainer,
 } from './spotify.styled';
 import axios from 'axios';
+import { response } from './response';
 
 /* eslint-disable-next-line */
 export interface SpotifyProps {}
@@ -72,7 +73,7 @@ export function Spotify(props: SpotifyProps) {
           onClearClick={handleClearSearchClick}
         />
         {isSearchActive ? (
-          <SearchResult></SearchResult>
+          <SearchResult result={response}></SearchResult>
         ) : (
           <HomeRegularviews>
             <Recommendations />

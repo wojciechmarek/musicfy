@@ -1,5 +1,13 @@
 import { AudioSource } from '@musicfy/web/utils/models';
-import { Disc3, PlaySquare, Radio, Settings, Sliders, Tv2 } from 'lucide-react';
+import {
+  Disc3,
+  Heart,
+  PlaySquare,
+  Radio,
+  Settings,
+  Sliders,
+  Tv2,
+} from 'lucide-react';
 
 export const sideMenuLinks = [
   {
@@ -19,6 +27,14 @@ export const sideMenuLinks = [
     text: 'Spotify',
     path: '/spotify',
     id: AudioSource.SPOTIFY,
+  },
+  {
+    text: 'br',
+  },
+  {
+    icon: <Heart />,
+    text: 'Favorite',
+    path: '/favorite',
   },
   {
     text: 'br',

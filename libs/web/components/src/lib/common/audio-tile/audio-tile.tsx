@@ -1,4 +1,4 @@
-import { Pause, Play, Square } from 'lucide-react';
+import { PlayIconButton } from '../play-icon-button/play-icon-button';
 import {
   AudioTileContainer,
   AudioTileImage,
@@ -8,7 +8,6 @@ import {
   AudioTileInfoSpacer,
   AudioTileInfoTitle,
   AudioTilePlay,
-  PlayIconButton,
 } from './audio-tile.styled';
 
 /* eslint-disable-next-line */
@@ -39,13 +38,7 @@ export function AudioTile(props: AudioTileProps) {
         )}
       </AudioTileInfo>
       <AudioTilePlay>
-        <PlayIconButton onClick={() => onPlayClick(id)}>
-          {isPlaying ? (
-            <Pause size={20} />
-          ) : (
-            <Play size={20} className="icon" />
-          )}
-        </PlayIconButton>
+        <PlayIconButton isPlaying={isPlaying} onClick={() => onPlayClick(id)} />
       </AudioTilePlay>
     </AudioTileContainer>
   );

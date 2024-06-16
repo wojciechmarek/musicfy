@@ -63,26 +63,3 @@ export const AudioTilePlay = styled.div`
   flex-direction: column;
   justify-content: end;
 `;
-
-export const PlayIconButton = styled.button`
-  border: none;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: var(--accent-color);
-  color: var(--font-accent-color);
-  border-radius: 50%;
-  width: 3em;
-  height: 3em;
-  position: relative;
-
-  &:hover {
-    background-color: var(--accent-hover-color);
-  }
-
-  .icon {
-    position: relative;
-    left: 0.125em;
-  }
-`;

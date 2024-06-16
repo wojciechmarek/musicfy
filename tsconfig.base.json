@@ -17,9 +17,7 @@
     "paths": {
       "@musicfy/web/api": ["libs/web/api/src/index.ts"],
       "@musicfy/web/components": ["libs/web/components/src/index.ts"],
-      "@musicfy/web/utils/constants": [
-        "libs/web/utils/constants/src/index.ts"
-      ],
+      "@musicfy/web/utils/constants": ["libs/web/utils/constants/src/index.ts"],
       "@musicfy/web/utils/models": ["libs/web/utils/models/src/index.ts"],
       "@musicfy/web/utils/routing": ["libs/web/utils/routing/src/index.ts"],
       "@musicfy/web/utils/store": ["libs/web/utils/store/src/index.ts"],

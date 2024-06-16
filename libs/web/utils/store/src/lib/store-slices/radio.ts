@@ -19,12 +19,12 @@ export const radioSlice = createSlice({
     setSearchEngineUrl: (state, action: PayloadAction<string>) => {
       state.searchEngineUrl = action.payload;
     },
-    setLocalStorage: (state, action: PayloadAction<RadioStation[]>) => {
-      state.stations = action.payload;
+    setNewRadioStation: (state, action: PayloadAction<RadioStation>) => {
+      state.stations = [...state.stations, action.payload];
     },
   },
 });
 
-export const { setSearchEngineUrl } = radioSlice.actions;
+export const { setSearchEngineUrl, setNewRadioStation } = radioSlice.actions;
 
 export default radioSlice.reducer;
