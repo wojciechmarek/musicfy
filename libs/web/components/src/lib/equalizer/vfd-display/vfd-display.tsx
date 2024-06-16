@@ -69,14 +69,14 @@ export function VfdDisplay(props: VfdDisplayProps) {
       <VfdAnalyzersRow>
         <VfdSpectrumAnalyzer
           frequencies={frequencies}
-          isEnabled={isEnabled}
+          isEnabled={isEnabled && barsMode !== 'off'}
           frequencyBars={frequencyBars}
           barsMode={barsMode}
         />
         <VfdChannelAnalyzer
           left={leftChannel}
           right={rightChannel}
-          isEnabled={isEnabled}
+          isEnabled={isEnabled && barsMode !== 'off'}
           barsMode={barsMode}
         />
       </VfdAnalyzersRow>
@@ -84,9 +84,13 @@ export function VfdDisplay(props: VfdDisplayProps) {
         <VfdControl isActive={isEnabled}>Hi-Fi</VfdControl>
         <VfdControl isActive={isEnabled && isStereoEnabled}>STEREO</VfdControl>
         <VfdControl isActive={isEnabled && isRepeatEnabled}>REPEAT</VfdControl>
-        <VfdControl isActive={isEnabled && isShuffleEnabled}>SHUFFLE</VfdControl>
+        <VfdControl isActive={isEnabled && isShuffleEnabled}>
+          SHUFFLE
+        </VfdControl>
         <VfdControl isActive={isEnabled && isMuted}>MUTING</VfdControl>
-        <VfdControl isActive={isEnabled && isKaraokeEnabled && isMicrophoneEnabled}>
+        <VfdControl
+          isActive={isEnabled && isKaraokeEnabled && isMicrophoneEnabled}
+        >
           KARAOKE
         </VfdControl>
       </VfdControls>

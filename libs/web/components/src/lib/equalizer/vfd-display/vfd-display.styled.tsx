@@ -1,4 +1,4 @@
-import styled from "@emotion/styled";
+import styled from '@emotion/styled';
 
 export const VfdDisplayContainer = styled.div`
   background-color: #0b0b0e;
@@ -6,6 +6,30 @@ export const VfdDisplayContainer = styled.div`
   display: flex;
   flex-direction: column;
   padding: 0.5em 0;
+  position: relative;
+
+  &::before {
+    content: ' ';
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    border-radius: 0.5em;
+    background: linear-gradient(
+        rgba(18, 16, 16, 0) 50%,
+        rgba(0, 0, 0, 0.25) 50%
+      ),
+      linear-gradient(
+        90deg,
+        rgba(255, 0, 0, 0.06),
+        rgba(0, 255, 0, 0.02),
+        rgba(0, 0, 255, 0.06)
+      );
+    z-index: 2;
+    background-size: 100% 2px, 3px 100%;
+  }
 `;
 
 export const VfdAnalyzersRow = styled.div`
@@ -40,4 +64,3 @@ export const VfdControlRed = styled.p<{
   color: ${(props) => (props.isActive ? '#9c341a' : '#250c06')};
   text-shadow: 0 0 10px ${(props) => (props.isActive ? '#9c341a ' : 'none')};
 `;
-
