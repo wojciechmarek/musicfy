@@ -6,7 +6,10 @@ export type Item = {
   header: string;
   description: string;
   timeInSeconds?: string;
-  onClick?: () => void;
+  isPlaying: boolean;
+  isLiked: boolean;
+  onHeartClick: () => void;
+  onPlaybackClick: () => void;
 };
 
 export type Props = {
@@ -33,14 +36,20 @@ export const ResultList = (props: Props) => {
     <>
       <Title>{title}</Title>
       <ResultsList>
-        {items.map((item) => (
-          <ResultRow
-            key={item.header + item.header}
-            title={item.header}
-            description={item.description}
-            imageUrl={item.imageUrl}
-          ></ResultRow>
-        ))}
+        {items.length === 0
+          ? 'No items'
+          : items.map((item) => (
+              <ResultRow
+                key={item.header + item.header}
+                title={item.header}
+                description={item.description}
+                imageUrl={item.imageUrl}
+                isLiked={item.isLiked}
+                isPlaying={item.isPlaying}
+                onHeartClick={item.onHeartClick}
+                onPlaybackClick={item.onPlaybackClick}
+              ></ResultRow>
+            ))}
       </ResultsList>
     </>
   );

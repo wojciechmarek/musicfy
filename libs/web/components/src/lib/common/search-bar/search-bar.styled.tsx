@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 export const HomeBar = styled.div`
   display: flex;
   justify-content: space-between;
-  padding: 1em 0 0.25em;
+  padding: 1em 0 0;
   gap: 0.5em;
 `;
 

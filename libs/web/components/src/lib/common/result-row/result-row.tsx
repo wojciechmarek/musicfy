@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { useState } from 'react';
 import { HeartLikeButton } from '../heart-like-button/heart-like-button';
 import { PlayIconButton } from '../play-icon-button/play-icon-button';
 
@@ -7,6 +6,10 @@ type Props = {
   imageUrl: string;
   title: string;
   description: string;
+  isLiked: boolean;
+  isPlaying: boolean;
+  onPlaybackClick: () => void;
+  onHeartClick: () => void;
 };
 
 const Result = styled.div`
@@ -24,7 +27,9 @@ const ImageContainer = styled.div`
 `;
 
 const Image = styled.img`
+  width: 100%;
   height: 100%;
+  object-fit: contain;
 `;
 
 const InformationContainer = styled.div`
@@ -44,22 +49,17 @@ const ButtonsContainer = styled.div`
   margin-right: 1em;
 `;
 
-const PlaybackButton = styled.button`
-  border-style: none;
-  color: var(--font-color);
-  background-color: var(--accent-color);
-  height: 3em;
-  width: 3em;
-  border-radius: 50%;
-`;
-
 export const ResultRow = (props: Props) => {
-  const { imageUrl, title, description } = props;
-  const [isLiked, setIsLiked] = useState(false);
+  const {
+    imageUrl,
+    title,
+    description,
+    isLiked,
+    isPlaying,
+    onHeartClick,
+    onPlaybackClick,
+  } = props;
 
-  const handleOnLikeClick = () => {
-    setIsLiked(!isLiked);
-  };
   return (
     <Result>
       <ImageContainer>
@@ -70,8 +70,8 @@ export const ResultRow = (props: Props) => {
         <Description>{description}</Description>
       </InformationContainer>
       <ButtonsContainer>
-        <HeartLikeButton isLiked={isLiked} onClick={handleOnLikeClick} />
-        <PlayIconButton isPlaying={false} onClick={() => console.log('play')} />
+        <HeartLikeButton isLiked={isLiked} onClick={onHeartClick} />
+        <PlayIconButton isPlaying={isPlaying} onClick={onPlaybackClick} />
       </ButtonsContainer>
     </Result>
   );

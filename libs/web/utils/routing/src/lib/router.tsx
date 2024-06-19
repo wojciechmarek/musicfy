@@ -9,7 +9,7 @@ import {
   Settings,
   Favorite,
 } from '@musicfy/web/views';
-import { createBrowserRouter } from 'react-router-dom';
+import { Navigate, createBrowserRouter } from 'react-router-dom';
 
 export const router = createBrowserRouter([
   {
@@ -19,7 +19,7 @@ export const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <DemoSongs />,
+        element: <Navigate to="/internet-radio" replace />,
       },
       {
         path: '/internet-radio',
@@ -28,6 +28,10 @@ export const router = createBrowserRouter([
       {
         path: '/spotify',
         element: <Spotify />,
+      },
+      {
+        path: '/demo',
+        element: <DemoSongs />,
       },
       {
         path: '/favorite',

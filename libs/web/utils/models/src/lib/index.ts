@@ -6,3 +6,4 @@ export * from './spotify-song';
 export * from './bars-mode';
 export * from './audio-source';
 export * from './theme-mode';
+export * from './favorite-item';

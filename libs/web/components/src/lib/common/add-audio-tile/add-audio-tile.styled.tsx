@@ -1,11 +1,22 @@
 import styled from '@emotion/styled';
 
-export const AddAudioTileContainer = styled.div`
+export const Button = styled.button`
+  /* background-color: transparent;
+  color: var(--font-color);
+  cursor: pointer;
+  width: 100%;
+  height: 100%; */
+
+  border: none;
   background-color: var(--tile-background-color);
   border-radius: 0.5em;
-  padding: 1em;
+  padding: 0.75em;
   color: var(--font-color);
-  display: flex;
-  justify-content: center;
-  height: 4.5em;
+  width: 100%;
+  height: 3em;
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--tile-button-hover-color);
+  }
 `;

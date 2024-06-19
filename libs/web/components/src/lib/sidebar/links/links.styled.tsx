@@ -65,24 +65,18 @@ export const NavLinkStyle = styled(NavLink)`
   }
 `;
 
-export const LinkContent = styled.div`
+export const LinkContent = styled.div<{ isPlaying?: boolean }>`
   display: flex;
   align-items: center;
   gap: 1em;
 
   svg {
     min-width: 0;
+    color: ${(props) => (props.isPlaying ? 'red' : 'var(--font-color)')};
   }
 
   p {
     font-weight: bold;
-    margin-left: 1em;
+    margin-left: 0.5em;
   }
-`;
-
-export const PlayingRedBox = styled.div`
-  padding: 0.15em 0.4em 0;
-  background-color: #ff0000;
-  border-radius: 0.25em;
-  font-size: 0.9em;
 `;

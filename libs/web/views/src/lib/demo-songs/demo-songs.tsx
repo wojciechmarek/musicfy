@@ -56,11 +56,12 @@ export function DemoSongs(props: DemoSongsProps) {
         <Content>
           {demoSongs.map((song) => (
             <AudioTile
-              id={song.id}
               key={song.id}
               title={song.title}
               description={song.artist}
               coverUrl={song.cover}
+              isLiked={false}
+              onHeartClick={() => {}}
               isPlaying={
                 audioSource === AudioSource.DEMO && trackId === song.id
               }

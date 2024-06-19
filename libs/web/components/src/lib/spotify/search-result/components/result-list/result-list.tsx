@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { ResultRow } from '../result-row/result-row';
+import { ResultRow } from '../../../../common';
 
 export type Item = {
   imageUrl: string;
@@ -30,6 +30,10 @@ export const ResultList = (props: Props) => {
           title={item.header}
           description={item.description}
           imageUrl={item.imageUrl}
+          isLiked={false}
+          isPlaying={false}
+          onHeartClick={() => console.log()}
+          onPlaybackClick={() => console.log()}
         ></ResultRow>
       ))}
     </ResultsList>
