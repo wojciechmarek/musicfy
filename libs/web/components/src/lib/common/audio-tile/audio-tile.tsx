@@ -9,7 +9,8 @@ import {
   AudioTileInfoTitle,
   AudioTilePlay,
 } from './audio-tile.styled';
-import { HeartLikeButton } from '..';
+import { DeleteButton, EditButton, HeartLikeButton } from '..';
+import styled from '@emotion/styled';
 
 /* eslint-disable-next-line */
 export interface AudioTileProps {
@@ -21,6 +22,18 @@ export interface AudioTileProps {
   onHeartClick: () => void;
   onPlayClick: () => void;
 }
+
+const AudioTileIconButtons = styled.div`
+  display: flex;
+  gap: 0.25em;
+  margin-right: 0.75em;
+`;
+
+const AudioTilePlayingLabelAndIconButtons = styled.div`
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+`;
 
 export function AudioTile(props: AudioTileProps) {
   const {
@@ -42,14 +55,20 @@ export function AudioTile(props: AudioTileProps) {
         <AudioTileInfoTitle>{title}</AudioTileInfoTitle>
         <AudioTileInfoDuration>{description}</AudioTileInfoDuration>
         <AudioTileInfoSpacer />
-        {isPlaying && (
-          <AudioTileInfoPlaying>
-            IS PLAYING NOW <span>▶</span>
-          </AudioTileInfoPlaying>
-        )}
+        <AudioTilePlayingLabelAndIconButtons>
+          <AudioTileIconButtons>
+            <HeartLikeButton isLiked={isLiked} onClick={onHeartClick} />
+            <EditButton isLiked={isLiked} onClick={onHeartClick} />
+            <DeleteButton isLiked={isLiked} onClick={onHeartClick} />
+          </AudioTileIconButtons>
+          {isPlaying && (
+            <AudioTileInfoPlaying>
+              IS PLAYING NOW <span>▶</span>
+            </AudioTileInfoPlaying>
+          )}
+        </AudioTilePlayingLabelAndIconButtons>
       </AudioTileInfo>
       <AudioTilePlay>
-        <HeartLikeButton isLiked={isLiked} onClick={onHeartClick} />
         <PlayIconButton isPlaying={isPlaying} onClick={onPlayClick} />
       </AudioTilePlay>
     </AudioTileContainer>

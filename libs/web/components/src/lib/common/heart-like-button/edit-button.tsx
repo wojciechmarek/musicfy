@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { Heart } from 'lucide-react';
+import { FilePenLine, Heart } from 'lucide-react';
 
 type Props = {
   isLiked: boolean;
@@ -12,19 +12,16 @@ const IconButton = styled.button<{ isLiked?: boolean }>`
   cursor: pointer;
 
   .icon {
-    fill: ${(props) =>
-      props.isLiked ? 'red' : 'var(--tile-button-hover-color)'};
-    stroke: ${(props) =>
-      props.isLiked ? 'red' : 'var(--tile-button-hover-color)'};
+    stroke: var(--tile-button-hover-color);
   }
 `;
 
-export const HeartLikeButton = (props: Props) => {
+export const EditButton = (props: Props) => {
   const { isLiked, onClick } = props;
 
   return (
     <IconButton onClick={onClick} isLiked={isLiked}>
-      <Heart className="icon" />
+      <FilePenLine className="icon" />
     </IconButton>
   );
 };

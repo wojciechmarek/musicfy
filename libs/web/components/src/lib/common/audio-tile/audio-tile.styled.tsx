@@ -61,5 +61,5 @@ export const AudioTileInfoPlaying = styled.p`
 export const AudioTilePlay = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: end;
 `;

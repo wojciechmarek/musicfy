@@ -4,6 +4,6 @@ export * from './add-audio-tile/add-audio-tile';
 export * from './play-icon-button/play-icon-button';
 export * from './modal-window/modal-window';
 export * from './section-title/section-title';
-export * from './heart-like-button/heart-like-button';
+export * from './heart-like-button/index';
 export * from './result-list/result-list';
 export * from './result-row/result-row';
