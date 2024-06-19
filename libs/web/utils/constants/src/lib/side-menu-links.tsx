@@ -11,12 +11,6 @@ import {
 
 export const sideMenuLinks = [
   {
-    icon: <Disc3 />,
-    text: 'Demo',
-    path: '/',
-    id: AudioSource.DEMO,
-  },
-  {
     icon: <Radio />,
     text: 'Internet radio',
     path: '/internet-radio',
@@ -27,6 +21,12 @@ export const sideMenuLinks = [
     text: 'Spotify',
     path: '/spotify',
     id: AudioSource.SPOTIFY,
+  },
+  {
+    icon: <Disc3 />,
+    text: 'Demo',
+    path: '/demo',
+    id: AudioSource.DEMO,
   },
   {
     text: 'br',

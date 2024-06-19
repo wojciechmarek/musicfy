@@ -18,8 +18,6 @@ export const Header = styled.h1`
   margin-top: 0.5em;
 `;
 
-export const SearchAndManageContainer = styled.div``;
-
 export const Content = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -29,4 +27,8 @@ export const Content = styled.div`
   @media (max-width: 1200px) {
     grid-template-columns: repeat(1, 1fr);
   }
+`;
+
+export const RadioAddStation = styled.div`
+  margin-top: 1.5em;
 `;

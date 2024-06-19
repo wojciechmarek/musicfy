@@ -8,7 +8,7 @@ export const useNewStation = () => {
 
   const { searchEngineUrl } = useSelector((state: RootState) => state.radio);
 
-  const [isAddNewStationModalVisible, setIsAddNewStationModalVisibleIsAdd] =
+  const [isAddNewStationModalVisible, setIsAddNewStationModalVisible] =
     useState(false);
 
   const handleOnSearchStationClick = (phrase: string) => {
@@ -17,21 +17,21 @@ export const useNewStation = () => {
     }
 
     window.open(searchEngineUrl + phrase);
-    setIsAddNewStationModalVisibleIsAdd(true);
+    setIsAddNewStationModalVisible(true);
   };
 
   const handleOnAddAudioClick = () => {
-    setIsAddNewStationModalVisibleIsAdd(true);
+    setIsAddNewStationModalVisible(true);
   };
 
   const handleOnAddNewStationClick = (station: RadioStation) => {
     console.log(station);
     dispatch(setNewRadioStation(station));
-    setIsAddNewStationModalVisibleIsAdd(false);
+    setIsAddNewStationModalVisible(false);
   };
 
   const handleOnCancelNewStationClick = () => {
-    setIsAddNewStationModalVisibleIsAdd(false);
+    setIsAddNewStationModalVisible(false);
   };
 
   return {

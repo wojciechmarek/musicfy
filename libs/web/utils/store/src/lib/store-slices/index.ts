@@ -5,3 +5,4 @@ export * from './radio';
 export * from './demo';
 export * from './spotify';
 export * from './theme';
+export * from './favorites';

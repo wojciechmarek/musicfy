@@ -30,13 +30,12 @@ export function Links(props: LinksProps) {
               to={link.path ?? '/'}
               className={({ isActive }) => (isActive ? 'active' : '')}
             >
-              <LinkContent>
-                {link.icon}
+              <LinkContent
+                isPlaying={isPlaying && source && link.id === source}
+              >
+                <span className="icon">{link.icon}</span>
                 <p>{link.text}</p>
               </LinkContent>
-              {isPlaying && source && link.id === source && (
-                <PlayingRedBox>▶</PlayingRedBox>
-              )}
             </NavLinkStyle>
           </NavigationLink>
         ),

@@ -1,5 +1,4 @@
-import { AddAudioTileContainer } from './add-audio-tile.styled';
-import styled from '@emotion/styled';
+import { Button } from './add-audio-tile.styled';
 
 /* eslint-disable-next-line */
 export interface AddAudioTileProps {
@@ -7,21 +6,7 @@ export interface AddAudioTileProps {
   onAddClick: () => void;
 }
 
-const Button = styled.button`
-  background-color: transparent;
-  color: var(--font-color);
-  border: none;
-  height: 2em;
-  cursor: pointer;
-  width: 100%;
-  height: 100%;
-`;
-
 export function AddAudioTile(props: AddAudioTileProps) {
   const { title = 'Add', onAddClick } = props;
-  return (
-    <AddAudioTileContainer>
-      <Button onClick={onAddClick}>{title}</Button>
-    </AddAudioTileContainer>
-  );
+  return <Button onClick={onAddClick}>{title}</Button>;
 }
