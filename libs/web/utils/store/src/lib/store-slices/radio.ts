@@ -7,9 +7,13 @@ export interface RadioState {
   stations: RadioStation[];
 }
 
+const savedStations = JSON.parse(
+  localStorage.getItem('stations') ?? '[]',
+) as RadioStation[];
+
 const radioState: RadioState = {
   searchEngineUrl: import.meta.env.VITE_RADIO_SEARCH_ENGINE_URL,
-  stations: radioStations,
+  stations: [...savedStations, ...radioStations],
 };
 
 export const radioSlice = createSlice({
@@ -20,7 +24,14 @@ export const radioSlice = createSlice({
       state.searchEngineUrl = action.payload;
     },
     setNewRadioStation: (state, action: PayloadAction<RadioStation>) => {
-      state.stations = [...state.stations, action.payload];
+      state.stations = [action.payload, ...state.stations];
+
+      const savedStations = JSON.parse(
+        localStorage.getItem('stations') ?? '[]',
+      ) as RadioStation[];
+
+      const updatedRadios = [action.payload, ...savedStations];
+      localStorage.setItem('stations', JSON.stringify(updatedRadios));
     },
   },
 });
