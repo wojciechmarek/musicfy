@@ -2,7 +2,7 @@ import { Track } from 'libs/web/utils/models/src';
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { AudioSource } from '@musicfy/web/utils/models';
- 
+
 export interface PlaybackState {
   audio: {
     isPlaying: boolean;
@@ -19,13 +19,13 @@ export interface PlaybackState {
     level: number;
     isMuted: boolean;
   };
-  track: Track,
+  track: Track;
   analysis: {
     leftChannel: number;
     rightChannel: number;
     frequencies: number[];
     bufferSize: number;
-  }
+  };
 }
 
 const initialState: PlaybackState = {
@@ -34,7 +34,7 @@ const initialState: PlaybackState = {
     currentTime: 0,
     seekToTime: 0,
     url: '',
-    source: AudioSource.DEMO,
+    source: AudioSource.NONE,
   },
   mode: {
     isShuffleEnabled: false,
@@ -56,7 +56,7 @@ const initialState: PlaybackState = {
     rightChannel: 0,
     frequencies: [],
     bufferSize: 0,
-  }
+  },
 };
 
 export const playbackSlice = createSlice({

@@ -45,7 +45,7 @@ export const VolumeBarCurrent = styled.div<{
   progress: number;
 }>`
   height: 100%;
-  background-color: var(--accent-color);
+  background-color: var(--accent-blue-color);
   width: ${(props) => props.progress}%;
   border-radius: 1em;
   box-shadow: 0 0 10px #2b31df;

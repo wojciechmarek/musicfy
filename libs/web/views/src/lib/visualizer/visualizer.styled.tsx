@@ -41,7 +41,9 @@ export const CanvasButton = styled.button<{
   isActive?: boolean;
 }>`
   background-color: ${(props) =>
-    props.isActive ? 'var(--accent-color)' : 'var(--tile-background-color);'};
+    props.isActive
+      ? 'var(--accent-blue-color)'
+      : 'var(--tile-background-color);'};
   box-shadow: ${(props) => (props.isActive ? '0 0 10px #2b31df' : 'none')};
   color: ${(props) =>
     props.isActive ? 'var(--font-accent-color);' : 'var(--font-color);'};
@@ -55,7 +57,7 @@ export const CanvasButton = styled.button<{
   &:hover {
     background-color: ${(props) =>
       props.isActive
-        ? 'var(--accent-hover-color)'
+        ? 'var(--accent-blue-hover-color)'
         : 'var(--tile-button-hover-color)'};
   }
 `;

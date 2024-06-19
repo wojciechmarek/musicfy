@@ -13,6 +13,10 @@ const IconButton = styled.button<{ isLiked?: boolean }>`
 
   .icon {
     stroke: var(--tile-button-hover-color);
+
+    &:hover {
+      stroke: var(--tile-icon-buttons-hover-color);
+    }
   }
 `;
 

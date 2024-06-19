@@ -12,7 +12,7 @@ const IconButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: var(--accent-color);
+  background-color: var(--accent-blue-color);
   color: var(--font-accent-color);
   border-radius: 50%;
   width: 3em;
@@ -20,7 +20,7 @@ const IconButton = styled.button`
   position: relative;
 
   &:hover {
-    background-color: var(--accent-hover-color);
+    background-color: var(--accent-blue-hover-color);
   }
 
   .icon {

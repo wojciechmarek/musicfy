@@ -56,11 +56,11 @@ export const NavLinkStyle = styled(NavLink)`
 
   &.active {
     color: var(--font-accent-color);
-    background-color: var(--accent-color);
+    background-color: var(--accent-blue-color);
     box-shadow: 0 0 10px #2b31df;
 
     &:hover {
-      background-color: var(--accent-hover-color);
+      background-color: var(--accent-blue-hover-color);
     }
   }
 `;

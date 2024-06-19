@@ -56,10 +56,6 @@ export const SearchInput = styled.input`
   border: none;
   height: 100%;
   padding-left: 0.5em;
-
-  &:hover {
-    background-color: var(--tile-button-hover-color);
-  }
 `;
 
 export const NavigationLogout = styled.div`

@@ -80,7 +80,7 @@ export const PlayIconButton = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: var(--accent-color);
+  background-color: var(--accent-blue-color);
   border-radius: 50%;
   width: 3em;
   height: 3em;

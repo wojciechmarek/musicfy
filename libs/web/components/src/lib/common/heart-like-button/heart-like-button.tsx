@@ -13,9 +13,24 @@ const IconButton = styled.button<{ isLiked?: boolean }>`
 
   .icon {
     fill: ${(props) =>
-      props.isLiked ? 'red' : 'var(--tile-button-hover-color)'};
+      props.isLiked
+        ? 'var(--accent-red-color)'
+        : 'var(--tile-button-hover-color)'};
     stroke: ${(props) =>
-      props.isLiked ? 'red' : 'var(--tile-button-hover-color)'};
+      props.isLiked
+        ? 'var(--accent-red-color)'
+        : 'var(--tile-button-hover-color)'};
+
+    &:hover {
+      fill: ${(props) =>
+        props.isLiked
+          ? 'var(--accent-red-color)'
+          : 'var(--tile-icon-buttons-hover-color)'};
+      stroke: ${(props) =>
+        props.isLiked
+          ? 'var(--accent-red-color)'
+          : 'var(--tile-icon-buttons-hover-color)'};
+    }
   }
 `;
 

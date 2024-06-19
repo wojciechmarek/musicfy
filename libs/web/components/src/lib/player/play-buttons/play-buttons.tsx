@@ -42,7 +42,7 @@ const NavigationButton = styled.button<{
   }
 
   &.play-pause__button {
-    background-color: var(--accent-color);
+    background-color: var(--accent-blue-color);
     box-shadow: 0 0 10px #2b31df;
     border-radius: 50%;
 

@@ -10,7 +10,7 @@ export const ThemeButton = styled.button<{
 }>`
   border: none;
   background-color: ${(props) =>
-    props.isActive ? 'var(--accent-color)' : 'var(--tile-button-color)'};
+    props.isActive ? 'var(--accent-blue-color)' : 'var(--tile-button-color)'};
   color: ${(props) =>
     props.isActive ? 'var(--font-accent-color)' : 'var(--font-color)'};
   box-shadow: ${(props) => (props.isActive ? '0 0 10px #2b31df' : 'none')};
@@ -24,7 +24,7 @@ export const ThemeButton = styled.button<{
     cursor: pointer;
     background-color: ${(props) =>
       props.isActive
-        ? 'var(--accent-hover-color)'
+        ? 'var(--accent-blue-hover-color)'
         : 'var(--tile-button-hover-color)'};
   }
 `;
