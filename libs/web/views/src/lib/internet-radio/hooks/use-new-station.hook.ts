@@ -25,7 +25,6 @@ export const useNewStation = () => {
   };
 
   const handleOnAddNewStationClick = (station: RadioStation) => {
-    console.log(station);
     dispatch(setNewRadioStation(station));
     setIsAddNewStationModalVisible(false);
   };
