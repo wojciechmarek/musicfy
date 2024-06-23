@@ -1,6 +1,6 @@
 import {
   PlayButtons,
-  PlayerNavigationButtonAction,
+  PlayerNavigationButtonActionType,
   PlayerShuffleButtonAction,
   ProgressBar,
   ShuffleButtons,
@@ -86,22 +86,22 @@ export function Player(props: PlayerProps) {
   };
 
   const handleOnPlayerNavigationButtonsClick = (
-    action: PlayerNavigationButtonAction,
+    action: PlayerNavigationButtonActionType,
   ) => {
     switch (action) {
-      case PlayerNavigationButtonAction.Play:
+      case 'play':
         dispatch(setIsPlaying(true));
         break;
 
-      case PlayerNavigationButtonAction.Pause:
+      case 'pause':
         dispatch(setIsPlaying(false));
         break;
 
-      case PlayerNavigationButtonAction.Rewind:
+      case 'rewind':
         // TODO: handle
         break;
 
-      case PlayerNavigationButtonAction.FastForward:
+      case 'fast-forward':
         // TODO: handle
         break;
     }
@@ -129,7 +129,7 @@ export function Player(props: PlayerProps) {
           <ProgressBar
             isRadio={source === AudioSource.INTERNET_RADIO}
             currentTime={currentTime}
-            totalTime={duration ? duration : 0}
+            totalTime={duration || 0}
             handleProgressBarChange={handleProgressBarChange}
           />
           <ShuffleButtons

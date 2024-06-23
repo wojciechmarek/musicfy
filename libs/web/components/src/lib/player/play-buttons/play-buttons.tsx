@@ -3,16 +3,16 @@ import { FastForward, Pause, Play, Rewind } from 'lucide-react';
 
 /* eslint-disable-next-line */
 
-export enum PlayerNavigationButtonAction {
-  Rewind,
-  Play,
-  Pause,
-  FastForward,
-}
+export type PlayerNavigationButtonActionType =
+  | 'rewind'
+  | 'play'
+  | 'pause'
+  | 'fast-forward';
+
 export interface PlayButtonsProps {
   isPlaying: boolean;
   isNavigationDisabled: boolean;
-  onClick: (action: PlayerNavigationButtonAction) => void;
+  onClick: (action: PlayerNavigationButtonActionType) => void;
 }
 
 const PlayerNavigationButtons = styled.div`
@@ -64,25 +64,19 @@ export function PlayButtons(props: PlayButtonsProps) {
     <PlayerNavigationButtons>
       <NavigationButton
         isDisabled={isNavigationDisabled}
-        onClick={() => onClick(PlayerNavigationButtonAction.Rewind)}
+        onClick={() => onClick('rewind')}
       >
         <Rewind />
       </NavigationButton>
       <NavigationButton
         className="play-pause__button"
-        onClick={() =>
-          onClick(
-            isPlaying
-              ? PlayerNavigationButtonAction.Pause
-              : PlayerNavigationButtonAction.Play,
-          )
-        }
+        onClick={() => onClick(isPlaying ? 'pause' : 'play')}
       >
         {isPlaying ? <Pause /> : <Play className="play__icon" />}
       </NavigationButton>
       <NavigationButton
         isDisabled={isNavigationDisabled}
-        onClick={() => onClick(PlayerNavigationButtonAction.FastForward)}
+        onClick={() => onClick('fast-forward')}
       >
         <FastForward />
       </NavigationButton>
