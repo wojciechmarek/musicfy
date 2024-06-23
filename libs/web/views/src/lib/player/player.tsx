@@ -110,6 +110,7 @@ export function Player(props: PlayerProps) {
   useEffect(() => {
     if (isPlaying) {
       document.title = title;
+      return;
     }
 
     document.title = 'Musicfy';
