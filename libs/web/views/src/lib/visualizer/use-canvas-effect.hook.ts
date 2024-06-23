@@ -94,57 +94,142 @@ export const useCanvasEffect = (
     }
   };
 
+  const drawFractalTree = (
+    context,
+    startX,
+    startY,
+    length,
+    angle,
+    branchWidth,
+    color1,
+    color2,
+  ) => {
+    context.beginPath();
+    context.save();
+
+    context.strokeStyle = color1;
+    context.fillStyle = color2;
+    context.lineWidth = branchWidth;
+    context.translate(startX, startY);
+    context.rotate((angle * Math.PI) / 180);
+    context.moveTo(0, 0);
+    context.lineTo(0, -length);
+    context.stroke();
+
+    if (length < 10) {
+      context.restore();
+      return;
+    }
+
+    drawFractalTree(
+      context,
+      0,
+      -length,
+      length * 0.8,
+      angle + 15,
+      branchWidth * 0.7,
+      color1,
+      color2,
+    );
+    drawFractalTree(
+      context,
+      0,
+      -length,
+      length * 0.8,
+      angle - 15,
+      branchWidth * 0.7,
+      color1,
+      color2,
+    );
+
+    context.restore();
+  };
+
   const fractalsEffect = (frequencies: number[]) => {
     if (context && canvas) {
-      context.clearRect(0, 0, canvasHeight, canvasWidth);
-      const barWidth = (canvas.width / bufferSize) * 0.5;
+      context.clearRect(0, 0, canvas.width, canvas.height);
 
-      let x = 0;
+      // Parameters for the fractal tree
+      const startX = canvas.width / 2;
+      const startY = canvas.height - 80;
+      const length = 120;
+      const angle = 0;
+      const branchWidth = 10;
+      const color1 = '#8b4513';
+      const color2 = '#228B22';
 
-      for (let i = 0; i < bufferSize; i++) {
-        const barHeight = canvasHeight;
-
-        const r = frequencies[i] < 100 ? 255 : 0;
-        const g = frequencies[i] >= 100 && frequencies[i] < 200 ? 255 : 0;
-        const b = frequencies[i] > 201 ? 255 : 0;
-
-        context.fillStyle = `rgb(${r},${g},${b})`;
-        context.fillRect(x, canvas.height - barHeight, barWidth, barHeight);
-
-        x += barWidth + 1;
-      }
+      drawFractalTree(
+        context,
+        startX,
+        startY,
+        length,
+        angle,
+        branchWidth,
+        color1,
+        color2,
+      );
     }
   };
 
+  // const noiseEffect = (frequencies: number[]) => {
+  //   if (context && canvas) {
+  //     context.clearRect(0, 0, canvasHeight, canvasWidth);
+  //     context.beginPath();
+
+  //     const sliceWidth = (canvas.width * 10.0) / bufferSize;
+  //     let x = 0;
+
+  //     for (let i = 0; i < bufferSize; i++) {
+  //       const v = frequencies[i] / 256.0;
+  //       const y = (v * canvas.height) / 1;
+
+  //       context.strokeStyle = `rgb(${frequencies[100] * i},${
+  //         frequencies[200]
+  //       },${frequencies[300] * i})`;
+
+  //       context.lineWidth = frequencies[i] / 5;
+
+  //       if (i === 0) {
+  //         context.moveTo(x, y);
+  //       } else {
+  //         context.lineTo(x, y);
+  //       }
+
+  //       x += sliceWidth;
+  //     }
+
+  //     context.lineTo(canvas.width, canvas.height / 2);
+  //     context.stroke();
+  //   }
+  // };
+
   const noiseEffect = (frequencies: number[]) => {
     if (context && canvas) {
-      context.clearRect(0, 0, canvasHeight, canvasWidth);
-      context.beginPath();
+      context.clearRect(0, 0, canvas.width, canvas.height);
 
-      const sliceWidth = (canvas.width * 10.0) / bufferSize;
+      // Limit the number of bars to 30
+      const numBars = Math.min(30, frequencies.length);
+      const barWidth = (canvas.width / numBars) * 0.8; // Adjusted for wider bars
+
       let x = 0;
 
-      for (let i = 0; i < bufferSize; i++) {
-        const v = frequencies[i] / 256.0;
-        const y = (v * canvas.height) / 1;
+      for (let i = 0; i < numBars; i++) {
+        const barHeight = frequencies[i] * 1.55;
 
-        context.strokeStyle = `rgb(${frequencies[100] * i},${
-          frequencies[200]
-        },${frequencies[300] * i})`;
+        context.fillStyle = '#666bef';
+        context.fillRect(x, canvas.height - barHeight, barWidth, barHeight);
 
-        context.lineWidth = frequencies[i] / 5;
+        // Add text value below each bar
+        context.fillStyle = '#FFFFFF'; // Text color set to white
+        context.font = '12px Arial'; // Font style
+        context.fillText(
+          frequencies[i].toFixed(2),
+          x,
+          canvas.height - barHeight + barHeight + 15,
+        );
 
-        if (i === 0) {
-          context.moveTo(x, y);
-        } else {
-          context.lineTo(x, y);
-        }
-
-        x += sliceWidth;
+        x += barWidth + 5; // Increase the gap between bars
       }
-
-      context.lineTo(canvas.width, canvas.height / 2);
-      context.stroke();
     }
   };
 

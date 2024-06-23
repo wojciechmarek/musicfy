@@ -117,6 +117,12 @@ export function Visualizer(props: VisualizerProps) {
             BARS
           </CanvasButton>
           <CanvasButton
+            isActive={effect === Effect.NOISE}
+            onClick={() => setEffect(Effect.NOISE)}
+          >
+            BARS 2
+          </CanvasButton>
+          <CanvasButton
             isActive={effect === Effect.OSCILLATOR}
             onClick={() => setEffect(Effect.OSCILLATOR)}
           >
@@ -128,18 +134,12 @@ export function Visualizer(props: VisualizerProps) {
           >
             WAVE
           </CanvasButton>
-          <CanvasButton
-            isActive={effect === Effect.NOISE}
-            onClick={() => setEffect(Effect.NOISE)}
-          >
-            NOISE
-          </CanvasButton>
-          <CanvasButton
+          {/* <CanvasButton
             isActive={effect === Effect.FRACTALS}
             onClick={() => setEffect(Effect.FRACTALS)}
           >
             FRACTALS
-          </CanvasButton>
+          </CanvasButton> */}
         </CanvasButtonsContainer>
       </VisualizerContent>
     </VisualizerContainer>
