@@ -26,6 +26,7 @@ import {
   setSeekToTime,
 } from '@musicfy/web/utils/store';
 import { AudioSource } from '@musicfy/web/utils/models';
+import { useEffect } from 'react';
 
 /* eslint-disable-next-line */
 export interface PlayerProps {}
@@ -105,6 +106,14 @@ export function Player(props: PlayerProps) {
         break;
     }
   };
+
+  useEffect(() => {
+    if (isPlaying) {
+      document.title = title;
+    }
+
+    document.title = 'Musicfy';
+  }, [title, isPlaying]);
 
   return (
     <PlayerContainer>
