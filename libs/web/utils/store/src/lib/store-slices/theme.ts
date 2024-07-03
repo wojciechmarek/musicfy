@@ -7,7 +7,7 @@ export interface ThemeState {
 }
 
 const themeState: ThemeState = {
-  theme: 'dark',
+  theme: 'blue',
   isAutoThemeEnabled: false,
 };
 
